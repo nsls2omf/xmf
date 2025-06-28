@@ -49,9 +49,9 @@ input_params.p = abs_p;
 input_params.q = abs_q;
 input_params.theta = theta;
 
-is_opt_structure.p = false;
-is_opt_structure.q = false;
-is_opt_structure.theta = false;
+tol_structure.p = 0;
+tol_structure.q = 0;
+tol_structure.theta = 0;
 
 
 
@@ -59,7 +59,7 @@ is_opt_structure.theta = false;
 
 z2d = generate_2d_curved_surface_height(@standard_convex_ellipsoid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
-[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_convex_ellipsoid_height(x2d, y2d, z2d_measured, input_params, is_opt_structure);
+[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_convex_ellipsoid_height(x2d, y2d, z2d_measured, input_params, tol_structure);
 fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params, opt_params, opt_params_ci, 'Convex Ellipsoid');
 
 
@@ -67,7 +67,7 @@ fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params, 
 
 z2d = generate_2d_curved_surface_height(@standard_concave_ellipsoid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
-[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_concave_ellipsoid_height(x2d, y2d, z2d_measured, input_params, is_opt_structure);
+[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_concave_ellipsoid_height(x2d, y2d, z2d_measured, input_params, tol_structure);
 fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params, opt_params, opt_params_ci, 'Concave Ellipsoid');
 
 
@@ -75,17 +75,17 @@ fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params, 
 
 z2d = generate_2d_cylinder_height(@standard_convex_elliptic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
-[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_convex_elliptic_cylinder_height(x2d, y2d, z2d_measured, input_params, is_opt_structure);
+[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_convex_elliptic_cylinder_height(x2d, y2d, z2d_measured, input_params, tol_structure);
 fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params, opt_params, opt_params_ci, 'Convex Elliptic Cylinder');
 
 z1d = generate_1d_height(@standard_convex_elliptic_cylinder_height, x1d, abs_p, abs_q, theta, x_i, z_i, beta);
 z1d_measured = z1d + randn(size(z1d))*height_measurement_noise_std;
-[z1d_res, z1d_fit, opt_params, opt_params_ci] = fit_convex_ellipse_height(x1d, z1d_measured, input_params, is_opt_structure);
+[z1d_res, z1d_fit, opt_params, opt_params_ci] = fit_convex_ellipse_height(x1d, z1d_measured, input_params, tol_structure);
 fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, true_params, opt_params, opt_params_ci, 'Convex Elliptic Cylinder');
 
 sx1d = generate_1d_slope(@standard_convex_elliptic_cylinder_xslope, x1d, abs_p, abs_q, theta, x_i, beta);
 sx1d_measured = sx1d + randn(size(sx1d))*slope_measurement_noise_std;
-[sx1d_res, sx1d_fit, opt_params, opt_params_ci] = fit_convex_ellipse_slope(x1d, sx1d_measured, input_params, is_opt_structure);
+[sx1d_res, sx1d_fit, opt_params, opt_params_ci] = fit_convex_ellipse_slope(x1d, sx1d_measured, input_params, tol_structure);
 fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params, opt_params, opt_params_ci, 'Convex Elliptic Cylinder');
 
 
@@ -93,17 +93,17 @@ fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params, 
 
 z2d = generate_2d_cylinder_height(@standard_concave_elliptic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
-[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_concave_elliptic_cylinder_height(x2d, y2d, z2d_measured, input_params, is_opt_structure);
+[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_concave_elliptic_cylinder_height(x2d, y2d, z2d_measured, input_params, tol_structure);
 fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params, opt_params, opt_params_ci, 'Concave Elliptic Cylinder');
 
 z1d = generate_1d_height(@standard_concave_elliptic_cylinder_height, x1d, abs_p, abs_q, theta, x_i, z_i, beta);
 z1d_measured = z1d + randn(size(z1d))*height_measurement_noise_std;
-[z1d_res, z1d_fit, opt_params, opt_params_ci] = fit_concave_ellipse_height(x1d, z1d_measured, input_params, is_opt_structure);
+[z1d_res, z1d_fit, opt_params, opt_params_ci] = fit_concave_ellipse_height(x1d, z1d_measured, input_params, tol_structure);
 fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, true_params, opt_params, opt_params_ci, 'Concave Elliptic Cylinder');
 
 sx1d = generate_1d_slope(@standard_concave_elliptic_cylinder_xslope, x1d, abs_p, abs_q, theta, x_i, beta);
 sx1d_measured = sx1d + randn(size(sx1d))*slope_measurement_noise_std;
-[sx1d_res, sx1d_fit, opt_params, opt_params_ci] = fit_concave_ellipse_slope(x1d, sx1d_measured, input_params, is_opt_structure);
+[sx1d_res, sx1d_fit, opt_params, opt_params_ci] = fit_concave_ellipse_slope(x1d, sx1d_measured, input_params, tol_structure);
 fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params, opt_params, opt_params_ci, 'Concave Elliptic Cylinder');
 
 
@@ -111,7 +111,7 @@ fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params, 
 
 z2d = generate_2d_curved_surface_height(@standard_convex_hyperboloid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
-[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_convex_hyperboloid_height(x2d, y2d, z2d_measured, input_params, is_opt_structure);
+[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_convex_hyperboloid_height(x2d, y2d, z2d_measured, input_params, tol_structure);
 fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params, opt_params, opt_params_ci, 'Convex Hyperboloid');
 
 
@@ -119,7 +119,7 @@ fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params, 
 
 z2d = generate_2d_curved_surface_height(@standard_concave_hyperboloid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
-[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_concave_hyperboloid_height(x2d, y2d, z2d_measured, input_params, is_opt_structure);
+[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_concave_hyperboloid_height(x2d, y2d, z2d_measured, input_params, tol_structure);
 fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params, opt_params, opt_params_ci, 'Concave Hyperboloid');
 
 
@@ -127,17 +127,17 @@ fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params, 
 
 z2d = generate_2d_cylinder_height(@standard_convex_hyperbolic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
-[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_convex_hyperbolic_cylinder_height(x2d, y2d, z2d_measured, input_params, is_opt_structure);
+[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_convex_hyperbolic_cylinder_height(x2d, y2d, z2d_measured, input_params, tol_structure);
 fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params, opt_params, opt_params_ci, 'Convex Hyperbolic Cylinder');
 
 z1d = generate_1d_height(@standard_convex_hyperbolic_cylinder_height, x1d, abs_p, abs_q, theta, x_i, z_i, beta);
 z1d_measured = z1d + randn(size(z1d))*height_measurement_noise_std;
-[z1d_res, z1d_fit, opt_params, opt_params_ci] = fit_convex_hyperbola_height(x1d, z1d_measured, input_params, is_opt_structure);
+[z1d_res, z1d_fit, opt_params, opt_params_ci] = fit_convex_hyperbola_height(x1d, z1d_measured, input_params, tol_structure);
 fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, true_params, opt_params, opt_params_ci, 'Convex Hyperbolic Cylinder');
 
 sx1d = generate_1d_slope(@standard_convex_hyperbolic_cylinder_xslope, x1d, abs_p, abs_q, theta, x_i, beta);
 sx1d_measured = sx1d + randn(size(sx1d))*slope_measurement_noise_std;
-[sx1d_res, sx1d_fit, opt_params, opt_params_ci] = fit_convex_hyperbola_slope(x1d, sx1d_measured, input_params, is_opt_structure);
+[sx1d_res, sx1d_fit, opt_params, opt_params_ci] = fit_convex_hyperbola_slope(x1d, sx1d_measured, input_params, tol_structure);
 fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params, opt_params, opt_params_ci, 'Convex Hyperbolic Cylinder');
 
 
@@ -145,16 +145,16 @@ fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params, 
 
 z2d = generate_2d_cylinder_height(@standard_concave_hyperbolic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
-[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_concave_hyperbolic_cylinder_height(x2d, y2d, z2d_measured, input_params, is_opt_structure);
+[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_concave_hyperbolic_cylinder_height(x2d, y2d, z2d_measured, input_params, tol_structure);
 fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params, opt_params, opt_params_ci, 'Concave Hyperbolic Cylinder');
 
 z1d = generate_1d_height(@standard_concave_hyperbolic_cylinder_height, x1d, abs_p, abs_q, theta, x_i, z_i, beta);
 z1d_measured = z1d + randn(size(z1d))*height_measurement_noise_std;
-[z1d_res, z1d_fit, opt_params, opt_params_ci] = fit_concave_hyperbola_height(x1d, z1d_measured, input_params, is_opt_structure);
+[z1d_res, z1d_fit, opt_params, opt_params_ci] = fit_concave_hyperbola_height(x1d, z1d_measured, input_params, tol_structure);
 fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, true_params, opt_params, opt_params_ci, 'Convex Hyperbolic Cylinder');
 
 sx1d = generate_1d_slope(@standard_concave_hyperbolic_cylinder_xslope, x1d, abs_p, abs_q, theta, x_i, beta);
 sx1d_measured = sx1d + randn(size(sx1d))*slope_measurement_noise_std;
-[sx1d_res, sx1d_fit, opt_params, opt_params_ci] = fit_concave_hyperbola_slope(x1d, sx1d_measured, input_params, is_opt_structure);
+[sx1d_res, sx1d_fit, opt_params, opt_params_ci] = fit_concave_hyperbola_slope(x1d, sx1d_measured, input_params, tol_structure);
 fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params, opt_params, opt_params_ci, 'Concave Hyperbolic Cylinder');
 

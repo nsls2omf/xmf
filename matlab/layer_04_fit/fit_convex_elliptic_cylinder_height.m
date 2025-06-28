@@ -1,8 +1,8 @@
-function [z2d_res, z2d_fit, params, params_ci]=fit_convex_elliptic_cylinder_height(x2d, y2d, z2d, pqtxy, is_opt)
+function [z2d_res, z2d_fit, params, params_ci]=fit_convex_elliptic_cylinder_height(x2d, y2d, z2d, input_params_structure, opt_or_tol_structure)
 % fit_convex_elliptic_cylinder_height provide a convenient way to fit parameters
 % from a measured convex elliptic cylinder height.
 
 [z2d_res, z2d_fit, params, params_ci] = optimize_parameters ...
     ( @generate_2d_cylinder_height ...
     , @standard_convex_elliptic_cylinder_height ...
-    , x2d, y2d, z2d, pqtxy, is_opt);
+    , x2d, y2d, z2d, input_params_structure, opt_or_tol_structure);

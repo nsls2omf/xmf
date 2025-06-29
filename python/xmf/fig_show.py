@@ -191,7 +191,7 @@ def fig_compare_1d_slope(x1d, sx1d_generation, sx1d_standard, str_title):
     plt.tight_layout()
     plt.show()
     
-def fig_show_2d_fitting_maps(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_params_dict, opt_params_dict, is_optimized_dict, str_title):
+def fig_show_2d_fitting_maps(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
     x2d_mm = x2d * 1e3
     y2d_mm = y2d * 1e3
     z2d_um = z2d_measured * 1e6
@@ -202,6 +202,13 @@ def fig_show_2d_fitting_maps(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_pa
     large_font_size = 24
     marker_size = 8
 
+    str_param_name_list = ['p', 'q', 'theta',
+                           'x_i', 'y_i', 'z_i', 
+                           'alpha', 'beta', 'gamma']
+    is_optimized_dict={}
+    for str_param_name in str_param_name_list:
+        is_optimized_dict[str_param_name] = True if np.all(np.isfinite(opt_params_ci_dict[str_param_name])) else False
+        
     def parameter_to_string_2d(params_dict, is_optimized_dict=None):
         def get_height_map_string(is_optimized_dict):
             if is_optimized_dict is None:
@@ -298,7 +305,7 @@ def fig_show_2d_fitting_maps(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_pa
     plt.show()
 
 
-def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_params_dict, opt_params_dict, is_optimized_dict, str_title):
+def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
 
     x1d_mm = x1d * 1e3
     z1d_measured_um = z1d_measured * 1e6
@@ -309,7 +316,14 @@ def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_param
     large_font_size = 24
     marker_size = 8
     line_width = 3
-    
+
+    str_param_name_list = ['p', 'q', 'theta',
+                           'x_i', 'y_i', 'z_i', 
+                           'alpha', 'beta', 'gamma']
+    is_optimized_dict={}
+    for str_param_name in str_param_name_list:
+        is_optimized_dict[str_param_name] = True if np.all(np.isfinite(opt_params_ci_dict[str_param_name])) else False
+       
     def parameter_to_string_1d(params_dict, is_optimized_dict=None):
 
         def get_height_string(is_optimized_dict):
@@ -332,7 +346,7 @@ def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_param
         str_3 = r'$%s$ = $%.4g$ $\mu$rad' % (str_beta, params_dict['beta']*1e6)
         return [reg_exp_rep(str_1), reg_exp_rep(str_2), reg_exp_rep(str_3)]
 
-    fig = plt.figure(figsize=(18, 6))
+    fig = plt.figure(figsize=(15, 6))
     gs = gridspec.GridSpec(3, 3, height_ratios=[1, 1, 1], width_ratios=[1, 1, 1], wspace=0.3, hspace=0.3)
 
     # Data
@@ -377,7 +391,7 @@ def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_param
 
     plt.show()
 
-def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_params_dict, opt_params_dict, is_optimized_dict, str_title):
+def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
 
     x1d_mm = x1d * 1e3
     sx1d_measured_mrad = sx1d_measured * 1e3
@@ -388,7 +402,14 @@ def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_par
     large_font_size = 24
     marker_size = 8
     line_width = 3
-    
+
+    str_param_name_list = ['p', 'q', 'theta',
+                           'x_i', 'y_i', 'z_i', 
+                           'alpha', 'beta', 'gamma']
+    is_optimized_dict={}
+    for str_param_name in str_param_name_list:
+        is_optimized_dict[str_param_name] = True if np.all(np.isfinite(opt_params_ci_dict[str_param_name])) else False
+
     def parameter_to_string_1d(params_dict, is_optimized_dict=None):
 
         def get_slope_string(is_optimized_dict):
@@ -411,7 +432,7 @@ def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_par
         str_3 = r'$%s$ = $%.4g$ $\mu$rad' % (str_beta, params_dict['beta']*1e6)
         return [reg_exp_rep(str_1), reg_exp_rep(str_2), reg_exp_rep(str_3)]
 
-    fig = plt.figure(figsize=(18, 6))
+    fig = plt.figure(figsize=(15, 6))
     gs = gridspec.GridSpec(3, 3, height_ratios=[1, 1, 1], width_ratios=[1, 1, 1], wspace=0.3, hspace=0.3)
 
     # Data

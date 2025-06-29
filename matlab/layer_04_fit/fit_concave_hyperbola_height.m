@@ -1,4 +1,4 @@
-function [z1d_res, z1d_fit, params, params_ci] = fit_concave_hyperbola_height(x1d, z1d_measured, input_params_structure, opt_or_tol_structure)
+function [z1d_res, z1d_fit, params, params_ci] = fit_concave_hyperbola_height(x1d, z1d_measured, input_params_struct, opt_or_tol_struct)
 % fit_concave_hyperbola_height provide a convenient way to fit parameters
 % from a measured concave hyperbola height.
 
@@ -7,4 +7,4 @@ y1d = x1d*0;
 [z1d_res, z1d_fit, params, params_ci] = optimize_parameters ...
     ( @generate_1d_height ...
     , @standard_concave_hyperbolic_cylinder_height ...
-    , x1d, y1d, z1d_measured, input_params_structure, opt_or_tol_structure);
+    , x1d, y1d, z1d_measured, input_params_struct, opt_or_tol_struct);

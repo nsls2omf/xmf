@@ -1,4 +1,4 @@
-function [z2d_res, z2d_fit, params, params_ci]=fit_convex_hyperbolic_cylinder_height(x2d, y2d, z2d, input_params_structure, opt_or_tol_structure)
+function [z2d_res, z2d_fit, params, params_ci]=fit_convex_hyperbolic_cylinder_height(x2d, y2d, z2d, input_params_struct, opt_or_tol_struct)
 % fit_convex_hyperbolic_cylinder_height provide a convenient way to fit parameters
 % from a measured convex hyperbolic cylinder height.
 
@@ -6,4 +6,4 @@ function [z2d_res, z2d_fit, params, params_ci]=fit_convex_hyperbolic_cylinder_he
 [z2d_res, z2d_fit, params, params_ci] = optimize_parameters ...
     ( @generate_2d_cylinder_height ...
     , @standard_convex_hyperbolic_cylinder_height ...
-    , x2d, y2d, z2d, input_params_structure, opt_or_tol_structure);
+    , x2d, y2d, z2d, input_params_struct, opt_or_tol_struct);

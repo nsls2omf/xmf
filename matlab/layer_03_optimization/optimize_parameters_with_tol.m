@@ -1,4 +1,4 @@
-function [v_res, v_fit, opt_params_structure, params_ci_structure, init_params] = optimize_parameters_with_tol(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, input_params_structure, tol_structure)
+function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params] = optimize_parameters_with_tol(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, input_params_struct, tol_struct)
 % optimize_parameters_with_tol provide a convenient way to optimize the  
 % surface parameters with tolerance from the measurement data.
 %
@@ -10,18 +10,18 @@ function [v_res, v_fit, opt_params_structure, params_ci_structure, init_params] 
 %        x is the measured x-coordinate, in unit of [m] as a suggestion
 %        y is the measured y-coordinate, in unit of [m] as a suggestion
 %        v is the measured slope or height in [rad] or [m] as a suggestion
-%        input_params_structure contains p, q, theta, x_i(optional), 
+%        input_params_struct contains p, q, theta, x_i(optional), 
 %           y_i(optional), z_i(optional), alpha(optional), beta(optional)  
 %           and gamma(optional) target parameters, suggested in unit of 
 %           [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]
-%        tol_structure is a structure to set the tolerance values for 
+%        tol_struct is a structure to set the tolerance values for 
 %           p, q, theta, x_i, y_i, z_i, alpha, beta, gamma.
 %
 %    Output:
 %        v_res is the residual in [m], if the input x and z are in [m]
 %        v_fit is fitting result in [m], if the input x and z are in [m]
-%        opt_params_structure is the optimized params in structure
-%        params_ci_structure is the confidence intervals of the pamrams
+%        opt_params_struct is the optimized params in structure
+%        opt_params_ci_struct is the confidence intervals of the pamrams
 %        init_params contains the used initial parameters.
 
 %   Copyright since 2023 by Lei Huang. All Rights Reserved.
@@ -35,10 +35,10 @@ function [v_res, v_fit, opt_params_structure, params_ci_structure, init_params] 
 % Set parameters...........................................................
 
 % Initial values
-init_params = check_input_params_structure(input_params_structure, x, y, v);
+init_params = check_input_params_structure(input_params_struct, x, y, v);
 
 % Tolerance values
-[is_opt_vector, tol_vector] = check_tol_structure(tol_structure, surface_generation_function_handle);
+[is_opt_vector, tol_vector] = check_tol_struct(tol_struct, surface_generation_function_handle);
 
 % Use NaN to identify the parameters which are required to optimize
 fix_params = init_params;
@@ -55,8 +55,8 @@ opt_options = optimset( ...
     , 'MaxIter', 1e2 ...
     , 'TolFun', 1e-14 ...
     , 'TolX', 1e-16 ...
-    , 'Algorithm','levenberg-marquardt' ... 'trust-region-reflective', 'levenberg-marquardt', 'interior-point'
-    , 'Display', 'Iter' ...
+    , 'Algorithm', 'levenberg-marquardt' ... 'trust-region-reflective', 'levenberg-marquardt', 'interior-point'
+    , 'Display', 'none' ...
     );
 
 
@@ -65,23 +65,22 @@ opt_options = optimset( ...
     = lsqnonlin(@(params)cost_function_for_optimizaiton(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, fix_params, params), params ...
     , lb, ub, opt_options);
 
-singular_vals = svd(jacobian);
-cond_number = max(singular_vals) / min(singular_vals);
-fprintf('Condition number: %.2e\n', cond_number);
+% singular_vals = svd(jacobian);
+% cond_number = max(singular_vals) / min(singular_vals);
 
 % Release the result in a structure for better understanding
 params_result = fix_params;
 params_result(is_opt_vector) = opt_params;
 
-opt_params_structure.p = params_result(1);
-opt_params_structure.q = params_result(2);
-opt_params_structure.theta = params_result(3);
-opt_params_structure.x_i = params_result(4);
-opt_params_structure.y_i = params_result(5);
-opt_params_structure.z_i = params_result(6);
-opt_params_structure.alpha = params_result(7);
-opt_params_structure.beta = params_result(8);
-opt_params_structure.gamma = params_result(9);
+opt_params_struct.p = params_result(1);
+opt_params_struct.q = params_result(2);
+opt_params_struct.theta = params_result(3);
+opt_params_struct.x_i = params_result(4);
+opt_params_struct.y_i = params_result(5);
+opt_params_struct.z_i = params_result(6);
+opt_params_struct.alpha = params_result(7);
+opt_params_struct.beta = params_result(8);
+opt_params_struct.gamma = params_result(9);
 
 
 % Calcualte the confidence intervals.......................................
@@ -90,15 +89,15 @@ confidence_interval = nlparci(opt_params, residual, 'Jacobian', jacobian);
 params_ci_result = nan(size(fix_params, 1), 2);
 params_ci_result(is_opt_vector, :) = confidence_interval;
 
-params_ci_structure.p = params_ci_result(1, :);
-params_ci_structure.q = params_ci_result(2, :);
-params_ci_structure.theta = params_ci_result(3, :);
-params_ci_structure.x_i = params_ci_result(4, :);
-params_ci_structure.y_i = params_ci_result(5, :);
-params_ci_structure.z_i = params_ci_result(6, :);
-params_ci_structure.alpha = params_ci_result(7, :);
-params_ci_structure.beta = params_ci_result(8, :);
-params_ci_structure.gamma = params_ci_result(9, :);
+opt_params_ci_struct.p = params_ci_result(1, :);
+opt_params_ci_struct.q = params_ci_result(2, :);
+opt_params_ci_struct.theta = params_ci_result(3, :);
+opt_params_ci_struct.x_i = params_ci_result(4, :);
+opt_params_ci_struct.y_i = params_ci_result(5, :);
+opt_params_ci_struct.z_i = params_ci_result(6, :);
+opt_params_ci_struct.alpha = params_ci_result(7, :);
+opt_params_ci_struct.beta = params_ci_result(8, :);
+opt_params_ci_struct.gamma = params_ci_result(9, :);
 
 
 % Recalculate the fitting and residual.....................................
@@ -177,23 +176,23 @@ end
 
 
 % Check optimization flags.................................................
-function [is_opt_vector, tol_vector] = check_tol_structure(tol_structure, surface_generation_function_handle)
+function [opt_vector, tol_vector] = check_tol_struct(tol_structure, surface_generation_function_handle)
 
 % Set the default optimization flags based on the surface data
-is_opt_vector = false(9, 1);
+opt_vector = false(9, 1);
 if isequal(surface_generation_function_handle, @generate_2d_curved_surface_height)
-    is_opt_vector(4:end) = true; % x_i, y_i, z_i, alpha, beta, gamma
+    opt_vector(4:end) = true; % x_i, y_i, z_i, alpha, beta, gamma
 elseif isequal(surface_generation_function_handle, @generate_2d_cylinder_height)
-    is_opt_vector(4) = true; % x_i
-    is_opt_vector(6) = true; % z_i
-    is_opt_vector(7:9) = true; % alpha, beta, gamma
+    opt_vector(4) = true; % x_i
+    opt_vector(6) = true; % z_i
+    opt_vector(7:9) = true; % alpha, beta, gamma
 elseif isequal(surface_generation_function_handle, @generate_1d_height)
-    is_opt_vector(4) = true; % x_i
-    is_opt_vector(6) = true; % z_i
-    is_opt_vector(8) = true; % beta
+    opt_vector(4) = true; % x_i
+    opt_vector(6) = true; % z_i
+    opt_vector(8) = true; % beta
 elseif isequal(surface_generation_function_handle, @generate_1d_slope)
-    is_opt_vector(4) = true; % x_i
-    is_opt_vector(8) = true; % beta
+    opt_vector(4) = true; % x_i
+    opt_vector(8) = true; % beta
 end
 
 
@@ -203,10 +202,10 @@ field_names = {'p', 'q', 'theta', 'x_i', 'y_i', 'z_i', 'alpha', 'beta', 'gamma'}
 tol_vector = zeros(9, 2);
 for num = 1:9
     % Unify the tolerance structure format as two boundaries
-    tol_structure = unify_tol_structure_format(tol_structure, field_names{num}, is_opt_vector(num));
+    tol_structure = unify_tol_struct_format(tol_structure, field_names{num}, opt_vector(num));
     
     % Update the user defined optimization flags
-    is_opt_vector(num) = ~all(tol_structure.(field_names{num})==0);
+    opt_vector(num) = ~all(tol_structure.(field_names{num})==0);
 
     % Update the tolerance vector
     tol_vector(num, :) = tol_structure.(field_names{num});
@@ -215,7 +214,7 @@ end
 end
 
 % Unify tolerance structure format
-function tol_structure = unify_tol_structure_format(tol_structure, str_field_name, is_opt)
+function tol_structure = unify_tol_struct_format(tol_structure, str_field_name, is_opt)
 
 if isfield(tol_structure, str_field_name)
     assert(numel(tol_structure.(str_field_name))<=2);

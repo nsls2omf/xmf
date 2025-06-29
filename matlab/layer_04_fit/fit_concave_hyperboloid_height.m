@@ -1,8 +1,8 @@
-function [z2d_res, z2d_fit, params, params_ci]=fit_concave_hyperboloid_height(x2d, y2d, z2d, input_params_structure, opt_or_tol_structure)
+function [z2d_res, z2d_fit, params, params_ci]=fit_concave_hyperboloid_height(x2d, y2d, z2d, input_params_struct, opt_or_tol_struct)
 % fit_concave_hyperboloid_height provide a convenient way to fit parameters
 % from a measured concave hyperboloid height.
 
 [z2d_res, z2d_fit, params, params_ci] = optimize_parameters ...
     ( @generate_2d_curved_surface_height ...
     , @standard_concave_hyperboloid_height ...
-    , x2d, y2d, z2d, input_params_structure, opt_or_tol_structure);
+    , x2d, y2d, z2d, input_params_struct, opt_or_tol_struct);

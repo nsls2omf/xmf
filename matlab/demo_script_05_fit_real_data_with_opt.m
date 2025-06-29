@@ -24,54 +24,54 @@ x1d = data.x1d;
 sx1d_measured = data.sx1d;
 z1d_measured = calculate_1d_height_from_slope(sx1d_measured, x1d);
 z1d_measured = remove_1d_tilt(x1d, z1d_measured);
-input_params = data.params_target;
-target_params = data.params_target;
+input_params_struct = data.params_target;
+target_params_struct = data.params_target;
 
 
 %% 1.1. Concave elliptic cylinder slope 
 
 % Paramter selection 1.....................................................
 
-opt_structure.p = false;
-opt_structure.q = false;
-opt_structure.theta = false;
+opt_struct.p = false;
+opt_struct.q = false;
+opt_struct.theta = false;
 
-[sx1d_res, sx1d_fit, opt_params, opt_params_ci] = fit_concave_ellipse_slope(x1d, sx1d_measured, input_params, opt_structure);
-fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_params, opt_params, opt_params_ci, 'Concave Elliptic Cylinder');
+[sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_ellipse_slope(x1d, sx1d_measured, input_params_struct, opt_struct);
+fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Elliptic Cylinder');
 
 
 % Paramter selection 2.....................................................
 
-opt_structure.p = false;
-opt_structure.q = false;
-opt_structure.theta = true;
+opt_struct.p = false;
+opt_struct.q = false;
+opt_struct.theta = true;
 
-[sx1d_res, sx1d_fit, opt_params, opt_params_ci] = fit_concave_ellipse_slope(x1d, sx1d_measured, input_params, opt_structure);
-fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_params, opt_params, opt_params_ci, 'Concave Elliptic Cylinder');
+[sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_ellipse_slope(x1d, sx1d_measured, input_params_struct, opt_struct);
+fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Elliptic Cylinder');
 
 
 %% 1.2. Concave elliptic cylinder height
 
-target_params.z_i = 0;
+target_params_struct.z_i = 0;
 
 % Paramter selection 1.....................................................
 
-opt_structure.p = false;
-opt_structure.q = false;
-opt_structure.theta = false;
+opt_struct.p = false;
+opt_struct.q = false;
+opt_struct.theta = false;
 
-[z1d_res, z1d_fit, opt_params, opt_params_ci] = fit_concave_ellipse_height(x1d, z1d_measured, input_params, opt_structure);
-fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_params, opt_params, opt_params_ci, 'Concave Elliptic Cylinder');
+[z1d_res, z1d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_ellipse_height(x1d, z1d_measured, input_params_struct, opt_struct);
+fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Elliptic Cylinder');
 
 
 % Paramter selection 2.....................................................
 
-opt_structure.p = false;
-opt_structure.q = false;
-opt_structure.theta = true;
+opt_struct.p = false;
+opt_struct.q = false;
+opt_struct.theta = true;
 
-[z1d_res, sx1d_fit, opt_params, opt_params_ci] = fit_concave_ellipse_height(x1d, z1d_measured, input_params, opt_structure);
-fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_params, opt_params, opt_params_ci, 'Concave Elliptic Cylinder');
+[z1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_ellipse_height(x1d, z1d_measured, input_params_struct, opt_struct);
+fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Elliptic Cylinder');
 
 
 %% 2. Concave hyperbolic cylinder height map
@@ -85,15 +85,15 @@ x1d = x2d(1, :);
 y2d = data.y2d;
 y1d = y2d(:, 1);
 z2d_measured = data.z2d;
-input_params = data.params_target;
-target_params = data.params_target;
+input_params_struct = data.params_target;
+target_params_struct = data.params_target;
 
-opt_structure.p = false;
-opt_structure.q = false;
-opt_structure.theta = false;
+opt_struct.p = false;
+opt_struct.q = false;
+opt_struct.theta = false;
 
-[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_concave_hyperbolic_cylinder_height(x2d, y2d, z2d_measured, input_params, opt_structure);
-fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, target_params, opt_params, opt_params_ci, 'Concave Hyperbolic Cylinder');
+[z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_hyperbolic_cylinder_height(x2d, y2d, z2d_measured, input_params_struct, opt_struct);
+fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, target_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Hyperbolic Cylinder');
 
 
 %% 3. Concave ellipsoid height map
@@ -107,15 +107,15 @@ x1d = x2d(1, :);
 y2d = data.y2d;
 y1d = y2d(:, 1);
 z2d_measured = data.z2d;
-input_params = data.params_target;
-target_params = data.params_target;
+input_params_struct = data.params_target;
+target_params_struct = data.params_target;
 
-opt_structure.p = false;
-opt_structure.q = false;
-opt_structure.theta = false;
+opt_struct.p = false;
+opt_struct.q = false;
+opt_struct.theta = false;
 
-[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_concave_ellipsoid_height(x2d, y2d, z2d_measured, input_params, opt_structure);
-fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, target_params, opt_params, opt_params_ci, 'Concave Ellipsoid');
+[z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_ellipsoid_height(x2d, y2d, z2d_measured, input_params_struct, opt_struct);
+fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, target_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Ellipsoid');
 
 
 %% 4. Concave hyperboloid height map
@@ -129,13 +129,13 @@ x1d = x2d(1, :);
 y2d = data.y2d;
 y1d = y2d(:, 1);
 z2d_measured = data.z2d;
-input_params = data.params_target;
-target_params = data.params_target;
+input_params_struct = data.params_target;
+target_params_struct = data.params_target;
 
-opt_structure.p = false;
-opt_structure.q = false;
-opt_structure.theta = false;
+opt_struct.p = false;
+opt_struct.q = false;
+opt_struct.theta = false;
 
-[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_concave_hyperboloid_height(x2d, y2d, z2d_measured, input_params, opt_structure);
-fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, target_params, opt_params, opt_params_ci, 'Concave Hyperboloid');
+[z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_hyperboloid_height(x2d, y2d, z2d_measured, input_params_struct, opt_struct);
+fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, target_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Hyperboloid');
 

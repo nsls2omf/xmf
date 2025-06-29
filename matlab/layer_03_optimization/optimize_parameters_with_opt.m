@@ -1,4 +1,4 @@
-function [v_res, v_fit, opt_params_structure, params_ci_structure, init_params] = optimize_parameters_with_opt(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, input_params_structure, opt_structure)
+function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params] = optimize_parameters_with_opt(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, input_params_struct, opt_struct)
 % optimize_parameters provide a convenient way to optimize the surface 
 % parameters from measurement data.
 %
@@ -10,18 +10,18 @@ function [v_res, v_fit, opt_params_structure, params_ci_structure, init_params] 
 %        x is the measured x-coordinate, in unit of [m] as a suggestion
 %        y is the measured y-coordinate, in unit of [m] as a suggestion
 %        v is the measured slope or height in [rad] or [m] as a suggestion
-%        input_params_structure contains p, q, theta, x_i(optional), 
+%        input_params_struct contains p, q, theta, x_i(optional), 
 %           y_i(optional), z_i(optional), alpha(optional), beta(optional)  
 %           and gamma(optional) target parameters, suggested in unit of 
 %           [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]
-%        opt_structure is a structure to set whether optimization is 
+%        opt_struct is a structure to set whether optimization is 
 %           needed for p, q, theta, x_i, y_i, z_i, alpha, beta, gamma.
 %
 %    Output:
 %        v_res is the residual in [m], if the input x and z are in [m]
 %        v_fit is fitting result in [m], if the input x and z are in [m]
-%        opt_params_structure is the optimized params in structure
-%        params_ci_structure is the confidence intervals of the pamrams.
+%        opt_params_struct is the optimized params in structure
+%        opt_params_ci_struct is the confidence intervals of the pamrams
 %        init_params contains the used initial parameters.
 
 %   Copyright since 2023 by Lei Huang. All Rights Reserved.
@@ -34,15 +34,15 @@ function [v_res, v_fit, opt_params_structure, params_ci_structure, init_params] 
 % Set parameters...........................................................
 
 % Initial values
-init_params = check_input_params(input_params_structure, x, y, v);
+init_params = check_input_params(input_params_struct, x, y, v);
 
 % optimization flags
-is_opt_vector = check_is_opt(opt_structure, surface_generation_function_handle);
+opt_vector = check_opt_struct(opt_struct, surface_generation_function_handle);
 
 % Use NaN to identify the parameters which are required to optimize
 fix_params = init_params;
-fix_params(is_opt_vector) = nan;
-params = init_params(is_opt_vector); % Only optimize parameters required to optimize
+fix_params(opt_vector) = nan;
+params = init_params(opt_vector); % Only optimize parameters required to optimize
 
 
 % Set optimization options.................................................
@@ -51,8 +51,8 @@ opt_options = optimset( ...
     , 'MaxIter', 1e2 ...
     , 'TolFun', 1e-14 ...
     , 'TolX', 1e-16 ...
-    , 'Algorithm','levenberg-marquardt' ... 'trust-region-reflective', 'levenberg-marquardt', 'interior-point'
-    , 'Display', 'Iter' ...
+    , 'Algorithm', 'levenberg-marquardt' ... 'trust-region-reflective', 'levenberg-marquardt', 'interior-point'
+    , 'Display', 'none' ...
     );
 
 
@@ -65,34 +65,34 @@ ub = [];
 
 % Release the result in a structure for better understanding
 params_result = fix_params;
-params_result(is_opt_vector) = opt_params;
+params_result(opt_vector) = opt_params;
 
-opt_params_structure.p = params_result(1);
-opt_params_structure.q = params_result(2);
-opt_params_structure.theta = params_result(3);
-opt_params_structure.x_i = params_result(4);
-opt_params_structure.y_i = params_result(5);
-opt_params_structure.z_i = params_result(6);
-opt_params_structure.alpha = params_result(7);
-opt_params_structure.beta = params_result(8);
-opt_params_structure.gamma = params_result(9);
+opt_params_struct.p = params_result(1);
+opt_params_struct.q = params_result(2);
+opt_params_struct.theta = params_result(3);
+opt_params_struct.x_i = params_result(4);
+opt_params_struct.y_i = params_result(5);
+opt_params_struct.z_i = params_result(6);
+opt_params_struct.alpha = params_result(7);
+opt_params_struct.beta = params_result(8);
+opt_params_struct.gamma = params_result(9);
 
 
 % Calcualte the confidence intervals.......................................
 
 confidence_interval = nlparci(opt_params, residual, 'Jacobian', jacobian);
 params_ci_result = nan(size(fix_params, 1), 2);
-params_ci_result(is_opt_vector, :) = confidence_interval;
+params_ci_result(opt_vector, :) = confidence_interval;
 
-params_ci_structure.p = params_ci_result(1, :);
-params_ci_structure.q = params_ci_result(2, :);
-params_ci_structure.theta = params_ci_result(3, :);
-params_ci_structure.x_i = params_ci_result(4, :);
-params_ci_structure.y_i = params_ci_result(5, :);
-params_ci_structure.z_i = params_ci_result(6, :);
-params_ci_structure.alpha = params_ci_result(7, :);
-params_ci_structure.beta = params_ci_result(8, :);
-params_ci_structure.gamma = params_ci_result(9, :);
+opt_params_ci_struct.p = params_ci_result(1, :);
+opt_params_ci_struct.q = params_ci_result(2, :);
+opt_params_ci_struct.theta = params_ci_result(3, :);
+opt_params_ci_struct.x_i = params_ci_result(4, :);
+opt_params_ci_struct.y_i = params_ci_result(5, :);
+opt_params_ci_struct.z_i = params_ci_result(6, :);
+opt_params_ci_struct.alpha = params_ci_result(7, :);
+opt_params_ci_struct.beta = params_ci_result(8, :);
+opt_params_ci_struct.gamma = params_ci_result(9, :);
 
 
 % Recalculate the fitting and residual.....................................
@@ -107,58 +107,58 @@ end
 %% Subfunctions
 
 % Check input parameters...................................................
-function init_params = check_input_params(input_params_structure, x, y, v)
+function init_params = check_input_params(input_params_struct, x, y, v)
 
-if isfield(input_params_structure, 'p')
-    p = input_params_structure.p; % [m]
+if isfield(input_params_struct, 'p')
+    p = input_params_struct.p; % [m]
 else
     error('p value is mandatory.');
 end
 
-if isfield(input_params_structure, 'q')
-    q = input_params_structure.q; % [m]
+if isfield(input_params_struct, 'q')
+    q = input_params_struct.q; % [m]
 else
     error('q value is mandatory.');
 end
 
-if isfield(input_params_structure, 'theta')
-    theta = input_params_structure.theta; % [rad]
+if isfield(input_params_struct, 'theta')
+    theta = input_params_struct.theta; % [rad]
 else
     error('theta value is mandatory.');
 end
 
-if isfield(input_params_structure, 'x_i')
-    x_i = input_params_structure.x_i; % [m]
+if isfield(input_params_struct, 'x_i')
+    x_i = input_params_struct.x_i; % [m]
 else
     x_i = mean(x(isfinite(v(:))), "omitnan"); % [m]
 end
 
-if isfield(input_params_structure, 'y_i')
-    y_i = input_params_structure.y_i; % [m]
+if isfield(input_params_struct, 'y_i')
+    y_i = input_params_struct.y_i; % [m]
 else
     y_i = mean(y(isfinite(v(:))), "omitnan"); % [m]
 end
 
-if isfield(input_params_structure, 'z_i')
-    z_i = input_params_structure.z_i; % [m] 
+if isfield(input_params_struct, 'z_i')
+    z_i = input_params_struct.z_i; % [m] 
 else
     z_i = 0; % [m]
 end
 
-if isfield(input_params_structure, 'alpha')
-    alpha = input_params_structure.alpha; % [rad]
+if isfield(input_params_struct, 'alpha')
+    alpha = input_params_struct.alpha; % [rad]
 else
     alpha = 0; % [rad]
 end
 
-if isfield(input_params_structure, 'beta')
-    beta = input_params_structure.beta; % [rad]
+if isfield(input_params_struct, 'beta')
+    beta = input_params_struct.beta; % [rad]
 else
     beta = 0; % [rad]
 end
 
-if isfield(input_params_structure, 'gamma')
-    gamma = input_params_structure.gamma; % [rad]
+if isfield(input_params_struct, 'gamma')
+    gamma = input_params_struct.gamma; % [rad]
 else
     gamma = 0; % [rad]
 end
@@ -171,35 +171,35 @@ end
 
 
 % Check optimization flags.................................................
-function is_opt_vector = check_is_opt(is_opt_structure, surface_generation_function_handle)
+function opt_vector = check_opt_struct(is_opt_structure, surface_generation_function_handle)
 
 % Default optimization flags
-is_opt_vector = false(9, 1);
+opt_vector = false(9, 1);
 if isequal(surface_generation_function_handle, @generate_2d_curved_surface_height)
-    is_opt_vector(4:end) = true; % x_i, y_i, z_i, alpha, beta, gamma
+    opt_vector(4:end) = true; % x_i, y_i, z_i, alpha, beta, gamma
 elseif isequal(surface_generation_function_handle, @generate_2d_cylinder_height)
-    is_opt_vector(4) = true; % x_i
-    is_opt_vector(6) = true; % z_i
-    is_opt_vector(7:9) = true; % alpha, beta, gamma
+    opt_vector(4) = true; % x_i
+    opt_vector(6) = true; % z_i
+    opt_vector(7:9) = true; % alpha, beta, gamma
 elseif isequal(surface_generation_function_handle, @generate_1d_height)
-    is_opt_vector(4) = true; % x_i
-    is_opt_vector(6) = true; % z_i
-    is_opt_vector(8) = true; % beta
+    opt_vector(4) = true; % x_i
+    opt_vector(6) = true; % z_i
+    opt_vector(8) = true; % beta
 elseif isequal(surface_generation_function_handle, @generate_1d_slope)
-    is_opt_vector(4) = true; % x_i
-    is_opt_vector(8) = true; % beta
+    opt_vector(4) = true; % x_i
+    opt_vector(8) = true; % beta
 end
 
 % Update the user defined optimization flags
-if isfield(is_opt_structure, 'p'), is_opt_vector(1) = is_opt_structure.p; end
-if isfield(is_opt_structure, 'q'), is_opt_vector(2) = is_opt_structure.q; end
-if isfield(is_opt_structure, 'theta'), is_opt_vector(3) = is_opt_structure.theta; end
-if isfield(is_opt_structure, 'x_i'), is_opt_vector(4) = is_opt_structure.x_i; end
-if isfield(is_opt_structure, 'y_i'), is_opt_vector(5) = is_opt_structure.y_i; end
-if isfield(is_opt_structure, 'z_i'), is_opt_vector(6) = is_opt_structure.z_i; end
-if isfield(is_opt_structure, 'alpha'), is_opt_vector(7) = is_opt_structure.alpha; end
-if isfield(is_opt_structure, 'beta'), is_opt_vector(8) = is_opt_structure.beta; end
-if isfield(is_opt_structure, 'gamma'), is_opt_vector(9) = is_opt_structure.gamma; end
+if isfield(is_opt_structure, 'p'), opt_vector(1) = is_opt_structure.p; end
+if isfield(is_opt_structure, 'q'), opt_vector(2) = is_opt_structure.q; end
+if isfield(is_opt_structure, 'theta'), opt_vector(3) = is_opt_structure.theta; end
+if isfield(is_opt_structure, 'x_i'), opt_vector(4) = is_opt_structure.x_i; end
+if isfield(is_opt_structure, 'y_i'), opt_vector(5) = is_opt_structure.y_i; end
+if isfield(is_opt_structure, 'z_i'), opt_vector(6) = is_opt_structure.z_i; end
+if isfield(is_opt_structure, 'alpha'), opt_vector(7) = is_opt_structure.alpha; end
+if isfield(is_opt_structure, 'beta'), opt_vector(8) = is_opt_structure.beta; end
+if isfield(is_opt_structure, 'gamma'), opt_vector(9) = is_opt_structure.gamma; end
 
 end
 

@@ -176,7 +176,7 @@ end
 
 
 % Check optimization flags.................................................
-function [opt_vector, tol_vector] = check_tol_struct(tol_structure, surface_generation_function_handle)
+function [opt_vector, tol_vector] = check_tol_struct(tol_struct, surface_generation_function_handle)
 
 % Set the default optimization flags based on the surface data
 opt_vector = false(9, 1);
@@ -202,13 +202,13 @@ field_names = {'p', 'q', 'theta', 'x_i', 'y_i', 'z_i', 'alpha', 'beta', 'gamma'}
 tol_vector = zeros(9, 2);
 for num = 1:9
     % Unify the tolerance structure format as two boundaries
-    tol_structure = unify_tol_struct_format(tol_structure, field_names{num}, opt_vector(num));
+    tol_struct = unify_tol_struct_format(tol_struct, field_names{num}, opt_vector(num));
     
     % Update the user defined optimization flags
-    opt_vector(num) = ~all(tol_structure.(field_names{num})==0);
+    opt_vector(num) = ~all(tol_struct.(field_names{num})==0);
 
     % Update the tolerance vector
-    tol_vector(num, :) = tol_structure.(field_names{num});
+    tol_vector(num, :) = tol_struct.(field_names{num});
 end
 
 end

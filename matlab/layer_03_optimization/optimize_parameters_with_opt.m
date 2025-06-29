@@ -171,7 +171,7 @@ end
 
 
 % Check optimization flags.................................................
-function opt_vector = check_opt_struct(is_opt_structure, surface_generation_function_handle)
+function opt_vector = check_opt_struct(opt_struct, surface_generation_function_handle)
 
 % Default optimization flags
 opt_vector = false(9, 1);
@@ -191,15 +191,15 @@ elseif isequal(surface_generation_function_handle, @generate_1d_slope)
 end
 
 % Update the user defined optimization flags
-if isfield(is_opt_structure, 'p'), opt_vector(1) = is_opt_structure.p; end
-if isfield(is_opt_structure, 'q'), opt_vector(2) = is_opt_structure.q; end
-if isfield(is_opt_structure, 'theta'), opt_vector(3) = is_opt_structure.theta; end
-if isfield(is_opt_structure, 'x_i'), opt_vector(4) = is_opt_structure.x_i; end
-if isfield(is_opt_structure, 'y_i'), opt_vector(5) = is_opt_structure.y_i; end
-if isfield(is_opt_structure, 'z_i'), opt_vector(6) = is_opt_structure.z_i; end
-if isfield(is_opt_structure, 'alpha'), opt_vector(7) = is_opt_structure.alpha; end
-if isfield(is_opt_structure, 'beta'), opt_vector(8) = is_opt_structure.beta; end
-if isfield(is_opt_structure, 'gamma'), opt_vector(9) = is_opt_structure.gamma; end
+if isfield(opt_struct, 'p'), opt_vector(1) = opt_struct.p; end
+if isfield(opt_struct, 'q'), opt_vector(2) = opt_struct.q; end
+if isfield(opt_struct, 'theta'), opt_vector(3) = opt_struct.theta; end
+if isfield(opt_struct, 'x_i'), opt_vector(4) = opt_struct.x_i; end
+if isfield(opt_struct, 'y_i'), opt_vector(5) = opt_struct.y_i; end
+if isfield(opt_struct, 'z_i'), opt_vector(6) = opt_struct.z_i; end
+if isfield(opt_struct, 'alpha'), opt_vector(7) = opt_struct.alpha; end
+if isfield(opt_struct, 'beta'), opt_vector(8) = opt_struct.beta; end
+if isfield(opt_struct, 'gamma'), opt_vector(9) = opt_struct.gamma; end
 
 end
 

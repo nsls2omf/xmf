@@ -23,6 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import types
 import numpy as np
 from scipy.optimize import least_squares
 
@@ -33,74 +34,29 @@ from xmf.layer_02_generation import (
     generate_2d_cylinder_height,
 )
 
-def optimize_parameters(surface_generation_function_handle, 
-                        standard_surface_shape_function_handle, 
-                        x: np.array, 
-                        y: np.array, 
-                        v: np.array, 
-                        input_params_dict: dict, 
-                        opt_or_tol_dict: dict,
-                        ):
+def check_input_params(input_params_dict: dict, x: np.ndarray, y: np.ndarray, v: np.ndarray):
     """
-    Basic function to provide a convenient way to optimize the surface parameters.
+    Function to check input parameters.
 
     Parameters
     ----------
-        surface_generation_function_handle: `function`
-            The function to generate surface (1D or 2D, slope or height)
-        standard_surface_shape_function_handle: `function` 
-            The function handle for a standard surface shape 
+        input_params_dict: `dict`
+            The ``p``, ``q``, ``theta``, ``x_i`` (optional), ``y_i`` (optional), 
+            ``z_i`` (optional), ``alpha`` (optional), ``beta`` (optional) and 
+            ``gamma`` (optional) target parameters, suggested in unit of
+            [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]
         x: `numpy.ndarray`
             The measured x-coordinate in in unit of [m] as a suggestion
         y: `numpy.ndarray`
             The measured y-coordinate in in unit of [m] as a suggestion
         v: `numpy.ndarray`
             The measured slope or height in [rad] or [m] as a suggestion
-        input_params_dict: `dict`
-            The ``p``, ``q``, ``theta``, ``x_i``(optional), ``y_i``(optional), 
-            ``z_i``(optional), ``alpha``(optional), ``beta``(optional) and 
-            ``gamma``(optional) target parameters, suggested in unit of 
-            [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]
-        opt_or_tol_dict: `dict`
-            The structure to set whether optimization is needed for 
-            ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
 
     Returns
     -------
-        v_res: `numpy.ndarray`
-            The residual (1D or 2D)
-        v_fit: `numpy.ndarray`
-            The fitting result (1D or 2D)
-        opt_params_dict: `dict`
-            The optimized parameters in dictionary
-        opt_params_ci_dict: `dict`
-            The confidence intervals of the optimized parameters in dictionary
         init_params: `numpy.ndarray`
             The used initial parameters.
     """
-
-    if isinstance(opt_or_tol_dict['p'], bool): # Use opt_dict
-
-        v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params = optimize_parameters_with_opt(
-            surface_generation_function_handle,
-            standard_surface_shape_function_handle,
-            x, y, v,
-            input_params_dict,
-            opt_or_tol_dict)
-
-    else:  # Use tol_dict
-
-        v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params = optimize_parameters_with_tol(
-            surface_generation_function_handle,
-            standard_surface_shape_function_handle,
-            x, y, v,
-            input_params_dict,
-            opt_or_tol_dict)
-        
-    return v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params
-
-
-def check_input_params(input_params_dict, x, y, v):
     
     if 'p' in input_params_dict:
         p = input_params_dict['p'] # [m]
@@ -152,23 +108,22 @@ def check_input_params(input_params_dict, x, y, v):
 
     return init_params
 
-
-def optimize_parameters_with_opt(surface_generation_function_handle, 
-                                 standard_surface_shape_function_handle, 
-                                 x: np.array, 
-                                 y: np.array, 
-                                 v: np.array, 
-                                 input_params_dict: dict, 
-                                 opt_dict: dict,
-                                 ):
+def optimize_parameters(surface_generation_function: types.FunctionType,  
+                        standard_surface_shape_function: types.FunctionType, 
+                        x: np.ndarray, 
+                        y: np.ndarray, 
+                        v: np.ndarray, 
+                        input_params_dict: dict, 
+                        opt_or_tol_dict: dict,
+                        ):
     """
-    Basic function to provide a convenient way to optimize the surface parameters with optimization flag.
+    Basic function to provide a convenient way to optimize the surface parameters.
 
     Parameters
     ----------
-        surface_generation_function_handle: `function`
+        surface_generation_function: `function`
             The function to generate surface (1D or 2D, slope or height)
-        standard_surface_shape_function_handle: `function` 
+        standard_surface_shape_function: `function` 
             The function handle for a standard surface shape 
         x: `numpy.ndarray`
             The measured x-coordinate in in unit of [m] as a suggestion
@@ -177,9 +132,75 @@ def optimize_parameters_with_opt(surface_generation_function_handle,
         v: `numpy.ndarray`
             The measured slope or height in [rad] or [m] as a suggestion
         input_params_dict: `dict`
-            The ``p``, ``q``, ``theta``, ``x_i``(optional), ``y_i``(optional), 
-            ``z_i``(optional), ``alpha``(optional), ``beta``(optional) and 
-            ``gamma``(optional) target parameters, suggested in unit of 
+            The ``p``, ``q``, ``theta``, ``x_i`` (optional), ``y_i`` (optional), 
+            ``z_i`` (optional), ``alpha`` (optional), ``beta`` (optional) and 
+            ``gamma`` (optional) target parameters, suggested in unit of 
+            [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]
+        opt_or_tol_dict: `dict`
+            The structure to set whether optimization flag or tolerance for 
+            ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
+
+    Returns
+    -------
+        v_res: `numpy.ndarray`
+            The residual (1D or 2D)
+        v_fit: `numpy.ndarray`
+            The fitting result (1D or 2D)
+        opt_params_dict: `dict`
+            The optimized parameters in dictionary
+        opt_params_ci_dict: `dict`
+            The confidence intervals of the optimized parameters in dictionary
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+    """
+
+    if isinstance(opt_or_tol_dict['p'], bool): # Use opt_dict
+
+        v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params = optimize_parameters_with_opt(
+            surface_generation_function,
+            standard_surface_shape_function,
+            x, y, v,
+            input_params_dict,
+            opt_or_tol_dict)
+
+    else:  # Use tol_dict
+
+        v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params = optimize_parameters_with_tol(
+            surface_generation_function,
+            standard_surface_shape_function,
+            x, y, v,
+            input_params_dict,
+            opt_or_tol_dict)
+        
+    return v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params
+
+def optimize_parameters_with_opt(surface_generation_function: types.FunctionType, 
+                                 standard_surface_shape_function: types.FunctionType, 
+                                 x: np.ndarray, 
+                                 y: np.ndarray, 
+                                 v: np.ndarray, 
+                                 input_params_dict: dict, 
+                                 opt_dict: dict,
+                                 ):
+    """
+    Basic function to provide a convenient way to optimize the surface parameters with optimization flag.
+
+    Parameters
+    ----------
+        surface_generation_function: `function`
+            The function to generate surface (1D or 2D, slope or height)
+        standard_surface_shape_function: `function` 
+            The function handle for a standard surface shape 
+        x: `numpy.ndarray`
+            The measured x-coordinate in in unit of [m] as a suggestion
+        y: `numpy.ndarray`
+            The measured y-coordinate in in unit of [m] as a suggestion
+        v: `numpy.ndarray`
+            The measured slope or height in [rad] or [m] as a suggestion
+        input_params_dict: `dict`
+            The ``p``, ``q``, ``theta``, ``x_i`` (optional), ``y_i`` (optional), 
+            ``z_i`` (optional), ``alpha`` (optional), ``beta`` (optional) and 
+            ``gamma`` (optional) target parameters, suggested in unit of 
             [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]
         opt_dict: `dict`
             The structure to set whether optimization is needed for 
@@ -199,21 +220,21 @@ def optimize_parameters_with_opt(surface_generation_function_handle,
             The used initial parameters.
     """ 
 
-    def check_opt_dict(opt_dict, surface_generation_function_handle): 
+    def check_opt_dict(opt_dict, surface_generation_function): 
         
         opt_vector = np.zeros(9, dtype=bool)
 
-        if surface_generation_function_handle == generate_2d_curved_surface_height:
+        if surface_generation_function == generate_2d_curved_surface_height:
             opt_vector[3:] = True # x_i, y_i, z_i, alpha, beta, gamma
-        elif surface_generation_function_handle == generate_2d_cylinder_height:
+        elif surface_generation_function == generate_2d_cylinder_height:
             opt_vector[3] = True # x_i
             opt_vector[5] = True # z_i
             opt_vector[6:] = True # alpha, beta, gamma
-        elif surface_generation_function_handle == generate_1d_height:
+        elif surface_generation_function == generate_1d_height:
             opt_vector[3] = True # x_i
             opt_vector[5] = True # z_i
             opt_vector[7] = True # beta
-        elif surface_generation_function_handle == generate_1d_slope:
+        elif surface_generation_function == generate_1d_slope:
             opt_vector[3] = True # x_i
             opt_vector[7] = True # beta
 
@@ -234,7 +255,7 @@ def optimize_parameters_with_opt(surface_generation_function_handle,
     init_params = check_input_params(input_params_dict, x, y, v)
 
     # Optimization flags
-    opt_vector = check_opt_dict(opt_dict, surface_generation_function_handle)
+    opt_vector = check_opt_dict(opt_dict, surface_generation_function)
 
     # Use NaN to identify the parameters which are required to optimize
     param_fix = init_params.copy()
@@ -242,7 +263,7 @@ def optimize_parameters_with_opt(surface_generation_function_handle,
     param = init_params[opt_vector] # Only optimize parameters required to optimize
 
     # Common cost function for optimization...........................................
-    def common_cost_function_for_optimization(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, param_fix, param):
+    def common_cost_function_for_optimization(surface_generation_function, standard_surface_shape_function, x, y, v, param_fix, param):
         #
         # param_fix is the list of fixed parameters, and param is the list of
         # parametres to optimize. It is important to have them always in the same
@@ -260,14 +281,14 @@ def optimize_parameters_with_opt(surface_generation_function_handle,
 
         # Generate surface height with (p, q, theta),
         # considering tranformation with x_i, y_i, z_i, alpha, beta, gamma.........
-        if surface_generation_function_handle == generate_2d_curved_surface_height:
-            v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, y, p, q, theta, x_i, y_i, z_i, alpha, beta, gamma, v)
-        elif surface_generation_function_handle == generate_2d_cylinder_height:
-            v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, y, p, q, theta, x_i, z_i, alpha, beta, gamma, v)
-        elif surface_generation_function_handle == generate_1d_height:
-            v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, p, q, theta, x_i, z_i, beta, v)
-        elif surface_generation_function_handle == generate_1d_slope:
-            v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, p, q, theta, x_i, beta)
+        if surface_generation_function == generate_2d_curved_surface_height:
+            v_fit = surface_generation_function(standard_surface_shape_function, x, y, p, q, theta, x_i, y_i, z_i, alpha, beta, gamma, v)
+        elif surface_generation_function == generate_2d_cylinder_height:
+            v_fit = surface_generation_function(standard_surface_shape_function, x, y, p, q, theta, x_i, z_i, alpha, beta, gamma, v)
+        elif surface_generation_function == generate_1d_height:
+            v_fit = surface_generation_function(standard_surface_shape_function, x, p, q, theta, x_i, z_i, beta, v)
+        elif surface_generation_function == generate_1d_slope:
+            v_fit = surface_generation_function(standard_surface_shape_function, x, p, q, theta, x_i, beta)
 
         # Calculte the valid residual height as the output of the cost function....
         v_res = v - v_fit
@@ -295,19 +316,19 @@ def optimize_parameters_with_opt(surface_generation_function_handle,
         """
 
         # Calculate the valid residuals
-        valid_res, _, _ = common_cost_function_for_optimization(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, param_fix, param)
+        valid_res, _, _ = common_cost_function_for_optimization(surface_generation_function, standard_surface_shape_function, x, y, v, param_fix, param)
         return valid_res
 
     # Only optimize the parameters which are required
     param = init_params[opt_vector] + np.ones_like(init_params[opt_vector]) * 1e-6 # Add a small value to the initial parameters
 
     # Optimize with the least squares method
-    result = least_squares(cost_func_of_least_squares, param, args=(x, y, v, param_fix), method='lm')
+    result = least_squares(cost_func_of_least_squares, param, args=(x, y, v, param_fix), method='trf')
     
     # Re-calculate the fitting and residual
     param_opt = result.x
-    _, v_fit, v_res = common_cost_function_for_optimization(surface_generation_function_handle, 
-                                                            standard_surface_shape_function_handle, 
+    _, v_fit, v_res = common_cost_function_for_optimization(surface_generation_function, 
+                                                            standard_surface_shape_function, 
                                                             x, y, v, param_fix, param_opt)
     
     # Release the result in a structure for better understanding
@@ -354,12 +375,11 @@ def optimize_parameters_with_opt(surface_generation_function_handle,
         
     return v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params
 
-
-def optimize_parameters_with_tol(surface_generation_function_handle, 
-                                 standard_surface_shape_function_handle, 
-                                 x: np.array, 
-                                 y: np.array, 
-                                 v: np.array, 
+def optimize_parameters_with_tol(surface_generation_function: types.FunctionType, 
+                                 standard_surface_shape_function: types.FunctionType, 
+                                 x: np.ndarray, 
+                                 y: np.ndarray, 
+                                 v: np.ndarray, 
                                  input_params_dict: dict, 
                                  tol_dict: dict,
                                  ):
@@ -368,9 +388,9 @@ def optimize_parameters_with_tol(surface_generation_function_handle,
 
     Parameters
     ----------
-        surface_generation_function_handle: `function`
+        surface_generation_function: `function`
             The function to generate surface (1D or 2D, slope or height)
-        standard_surface_shape_function_handle: `function` 
+        standard_surface_shape_function: `function` 
             The function handle for a standard surface shape 
         x: `numpy.ndarray`
             The measured x-coordinate in in unit of [m] as a suggestion
@@ -379,9 +399,9 @@ def optimize_parameters_with_tol(surface_generation_function_handle,
         v: `numpy.ndarray`
             The measured slope or height in [rad] or [m] as a suggestion
         input_params_dict: `dict`
-            The ``p``, ``q``, ``theta``, ``x_i``(optional), ``y_i``(optional), 
-            ``z_i``(optional), ``alpha``(optional), ``beta``(optional) and 
-            ``gamma``(optional) target parameters, suggested in unit of 
+            The ``p``, ``q``, ``theta``, ``x_i`` (optional), ``y_i`` (optional), 
+            ``z_i`` (optional), ``alpha`` (optional), ``beta`` (optional) and 
+            ``gamma`` (optional) target parameters, suggested in unit of 
             [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]
         tol_dict: `dict`
             The structure to set the tolerances for 
@@ -401,21 +421,21 @@ def optimize_parameters_with_tol(surface_generation_function_handle,
             The used initial parameters.
     """
 
-    def check_tol_dict(tol_dict, surface_generation_function_handle): 
+    def check_tol_dict(tol_dict, surface_generation_function): 
         
         opt_vector = np.zeros(9, dtype=bool)
 
-        if surface_generation_function_handle == generate_2d_curved_surface_height:
+        if surface_generation_function == generate_2d_curved_surface_height:
             opt_vector[3:] = True # x_i, y_i, z_i, alpha, beta, gamma
-        elif surface_generation_function_handle == generate_2d_cylinder_height:
+        elif surface_generation_function == generate_2d_cylinder_height:
             opt_vector[3] = True # x_i
             opt_vector[5] = True # z_i
             opt_vector[6:] = True # alpha, beta, gamma
-        elif surface_generation_function_handle == generate_1d_height:
+        elif surface_generation_function == generate_1d_height:
             opt_vector[3] = True # x_i
             opt_vector[5] = True # z_i
             opt_vector[7] = True # beta
-        elif surface_generation_function_handle == generate_1d_slope:
+        elif surface_generation_function == generate_1d_slope:
             opt_vector[3] = True # x_i
             opt_vector[7] = True # beta
 
@@ -453,7 +473,7 @@ def optimize_parameters_with_tol(surface_generation_function_handle,
     init_params = check_input_params(input_params_dict, x, y, v)
 
     # Optimization flags
-    opt_vector, tol_vector = check_tol_dict(tol_dict, surface_generation_function_handle)
+    opt_vector, tol_vector = check_tol_dict(tol_dict, surface_generation_function)
 
     # Use NaN to identify the parameters which are required to optimize
     param_fix = init_params.copy()
@@ -461,7 +481,7 @@ def optimize_parameters_with_tol(surface_generation_function_handle,
     param = init_params[opt_vector] # Only optimize parameters required to optimize
 
     # Common cost function for optimization...........................................
-    def common_cost_function_for_optimization(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, param_fix, param):
+    def common_cost_function_for_optimization(surface_generation_function, standard_surface_shape_function, x, y, v, param_fix, param):
         #
         # param_fix is the list of fixed parameters, and param is the list of
         # parametres to optimize. It is important to have them always in the same
@@ -479,14 +499,14 @@ def optimize_parameters_with_tol(surface_generation_function_handle,
 
         # Generate surface height with (p, q, theta),
         # considering tranformation with x_i, y_i, z_i, alpha, beta, gamma.........
-        if surface_generation_function_handle == generate_2d_curved_surface_height:
-            v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, y, p, q, theta, x_i, y_i, z_i, alpha, beta, gamma, v)
-        elif surface_generation_function_handle == generate_2d_cylinder_height:
-            v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, y, p, q, theta, x_i, z_i, alpha, beta, gamma, v)
-        elif surface_generation_function_handle == generate_1d_height:
-            v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, p, q, theta, x_i, z_i, beta, v)
-        elif surface_generation_function_handle == generate_1d_slope:
-            v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, p, q, theta, x_i, beta)
+        if surface_generation_function == generate_2d_curved_surface_height:
+            v_fit = surface_generation_function(standard_surface_shape_function, x, y, p, q, theta, x_i, y_i, z_i, alpha, beta, gamma, v)
+        elif surface_generation_function == generate_2d_cylinder_height:
+            v_fit = surface_generation_function(standard_surface_shape_function, x, y, p, q, theta, x_i, z_i, alpha, beta, gamma, v)
+        elif surface_generation_function == generate_1d_height:
+            v_fit = surface_generation_function(standard_surface_shape_function, x, p, q, theta, x_i, z_i, beta, v)
+        elif surface_generation_function == generate_1d_slope:
+            v_fit = surface_generation_function(standard_surface_shape_function, x, p, q, theta, x_i, beta)
 
         # Calculte the valid residual height as the output of the cost function....
         v_res = v - v_fit
@@ -514,7 +534,7 @@ def optimize_parameters_with_tol(surface_generation_function_handle,
         """
 
         # Calculate the valid residuals
-        valid_res, _, _ = common_cost_function_for_optimization(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, param_fix, param)
+        valid_res, _, _ = common_cost_function_for_optimization(surface_generation_function, standard_surface_shape_function, x, y, v, param_fix, param)
         return valid_res
 
     # Only optimize the parameters which are required
@@ -525,12 +545,12 @@ def optimize_parameters_with_tol(surface_generation_function_handle,
     ub = param + tol_vector[opt_vector, 1]
 
     # Optimize with the least squares method
-    result = least_squares(cost_func_of_least_squares, param, bounds=[lb, ub], args=(x, y, v, param_fix), method='lm')
+    result = least_squares(cost_func_of_least_squares, param, bounds=[lb, ub], args=(x, y, v, param_fix), method='trf')
 
     # Re-calculate the fitting and residual
     param_opt = result.x
-    _, v_fit, v_res = common_cost_function_for_optimization(surface_generation_function_handle, 
-                                                            standard_surface_shape_function_handle, 
+    _, v_fit, v_res = common_cost_function_for_optimization(surface_generation_function, 
+                                                            standard_surface_shape_function, 
                                                             x, y, v, param_fix, param_opt)
     
     # Release the result in a structure for better understanding

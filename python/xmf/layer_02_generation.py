@@ -23,6 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import types
 import numpy as np
 
 
@@ -68,7 +69,7 @@ def compose_transformation_matrix(alpha: float,
     return T
 
 
-def iter_generate_height(standard_height_function_handle,
+def iter_generate_height(standard_height_function,
                           x2d: np.ndarray,
                           y2d: np.ndarray,
                           p: float,
@@ -84,8 +85,8 @@ def iter_generate_height(standard_height_function_handle,
 
     Parameters
     ----------
-        standard_height_function_handle:
-            handle of the standard height function
+        standard_height_function:
+            The standard height function
         x2d: `numpy.ndarray`
             The 2D x coordinates
         y2d: `numpy.ndarray`
@@ -130,12 +131,12 @@ def iter_generate_height(standard_height_function_handle,
         y2d_s = m_s[1].reshape(y2d.shape)
 
         try:
-            z2d_s = np.real(standard_height_function_handle(x2d_s, y2d_s, p, q, theta)) # 2D curved shape
+            z2d_s = np.real(standard_height_function(x2d_s, y2d_s, p, q, theta)) # 2D curved shape
         except TypeError:
-            z2d_s = np.real(standard_height_function_handle(x2d_s, p, q, theta)) # 1D or 2D cylinder
-            z2d_s = np.real(standard_height_function_handle(x2d_s, y2d_s, p, q, theta)) # 2D curved shape
+            z2d_s = np.real(standard_height_function(x2d_s, p, q, theta)) # 1D or 2D cylinder
+            z2d_s = np.real(standard_height_function(x2d_s, y2d_s, p, q, theta)) # 2D curved shape
         except ValueError:
-            z2d_s = np.real(standard_height_function_handle(x2d_s, p, q, theta)) # 1D or 2D cylinder
+            z2d_s = np.real(standard_height_function(x2d_s, p, q, theta)) # 1D or 2D cylinder
         except:
             raise
 
@@ -155,7 +156,7 @@ def iter_generate_height(standard_height_function_handle,
     return z2d
 
 
-def generate_2d_curved_surface_height(standard_height_function_handle,
+def generate_2d_curved_surface_height(standard_height_function: types.FunctionType,
                                         x2d: np.ndarray,
                                         y2d: np.ndarray,
                                         p: float,
@@ -172,11 +173,10 @@ def generate_2d_curved_surface_height(standard_height_function_handle,
     """
     Geneate 2D curved surface height map with (``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``)
 
-
     Parameters
     ----------
-        standard_height_function_handle:
-            handle of the standard height function
+        standard_height_function: `function`
+            The standard height function
         x2d: `numpy.ndarray`
             The 2D x coordinates
         y2d: `numpy.ndarray`
@@ -212,13 +212,13 @@ def generate_2d_curved_surface_height(standard_height_function_handle,
         z2d_measured = np.zeros(x2d.shape)
 
     tf = compose_transformation_matrix(alpha, beta, gamma, x_i, y_i, z_i)
-    z2d = iter_generate_height(standard_height_function_handle, x2d, y2d, p, q, theta, tf, z2d_measured)
+    z2d = iter_generate_height(standard_height_function, x2d, y2d, p, q, theta, tf, z2d_measured)
 
     return z2d
 
 
 
-def generate_2d_cylinder_height(standard_height_function_handle,
+def generate_2d_cylinder_height(standard_height_function: types.FunctionType,
                                 x2d: np.ndarray,
                                 y2d: np.ndarray,
                                 p: float,
@@ -237,8 +237,8 @@ def generate_2d_cylinder_height(standard_height_function_handle,
 
     Parameters
     ----------
-        standard_height_function_handle:
-            handle of the standard height function
+        standard_height_function: `function`
+            The standard height function
         x2d: `numpy.ndarray`
             The 2D x coordinates
         y2d: `numpy.ndarray`
@@ -273,11 +273,11 @@ def generate_2d_cylinder_height(standard_height_function_handle,
 
     y_i = 0 # No need to consider y-position of the chief ray intersection for cylinders
     tf = compose_transformation_matrix(alpha, beta, gamma, x_i, y_i, z_i)
-    z2d = iter_generate_height(standard_height_function_handle, x2d, y2d, p, q, theta, tf, z2d_measured)
+    z2d = iter_generate_height(standard_height_function, x2d, y2d, p, q, theta, tf, z2d_measured)
 
     return z2d
 
-def generate_1d_height(standard_height_function_handle,
+def generate_1d_height(standard_height_function: types.FunctionType,
                         x1d: np.array,
                         p: float,
                         q: float,
@@ -286,6 +286,41 @@ def generate_1d_height(standard_height_function_handle,
                         z_i: float,
                         beta: float,
                         z1d_measured: np.array = None):
+    """
+    Geneate 1D height map with (``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``)
+
+
+    Parameters
+    ----------
+        standard_height_function: `function`
+            The standard height function
+        x1d: `numpy.ndarray`
+            The 1D x coordinates
+        p: `float`
+            The ``p`` value: the distance from the source to the chief ray intersection
+        q: `float`
+            The ``q`` value: the distance from the chief ray intersection to the focus
+        theta: `float`
+            The grazing angle
+        alpha: `float`
+            The angle around x-axis
+        beta: `float`
+            The angle around y-axis
+        gamma: `float`
+            The angle around z-axis
+        x_i: `float`
+            x-translation in the conversion from standard mirror coordinates to metrology coordinates, also revealing the x-position of chief ray intersection in metrology coordinates
+        z_i: `float`
+            z-translation in the conversion from standard mirror coordinates to metrology coordinates, also revealing the z-position of chief ray intersection in metrology coordinates
+        z1d_measured: `numpy.ndarray`
+            The measured height map
+
+    Returns
+    -------
+        z1d: `numpy.ndarray`
+            The height map
+    """
+    
     if z1d_measured is None:
         z1d_measured = np.zeros_like(x1d)
 
@@ -295,19 +330,50 @@ def generate_1d_height(standard_height_function_handle,
     tf = compose_transformation_matrix(alpha, beta, gamma, x_i, y_i, z_i)
 
     y1d = np.zeros_like(x1d) # No need to consider y-coordiantes in metrology coordinates
-    z1d = iter_generate_height(standard_height_function_handle, x1d, y1d, p, q, theta, tf, z1d_measured)
+    z1d = iter_generate_height(standard_height_function, x1d, y1d, p, q, theta, tf, z1d_measured)
     return z1d
 
-def generate_1d_slope(standard_slope_function_handle, 
+def generate_1d_slope(standard_slope_function: types.FunctionType, 
                       x1d: np.array, 
                       p: float, 
                       q: float, 
                       theta: float, 
                       x_i: float, 
                       beta: float):
+    """
+    Generate 1D slope map with (``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``)
+
+    Parameters
+    ----------
+        standard_slope_function: `function`
+            The standard slope function
+        x1d: `numpy.ndarray`
+            The 1D x coordinates
+        p: `float`
+            The ``p`` value: the distance from the source to the chief ray intersection
+        q: `float`
+            The ``q`` value: the distance from the chief ray intersection to the focus
+        theta: `float`
+            The grazing angle
+        alpha: `float`
+            The angle around x-axis
+        beta: `float`
+            The angle around y-axis
+        gamma: `float`
+            The angle around z-axis
+        x_i: `float`
+            x-translation in the conversion from standard mirror coordinates to metrology coordinates, also revealing the x-position of chief ray intersection in metrology coordinates
+        sx1d_measured: `numpy.ndarray`
+            The measured slope map
+
+    Returns
+    -------
+        sx1d: `numpy.ndarray`
+            The slope map
+    """
 
     x1d = x1d - x_i
-    sx1d = standard_slope_function_handle(x1d, p, q, theta)
+    sx1d = standard_slope_function(x1d, p, q, theta)
     sx1d = sx1d + np.tan(beta)
     return sx1d
 

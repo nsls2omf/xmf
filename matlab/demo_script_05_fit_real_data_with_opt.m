@@ -113,6 +113,7 @@ target_params_struct = data.params_target;
 opt_struct.p = false;
 opt_struct.q = false;
 opt_struct.theta = false;
+opt_struct.y_i = false;
 
 [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_ellipsoid_height(x2d, y2d, z2d_measured, input_params_struct, opt_struct);
 fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, target_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Ellipsoid');
@@ -135,6 +136,7 @@ target_params_struct = data.params_target;
 opt_struct.p = false;
 opt_struct.q = false;
 opt_struct.theta = false;
+opt_struct.y_i = false;
 
 [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_hyperboloid_height(x2d, y2d, z2d_measured, input_params_struct, opt_struct);
 fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, target_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Hyperboloid');

@@ -1,0 +1,17 @@
+xmf.layer\_02\_generation
+=========================
+
+.. automodule:: xmf.layer_02_generation
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      compose_transformation_matrix
+      generate_1d_height
+      generate_1d_slope
+      generate_2d_curved_surface_height
+      generate_2d_cylinder_height
+      iter_generate_height
+   

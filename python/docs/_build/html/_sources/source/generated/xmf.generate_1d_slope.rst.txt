@@ -1,0 +1,6 @@
+﻿xmf.generate\_1d\_slope
+=======================
+
+.. currentmodule:: xmf
+
+.. autofunction:: generate_1d_slope

@@ -1,0 +1,6 @@
+﻿xmf.generate\_2d\_curved\_surface\_height
+=========================================
+
+.. currentmodule:: xmf
+
+.. autofunction:: generate_2d_curved_surface_height

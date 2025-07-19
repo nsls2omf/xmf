@@ -69,12 +69,43 @@ def add_colorbar(im: plt.cm.ScalarMappable,
     return cbar
 
 def reg_exp_rep(s):
+    """ 
+    Replace scientific notation in a string with LaTeX format
+
+    Parameters
+    ----------
+        s: `str`
+            The string to be processed
+    Returns
+    -------
+        `str`
+            The processed string with LaTeX format
+    """
     # Replace scientific notation with LaTeX format
     s = re.sub(r'e\+?0*(\d+)', r'\\times10^{\1}', s)
     s = re.sub(r'e-0*(\d+)', r'\\times10^{-\1}', s)
     return s
 
 def fig_show_2d_map(x2d, y2d, z2d_quad_sln, z2d_expression, str_title):
+    """
+    Show a 2D map of height data with colorbar
+
+    Parameters
+    ----------
+        x2d: `numpy.ndarray`
+            2D array of x-coordinates
+        y2d: `numpy.ndarray`
+            2D array of y-coordinates
+        z2d_quad_sln: `numpy.ndarray`
+            2D array of height data from quadratic equation solution
+        z2d_expression: `numpy.ndarray`
+            2D array of height data from expression
+        str_title: `str`
+            Title of the plot
+    Returns
+    -------
+        None        
+    """
 
     x2d_mm = x2d * 1e3
     y2d_mm = y2d * 1e3
@@ -100,6 +131,23 @@ def fig_show_2d_map(x2d, y2d, z2d_quad_sln, z2d_expression, str_title):
     plt.show()
     
 def fig_show_1d_height(x1d, z1d_quad_sln, z1d_expression, str_title):
+    """
+    Show a 1D plot of height data from quadratic equation solution and expression
+
+    Parameters
+    ----------
+        x1d: `numpy.ndarray`
+            1D array of x-coordinates
+        z1d_quad_sln: `numpy.ndarray`
+            1D array of height data from quadratic equation solution
+        z1d_expression: `numpy.ndarray`
+            1D array of height data from expression
+        str_title: `str`
+            Title of the plot
+    Returns
+    -------
+        None
+    """
     
     x1d_mm = x1d * 1e3
     z1d_quad_sln_um = z1d_quad_sln * 1e6
@@ -141,7 +189,25 @@ def fig_show_1d_slope(x1d, sx1d, str_title):
     plt.show()
 
 def fig_compare_1d_height(x1d, z1d_generation, z1d_standard, str_title):
-    
+    """
+    Compare two 1D height data sets and plot the difference
+
+    Parameters
+    ----------
+        x1d: `numpy.ndarray`
+            1D array of x-coordinates
+        z1d_generation: `numpy.ndarray`
+            1D array of height data from generation
+        z1d_standard: `numpy.ndarray`
+            1D array of height data from standard
+        str_title: `str`
+            Title of the plot
+
+    Returns
+    -------
+        None
+    """
+
     x1d_mm = x1d * 1e3
     z1d_standard_um = z1d_standard * 1e6
     z1d_generation_um = z1d_generation * 1e6
@@ -166,7 +232,25 @@ def fig_compare_1d_height(x1d, z1d_generation, z1d_standard, str_title):
     plt.show()
     
 def fig_compare_1d_slope(x1d, sx1d_generation, sx1d_standard, str_title):
-    
+    """
+    Compare two 1D slope data sets and plot the difference
+
+    Parameters
+    ----------
+        x1d: `numpy.ndarray`
+            1D array of x-coordinates
+        sx1d_generation: `numpy.ndarray`
+            1D array of slope data from generation
+        sx1d_standard: `numpy.ndarray`
+            1D array of slope data from standard
+        str_title: `str`
+            Title of the plot
+
+    Returns
+    -------
+        None
+    """
+
     x1d_mm = x1d * 1e3
     sx1d_generation_mrad = sx1d_generation * 1e3
     sx1d_standard_mrad = sx1d_standard * 1e3
@@ -192,6 +276,35 @@ def fig_compare_1d_slope(x1d, sx1d_generation, sx1d_standard, str_title):
     plt.show()
     
 def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
+    """
+    Show a 2D fitting map with colorbar, target parameters, fitted parameters, and residuals
+    
+    Parameters
+    ----------
+        x2d: `numpy.ndarray`
+            2D array of x-coordinates
+        y2d: `numpy.ndarray`
+            2D array of y-coordinates
+        z2d_measured: `numpy.ndarray`
+            2D array of measured z-values
+        z2d_fit: `numpy.ndarray`
+            2D array of fitted z-values
+        z2d_res: `numpy.ndarray`
+            2D array of residuals
+        target_params_dict: `dict`
+            Dictionary of target parameters
+        opt_params_dict: `dict`
+            Dictionary of optimized parameters
+        opt_params_ci_dict: `dict`
+            Dictionary of optimized parameters confidence intervals
+        str_title: `str`
+            Title of the plot
+
+    Returns
+    -------
+        None
+    """
+
     x2d_mm = x2d * 1e3
     y2d_mm = y2d * 1e3
     z2d_um = z2d_measured * 1e6
@@ -306,6 +419,32 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_par
 
 
 def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
+    """
+    Show a 1D fitting plot with measured data, fitted data, residuals, target parameters, and optimized parameters
+
+    Parameters
+    ----------
+        x1d: `numpy.ndarray`
+            1D array of x-coordinates
+        z1d_measured: `numpy.ndarray`
+            1D array of measured z-values
+        z1d_fit: `numpy.ndarray`
+            1D array of fitted z-values
+        z1d_res: `numpy.ndarray`
+            1D array of residuals
+        target_params_dict: `dict`
+            Dictionary of target parameters
+        opt_params_dict: `dict`
+            Dictionary of optimized parameters
+        opt_params_ci_dict: `dict`
+            Dictionary of optimized parameters confidence intervals
+        str_title: `str`
+            Title of the plot
+
+    Returns
+    -------
+        None
+    """
 
     x1d_mm = x1d * 1e3
     z1d_measured_um = z1d_measured * 1e6
@@ -392,6 +531,32 @@ def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_param
     plt.show()
 
 def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
+    """
+    Show a 1D fitting plot with measured slopes, fitted slopes, residuals, target parameters, and optimized parameters
+    
+    Parameters
+    ----------
+        x1d: `numpy.ndarray`
+            1D array of x-coordinates
+        sx1d_measured: `numpy.ndarray`
+            1D array of measured slopes
+        sx1d_fit: `numpy.ndarray`
+            1D array of fitted slopes
+        sx1d_res: `numpy.ndarray`
+            1D array of residuals
+        target_params_dict: `dict`
+            Dictionary of target parameters
+        opt_params_dict: `dict`
+            Dictionary of optimized parameters
+        opt_params_ci_dict: `dict`
+            Dictionary of optimized parameters confidence intervals
+        str_title: `str`
+            Title of the plot
+
+    Returns
+    -------
+        None
+    """
 
     x1d_mm = x1d * 1e3
     sx1d_measured_mrad = sx1d_measured * 1e3

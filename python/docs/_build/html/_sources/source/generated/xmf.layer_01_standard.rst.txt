@@ -1,0 +1,26 @@
+xmf.layer\_01\_standard
+=======================
+
+.. automodule:: xmf.layer_01_standard
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      standard_concave_ellipsoid_height
+      standard_concave_elliptic_cylinder_height
+      standard_concave_elliptic_cylinder_xslope
+      standard_concave_hyperbolic_cylinder_height
+      standard_concave_hyperbolic_cylinder_xslope
+      standard_concave_hyperboloid_height
+      standard_convex_ellipsoid_height
+      standard_convex_elliptic_cylinder_height
+      standard_convex_elliptic_cylinder_xslope
+      standard_convex_hyperbolic_cylinder_height
+      standard_convex_hyperbolic_cylinder_xslope
+      standard_convex_hyperboloid_height
+      standard_quadric_cylinder_height
+      standard_quadric_cylinder_xslope
+      standard_quadrics_height
+   

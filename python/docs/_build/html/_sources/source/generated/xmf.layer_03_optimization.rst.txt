@@ -1,0 +1,15 @@
+xmf.layer\_03\_optimization
+===========================
+
+.. automodule:: xmf.layer_03_optimization
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      check_input_params
+      optimize_parameters
+      optimize_parameters_with_opt
+      optimize_parameters_with_tol
+   

@@ -1,0 +1,777 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xmf.layer_01_standard &mdash; xmf_dev 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            xmf_dev
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/modules.html">xmf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../xmf_matlab.html">xmf MATLAB functions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">xmf_dev</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">xmf.layer_01_standard</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for xmf.layer_01_standard</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (c) 2025 Racheal Xu, Lei Huang</span>
+<span class="c1">#</span>
+<span class="c1"># Lei Huang</span>
+<span class="c1"># huanglei0114gmail.com</span>
+<span class="c1">#</span>
+<span class="c1"># All rights reserved</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1"># furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in all</span>
+<span class="c1"># copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span>
+<span class="c1"># SOFTWARE.</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<div class="viewcode-block" id="standard_quadrics_height">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_quadrics_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_quadrics_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                             <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                             <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                             <span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                             <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                             <span class="n">return_z2d_expression_as_extra</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard quadrics height with (``p``, ``q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D x coordinates</span>
+<span class="sd">        y2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D y coordinates</span>
+<span class="sd">        p: `float`</span>
+<span class="sd">            The ``p`` value: the distance from the source to the chief ray intersection</span>
+<span class="sd">        q: `float`</span>
+<span class="sd">            The ``q`` value: the distance from the chief ray intersection to the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">        return_z2d_expression_as_extra: `bool`</span>
+<span class="sd">            If True, return the z2d_expression as well</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z2d_quad_sln: `numpy.ndarray`</span>
+<span class="sd">            The 2D height map</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">quad_sln</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+
+        <span class="c1"># Parameters</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x2d</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">x2d</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y2d</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># Discriminant</span>
+        <span class="n">Delta</span> <span class="o">=</span> <span class="n">B</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="n">C</span>
+
+        <span class="c1"># Check (p, q) conditions</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span> <span class="c1"># Top (convex) ellipsoid</span>
+            <span class="n">z2d_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">q</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="c1"># Bottom (concave) ellipsoid</span>
+            <span class="n">z2d_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">q</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="c1"># Left hyperboloid</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">q</span><span class="p">)):</span> <span class="c1"># Left convex hyperboloid</span>
+                <span class="n">z2d_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># Left concave hyperboloid</span>
+                <span class="n">z2d_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span> <span class="c1"># Right hyperboloid</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">q</span><span class="p">)):</span> <span class="c1"># Right convex hyperboloid</span>
+                <span class="n">z2d_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># Right concave hyperboloid</span>
+                <span class="n">z2d_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+
+        <span class="n">z2d_quad_sln</span><span class="p">[</span><span class="n">Delta</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="k">return</span> <span class="n">z2d_quad_sln</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">expression</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                              <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                              <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                              <span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                              <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span> <span class="c1"># Ellipsoid</span>
+            <span class="n">z2d_expression</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">x2d</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="n">x2d</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">x2d</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="p">((</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">y2d</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="p">((</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span> <span class="c1"># Hyperboloid</span>
+            <span class="n">z2d_expression</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">x2d</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="n">x2d</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">x2d</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="p">((</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">y2d</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="p">((</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">z2d_expression</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">z2d_expression</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="k">return</span> <span class="n">z2d_expression</span>
+
+    <span class="n">z2d_quad_sln</span> <span class="o">=</span> <span class="n">quad_sln</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">return_z2d_expression_as_extra</span><span class="p">:</span>
+        <span class="n">z2d_expression</span> <span class="o">=</span> <span class="n">expression</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">z2d_quad_sln</span><span class="p">,</span> <span class="n">z2d_expression</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">z2d_quad_sln</span></div>
+
+
+
+<div class="viewcode-block" id="standard_convex_ellipsoid_height">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_convex_ellipsoid_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_convex_ellipsoid_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                     <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                     <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                     <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                     <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                     <span class="n">return_z2d_expression_as_extra</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard 2D convex ellipsoid height with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D x coordinates</span>
+<span class="sd">        y2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D y coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">        return_z2d_expression_as_extra: `bool`</span>
+<span class="sd">            If True, return the z2d_expression as well</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D height map</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Give the sign to p and q based on mirror type</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="o">-</span><span class="n">abs_p</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="o">-</span><span class="n">abs_q</span>
+    <span class="k">return</span> <span class="n">standard_quadrics_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">return_z2d_expression_as_extra</span><span class="p">)</span></div>
+
+    
+    
+<div class="viewcode-block" id="standard_concave_ellipsoid_height">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_concave_ellipsoid_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_ellipsoid_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                      <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                      <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                      <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                      <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                      <span class="n">return_z2d_expression_as_extra</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard 2D concave ellipsoid height with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D x coordinates</span>
+<span class="sd">        y2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D y coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">        return_z2d_expression_as_extra: `bool`</span>
+<span class="sd">            If True, return the z2d_expression as well</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D height map</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Give the sign to p and q based on mirror type</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">abs_p</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">abs_q</span>
+    <span class="k">return</span> <span class="n">standard_quadrics_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">return_z2d_expression_as_extra</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="standard_convex_hyperboloid_height">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_convex_hyperboloid_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_convex_hyperboloid_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                       <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                       <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                       <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                       <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                       <span class="n">return_z2d_expression_as_extra</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard 2D convex hyperboloid height with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D x coordinates</span>
+<span class="sd">        y2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D y coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">        return_z2d_expression_as_extra: `bool`</span>
+<span class="sd">            If True, return the z2d_expression as well</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D height map</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Give the sign to p and q based on mirror type</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">abs_p</span> <span class="o">&gt;</span> <span class="n">abs_q</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">abs_p</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_q</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_p</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">abs_q</span>
+
+    <span class="k">return</span> <span class="n">standard_quadrics_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">return_z2d_expression_as_extra</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="standard_concave_hyperboloid_height">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_concave_hyperboloid_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_hyperboloid_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                        <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                        <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                        <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                        <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                        <span class="n">return_z2d_expression_as_extra</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard 2D concave hyperboloid height with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D x coordinates</span>
+<span class="sd">        y2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D y coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">        return_z2d_expression_as_extra: `bool`</span>
+<span class="sd">            If True, return the z2d_expression as well</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D height map</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Give the sign to p and q based on mirror type</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">abs_p</span> <span class="o">&gt;</span> <span class="n">abs_q</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_p</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">abs_q</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">abs_p</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_q</span>
+
+    <span class="k">return</span> <span class="n">standard_quadrics_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">return_z2d_expression_as_extra</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="standard_quadric_cylinder_height">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_quadric_cylinder_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_quadric_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                     <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                     <span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                     <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                     <span class="n">return_z_expression_as_extra</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard quadric cylinder height with (``p``, ``q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The x coordinates</span>
+<span class="sd">        p: `float`</span>
+<span class="sd">            The ``p`` value: the distance from the source to the chief ray intersection</span>
+<span class="sd">        q: `float`</span>
+<span class="sd">            The ``q`` value: the distance from the chief ray intersection to the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">        return_z_expression_as_extra: `bool`</span>
+<span class="sd">            If True, return the z_expression as well</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z: `numpy.ndarray`</span>
+<span class="sd">            The height</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Quadratic solution.......................................................</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">quad_sln</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                 <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                 <span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                 <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+
+        <span class="n">A</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># Discriminant</span>
+        <span class="n">Delta</span> <span class="o">=</span> <span class="n">B</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="n">C</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span> <span class="c1"># Top (convex) elliptic cylinder</span>
+            <span class="n">z_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">q</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="c1"># Bottom (concave) elliptic cylinder</span>
+            <span class="n">z_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">q</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="c1"># Left hyperbolic cylinder</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">q</span><span class="p">)):</span> <span class="c1"># Left convex hyperbolic cylinder</span>
+                <span class="n">z_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># Left concave hyperbolic cylinder</span>
+                <span class="n">z_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span> <span class="c1"># Right hyperbolic cylinder</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">q</span><span class="p">)):</span> <span class="c1"># Right convex hyperbolic cylinder</span>
+                <span class="n">z_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># Right concave hyperbolic cylinder</span>
+                <span class="n">z_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+
+        <span class="n">z_quad_sln</span><span class="p">[</span><span class="n">Delta</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="k">return</span> <span class="n">z_quad_sln</span>
+
+    <span class="c1"># Expression .......................................................</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">expression</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                   <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                   <span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                   <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span> <span class="c1"># Elliptical cylinder</span>
+            <span class="n">z_expression</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="p">((</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span> <span class="c1"># Hyperbolic cylinder</span>
+            <span class="n">z_expression</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">p</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="p">((</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">z_expression</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">z_expression</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="k">return</span> <span class="n">z_expression</span>
+
+    <span class="n">z_quad_sln</span> <span class="o">=</span> <span class="n">quad_sln</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">return_z_expression_as_extra</span><span class="p">:</span>
+        <span class="n">z_expression</span> <span class="o">=</span> <span class="n">expression</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">z_quad_sln</span><span class="p">,</span> <span class="n">z_expression</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">z_quad_sln</span></div>
+
+
+<div class="viewcode-block" id="standard_convex_elliptic_cylinder_height">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_convex_elliptic_cylinder_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_convex_elliptic_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                             <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                             <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                             <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                             <span class="n">return_z_expression_as_extra</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard convex elliptic cylinder height with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The x coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">        return_z_expression_as_extra: `bool`</span>
+<span class="sd">            If True, return the z_expression as well</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z: `numpy.ndarray`</span>
+<span class="sd">            The height</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Give the sign to p and q based on mirror type</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="o">-</span><span class="n">abs_p</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="o">-</span><span class="n">abs_q</span>
+
+    <span class="k">return</span> <span class="n">standard_quadric_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">return_z_expression_as_extra</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="standard_concave_elliptic_cylinder_height">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_concave_elliptic_cylinder_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_elliptic_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                              <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                              <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                              <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                              <span class="n">return_z_expression_as_extra</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard convex elliptic cylinder height with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The x coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">        return_z_expression_as_extra: `bool`</span>
+<span class="sd">            If True, return the z_expression as well</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D height map</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Give the sign to p and q based on mirror type</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">abs_p</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">abs_q</span>
+
+    <span class="k">return</span> <span class="n">standard_quadric_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">return_z_expression_as_extra</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="standard_convex_hyperbolic_cylinder_height">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_convex_hyperbolic_cylinder_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_convex_hyperbolic_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                               <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                               <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                               <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                               <span class="n">return_z_expression_as_extra</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard 2D convex hyperbolic height with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The 2D x coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">        return_z_expression_as_extra: `bool`</span>
+<span class="sd">            If True, return the z_expression as well</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D height map</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">abs_p</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">abs</span><span class="p">(</span><span class="n">abs_q</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">abs_p</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_q</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_p</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">abs_q</span>
+
+    <span class="k">return</span> <span class="n">standard_quadric_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">return_z_expression_as_extra</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="standard_concave_hyperbolic_cylinder_height">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_concave_hyperbolic_cylinder_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_hyperbolic_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                                <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                                <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                                <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                                <span class="n">return_z_expression_as_extra</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard 2D concave hyperbolic height with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The 2D x coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">        return_z_expression_as_extra: `bool`</span>
+<span class="sd">            If True, return the z_expression as well</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D height map</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">abs_p</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">abs</span><span class="p">(</span><span class="n">abs_q</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_p</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">abs_q</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">abs_p</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_q</span>
+
+    <span class="k">return</span> <span class="n">standard_quadric_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">return_z_expression_as_extra</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="standard_quadric_cylinder_xslope">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_quadric_cylinder_xslope">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_quadric_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                              <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                              <span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                              <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard quadric cylinder slope with (``p``, ``q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The x coordinates</span>
+<span class="sd">        p: `float`</span>
+<span class="sd">            The ``p`` value: the distance from the source to the chief ray intersection</span>
+<span class="sd">        q: `float`</span>
+<span class="sd">            The ``q`` value: the distance from the chief ray intersection to the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        sx: `numpy.ndarray`</span>
+<span class="sd">            The x-slope</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span> <span class="c1"># Elliptic cylinder</span>
+        <span class="n">sx</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">/</span><span class="p">((</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">p</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">):</span> <span class="c1"># Hyperbolic cylinder</span>
+        <span class="n">sx</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">/</span><span class="p">((</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">p</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">sx</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">sx</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="k">return</span> <span class="n">sx</span></div>
+
+
+<div class="viewcode-block" id="standard_convex_elliptic_cylinder_xslope">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_convex_elliptic_cylinder_xslope">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_convex_elliptic_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                             <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                             <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                             <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard convex elliptic cylinder x-slope with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The x coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        sx: `numpy.ndarray`</span>
+<span class="sd">            The x-slope</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_p</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_q</span>
+
+    <span class="n">sx_expression_quadrics</span> <span class="o">=</span> <span class="n">standard_quadric_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sx_expression_quadrics</span></div>
+
+
+<div class="viewcode-block" id="standard_concave_elliptic_cylinder_xslope">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_concave_elliptic_cylinder_xslope">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_elliptic_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                              <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                              <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                              <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard concave elliptic cylinder x-slope with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The x coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        sx: `numpy.ndarray`</span>
+<span class="sd">            The x-slope</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">abs_p</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">abs_q</span>
+    
+    <span class="n">sx_expression_quadrics</span> <span class="o">=</span> <span class="n">standard_quadric_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sx_expression_quadrics</span></div>
+
+
+<div class="viewcode-block" id="standard_convex_hyperbolic_cylinder_xslope">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_convex_hyperbolic_cylinder_xslope">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_convex_hyperbolic_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                              <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                              <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                              <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard convex hyperbolic cylinder x-slope with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The x coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        sx: `numpy.ndarray`</span>
+<span class="sd">            The x-slope</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">abs_p</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">abs</span><span class="p">(</span><span class="n">abs_q</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">abs_p</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_q</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_p</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">abs_q</span>
+
+    <span class="n">sx_expression_quadrics</span> <span class="o">=</span> <span class="n">standard_quadric_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sx_expression_quadrics</span></div>
+
+
+<div class="viewcode-block" id="standard_concave_hyperbolic_cylinder_xslope">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_concave_hyperbolic_cylinder_xslope">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_hyperbolic_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                              <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                              <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                              <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard concave hyperbolic cylinder x-slope with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The x coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        sx: `numpy.ndarray`</span>
+<span class="sd">            The x-slope</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">abs_p</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">abs</span><span class="p">(</span><span class="n">abs_q</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_p</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">abs_q</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">abs_p</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="o">-</span> <span class="n">abs_q</span>
+
+    <span class="n">sx_expression_quadrics</span> <span class="o">=</span> <span class="n">standard_quadric_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sx_expression_quadrics</span></div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lei Huang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

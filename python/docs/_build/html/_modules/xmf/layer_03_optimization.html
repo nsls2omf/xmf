@@ -1,0 +1,713 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xmf.layer_03_optimization &mdash; xmf_dev 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            xmf_dev
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/modules.html">xmf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../xmf_matlab.html">xmf MATLAB functions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">xmf_dev</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">xmf.layer_03_optimization</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for xmf.layer_03_optimization</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (c) 2025 Racheal Xu, Lei Huang</span>
+<span class="c1">#</span>
+<span class="c1"># Lei Huang</span>
+<span class="c1"># huanglei0114gmail.com</span>
+<span class="c1">#</span>
+<span class="c1"># All rights reserved</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1"># furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in all</span>
+<span class="c1"># copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span>
+<span class="c1"># SOFTWARE.</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">types</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">least_squares</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">xmf.layer_02_generation</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">generate_1d_height</span><span class="p">,</span>
+    <span class="n">generate_1d_slope</span><span class="p">,</span>
+    <span class="n">generate_2d_curved_surface_height</span><span class="p">,</span>
+    <span class="n">generate_2d_cylinder_height</span><span class="p">,</span>
+<span class="p">)</span>
+
+<div class="viewcode-block" id="check_input_params">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_03_optimization.check_input_params">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_input_params</span><span class="p">(</span><span class="n">input_params_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to check input parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        input_params_dict: `dict`</span>
+<span class="sd">            The ``p``, ``q``, ``theta``, ``x_i`` (optional), ``y_i`` (optional), </span>
+<span class="sd">            ``z_i`` (optional), ``alpha`` (optional), ``beta`` (optional) and </span>
+<span class="sd">            ``gamma`` (optional) target parameters, suggested in unit of</span>
+<span class="sd">            [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]</span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The measured x-coordinate in in unit of [m] as a suggestion</span>
+<span class="sd">        y: `numpy.ndarray`</span>
+<span class="sd">            The measured y-coordinate in in unit of [m] as a suggestion</span>
+<span class="sd">        v: `numpy.ndarray`</span>
+<span class="sd">            The measured slope or height in [rad] or [m] as a suggestion</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        init_params: `numpy.ndarray`</span>
+<span class="sd">            The used initial parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="s1">&#39;p&#39;</span> <span class="ow">in</span> <span class="n">input_params_dict</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">input_params_dict</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span> <span class="c1"># [m]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;p value must be in param_inputs.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;q&#39;</span> <span class="ow">in</span> <span class="n">input_params_dict</span><span class="p">:</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">input_params_dict</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">]</span> <span class="c1"># [m]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;q value must be in param_inputs.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;theta&#39;</span> <span class="ow">in</span> <span class="n">input_params_dict</span><span class="p">:</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">input_params_dict</span><span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">]</span> <span class="c1"># [m]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;theta value must be in param_inputs.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;x_i&#39;</span> <span class="ow">in</span> <span class="n">input_params_dict</span><span class="p">:</span>
+        <span class="n">x_i</span> <span class="o">=</span> <span class="n">input_params_dict</span><span class="p">[</span><span class="s1">&#39;x_i&#39;</span><span class="p">]</span> <span class="c1"># [m]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)])</span> <span class="c1"># [m]</span>
+
+    <span class="k">if</span> <span class="s1">&#39;y_i&#39;</span> <span class="ow">in</span> <span class="n">input_params_dict</span><span class="p">:</span>
+        <span class="n">y_i</span> <span class="o">=</span> <span class="n">input_params_dict</span><span class="p">[</span><span class="s1">&#39;y_i&#39;</span><span class="p">]</span> <span class="c1"># [m]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">y_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)])</span> <span class="c1"># [m]</span>
+
+    <span class="k">if</span> <span class="s1">&#39;z_i&#39;</span> <span class="ow">in</span> <span class="n">input_params_dict</span><span class="p">:</span>
+        <span class="n">z_i</span> <span class="o">=</span> <span class="n">input_params_dict</span><span class="p">[</span><span class="s1">&#39;z_i&#39;</span><span class="p">]</span> <span class="c1"># [m]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">z_i</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="s1">&#39;alpha&#39;</span> <span class="ow">in</span> <span class="n">input_params_dict</span><span class="p">:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">input_params_dict</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="c1"># [rad]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># [rad]</span>
+
+    <span class="k">if</span> <span class="s1">&#39;beta&#39;</span> <span class="ow">in</span> <span class="n">input_params_dict</span><span class="p">:</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="n">input_params_dict</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span> <span class="c1"># [rad]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># [rad]</span>
+
+    <span class="k">if</span> <span class="s1">&#39;gamma&#39;</span> <span class="ow">in</span> <span class="n">input_params_dict</span><span class="p">:</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="n">input_params_dict</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">]</span> <span class="c1"># [rad]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># [rad]</span>
+
+    <span class="c1"># Initial values</span>
+    <span class="n">init_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">,</span> <span class="n">z_i</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">init_params</span></div>
+
+
+<div class="viewcode-block" id="optimize_parameters">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_03_optimization.optimize_parameters">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">optimize_parameters</span><span class="p">(</span><span class="n">surface_generation_function</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">,</span>  
+                        <span class="n">standard_surface_shape_function</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">,</span> 
+                        <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+                        <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+                        <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+                        <span class="n">input_params_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> 
+                        <span class="n">opt_or_tol_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                        <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Basic function to provide a convenient way to optimize the surface parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        surface_generation_function: `function`</span>
+<span class="sd">            The function to generate surface (1D or 2D, slope or height)</span>
+<span class="sd">        standard_surface_shape_function: `function` </span>
+<span class="sd">            The function handle for a standard surface shape </span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The measured x-coordinate in in unit of [m] as a suggestion</span>
+<span class="sd">        y: `numpy.ndarray`</span>
+<span class="sd">            The measured y-coordinate in in unit of [m] as a suggestion</span>
+<span class="sd">        v: `numpy.ndarray`</span>
+<span class="sd">            The measured slope or height in [rad] or [m] as a suggestion</span>
+<span class="sd">        input_params_dict: `dict`</span>
+<span class="sd">            The ``p``, ``q``, ``theta``, ``x_i`` (optional), ``y_i`` (optional), </span>
+<span class="sd">            ``z_i`` (optional), ``alpha`` (optional), ``beta`` (optional) and </span>
+<span class="sd">            ``gamma`` (optional) target parameters, suggested in unit of </span>
+<span class="sd">            [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]</span>
+<span class="sd">        opt_or_tol_dict: `dict`</span>
+<span class="sd">            The structure to set whether optimization flag or tolerance for </span>
+<span class="sd">            ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        v_res: `numpy.ndarray`</span>
+<span class="sd">            The residual (1D or 2D)</span>
+<span class="sd">        v_fit: `numpy.ndarray`</span>
+<span class="sd">            The fitting result (1D or 2D)</span>
+<span class="sd">        opt_params_dict: `dict`</span>
+<span class="sd">            The optimized parameters in dictionary</span>
+<span class="sd">        opt_params_ci_dict: `dict`</span>
+<span class="sd">            The confidence intervals of the optimized parameters in dictionary</span>
+<span class="sd">        init_params: `numpy.ndarray`</span>
+<span class="sd">            The used initial parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opt_or_tol_dict</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">],</span> <span class="nb">bool</span><span class="p">):</span> <span class="c1"># Use opt_dict</span>
+
+        <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params</span> <span class="o">=</span> <span class="n">optimize_parameters_with_opt</span><span class="p">(</span>
+            <span class="n">surface_generation_function</span><span class="p">,</span>
+            <span class="n">standard_surface_shape_function</span><span class="p">,</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span>
+            <span class="n">input_params_dict</span><span class="p">,</span>
+            <span class="n">opt_or_tol_dict</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># Use tol_dict</span>
+
+        <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params</span> <span class="o">=</span> <span class="n">optimize_parameters_with_tol</span><span class="p">(</span>
+            <span class="n">surface_generation_function</span><span class="p">,</span>
+            <span class="n">standard_surface_shape_function</span><span class="p">,</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span>
+            <span class="n">input_params_dict</span><span class="p">,</span>
+            <span class="n">opt_or_tol_dict</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params</span></div>
+
+
+<div class="viewcode-block" id="optimize_parameters_with_opt">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_03_optimization.optimize_parameters_with_opt">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">optimize_parameters_with_opt</span><span class="p">(</span><span class="n">surface_generation_function</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">,</span> 
+                                 <span class="n">standard_surface_shape_function</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">,</span> 
+                                 <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+                                 <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+                                 <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+                                 <span class="n">input_params_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> 
+                                 <span class="n">opt_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                                 <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Basic function to provide a convenient way to optimize the surface parameters with optimization flag.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        surface_generation_function: `function`</span>
+<span class="sd">            The function to generate surface (1D or 2D, slope or height)</span>
+<span class="sd">        standard_surface_shape_function: `function` </span>
+<span class="sd">            The function handle for a standard surface shape </span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The measured x-coordinate in in unit of [m] as a suggestion</span>
+<span class="sd">        y: `numpy.ndarray`</span>
+<span class="sd">            The measured y-coordinate in in unit of [m] as a suggestion</span>
+<span class="sd">        v: `numpy.ndarray`</span>
+<span class="sd">            The measured slope or height in [rad] or [m] as a suggestion</span>
+<span class="sd">        input_params_dict: `dict`</span>
+<span class="sd">            The ``p``, ``q``, ``theta``, ``x_i`` (optional), ``y_i`` (optional), </span>
+<span class="sd">            ``z_i`` (optional), ``alpha`` (optional), ``beta`` (optional) and </span>
+<span class="sd">            ``gamma`` (optional) target parameters, suggested in unit of </span>
+<span class="sd">            [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]</span>
+<span class="sd">        opt_dict: `dict`</span>
+<span class="sd">            The structure to set whether optimization is needed for </span>
+<span class="sd">            ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        v_res:`numpy.ndarray`</span>
+<span class="sd">            The residual (1D or 2D)</span>
+<span class="sd">        v_fit: `numpy.ndarray`</span>
+<span class="sd">            The fitting result (1D or 2D)</span>
+<span class="sd">        opt_params_dict: `dict`</span>
+<span class="sd">            The optimized parameters in dictionary</span>
+<span class="sd">        opt_params_ci_dict: `dict`</span>
+<span class="sd">            The confidence intervals of the optimized parameters in dictionary</span>
+<span class="sd">        init_params: `numpy.ndarray`</span>
+<span class="sd">            The used initial parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span> 
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_opt_dict</span><span class="p">(</span><span class="n">opt_dict</span><span class="p">,</span> <span class="n">surface_generation_function</span><span class="p">):</span> 
+        
+        <span class="n">opt_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_2d_curved_surface_height</span><span class="p">:</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># x_i, y_i, z_i, alpha, beta, gamma</span>
+        <span class="k">elif</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_2d_cylinder_height</span><span class="p">:</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># x_i</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># z_i</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># alpha, beta, gamma</span>
+        <span class="k">elif</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_1d_height</span><span class="p">:</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># x_i</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># z_i</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># beta</span>
+        <span class="k">elif</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_1d_slope</span><span class="p">:</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># x_i</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># beta</span>
+
+        <span class="c1"># Update the user defined optimization flags</span>
+        <span class="k">if</span> <span class="s1">&#39;p&#39;</span> <span class="ow">in</span> <span class="n">opt_dict</span><span class="p">:</span> <span class="n">opt_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt_dict</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;q&#39;</span> <span class="ow">in</span> <span class="n">opt_dict</span><span class="p">:</span> <span class="n">opt_vector</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt_dict</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;theta&#39;</span> <span class="ow">in</span> <span class="n">opt_dict</span><span class="p">:</span> <span class="n">opt_vector</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt_dict</span><span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;x_i&#39;</span> <span class="ow">in</span> <span class="n">opt_dict</span><span class="p">:</span> <span class="n">opt_vector</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt_dict</span><span class="p">[</span><span class="s1">&#39;x_i&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;y_i&#39;</span> <span class="ow">in</span> <span class="n">opt_dict</span><span class="p">:</span> <span class="n">opt_vector</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt_dict</span><span class="p">[</span><span class="s1">&#39;y_i&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;z_i&#39;</span> <span class="ow">in</span> <span class="n">opt_dict</span><span class="p">:</span> <span class="n">opt_vector</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt_dict</span><span class="p">[</span><span class="s1">&#39;z_i&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;alpha&#39;</span> <span class="ow">in</span> <span class="n">opt_dict</span><span class="p">:</span> <span class="n">opt_vector</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt_dict</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;beta&#39;</span> <span class="ow">in</span> <span class="n">opt_dict</span><span class="p">:</span> <span class="n">opt_vector</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt_dict</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;gamma&#39;</span> <span class="ow">in</span> <span class="n">opt_dict</span><span class="p">:</span> <span class="n">opt_vector</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt_dict</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">opt_vector</span>
+
+    <span class="c1"># Initial values</span>
+    <span class="n">init_params</span> <span class="o">=</span> <span class="n">check_input_params</span><span class="p">(</span><span class="n">input_params_dict</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="c1"># Optimization flags</span>
+    <span class="n">opt_vector</span> <span class="o">=</span> <span class="n">check_opt_dict</span><span class="p">(</span><span class="n">opt_dict</span><span class="p">,</span> <span class="n">surface_generation_function</span><span class="p">)</span>
+
+    <span class="c1"># Use NaN to identify the parameters which are required to optimize</span>
+    <span class="n">param_fix</span> <span class="o">=</span> <span class="n">init_params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">param_fix</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">]</span> <span class="c1"># Only optimize parameters required to optimize</span>
+
+    <span class="c1"># Common cost function for optimization...........................................</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">common_cost_function_for_optimization</span><span class="p">(</span><span class="n">surface_generation_function</span><span class="p">,</span> <span class="n">standard_surface_shape_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">param_fix</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+        <span class="c1">#</span>
+        <span class="c1"># param_fix is the list of fixed parameters, and param is the list of</span>
+        <span class="c1"># parametres to optimize. It is important to have them always in the same</span>
+        <span class="c1"># order as p, q, theta, x_i, y_i, z_i, alpha, beta, gamma.</span>
+        <span class="c1"># The optimized parameters are those set as NaN.</span>
+
+        <span class="c1"># returns v1d_valid_res, v_fit, v_res</span>
+
+        <span class="c1"># Update parameters which need optimization................................</span>
+        <span class="n">param_update</span> <span class="o">=</span> <span class="n">param_fix</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">param_update</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">param_fix</span><span class="p">)]</span> <span class="o">=</span> <span class="n">param</span>
+
+        <span class="c1"># Release the input parameters.............................................</span>
+        <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">,</span> <span class="n">z_i</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">param_update</span>
+
+        <span class="c1"># Generate surface height with (p, q, theta),</span>
+        <span class="c1"># considering tranformation with x_i, y_i, z_i, alpha, beta, gamma.........</span>
+        <span class="k">if</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_2d_curved_surface_height</span><span class="p">:</span>
+            <span class="n">v_fit</span> <span class="o">=</span> <span class="n">surface_generation_function</span><span class="p">(</span><span class="n">standard_surface_shape_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">,</span> <span class="n">z_i</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_2d_cylinder_height</span><span class="p">:</span>
+            <span class="n">v_fit</span> <span class="o">=</span> <span class="n">surface_generation_function</span><span class="p">(</span><span class="n">standard_surface_shape_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">z_i</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_1d_height</span><span class="p">:</span>
+            <span class="n">v_fit</span> <span class="o">=</span> <span class="n">surface_generation_function</span><span class="p">(</span><span class="n">standard_surface_shape_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">z_i</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_1d_slope</span><span class="p">:</span>
+            <span class="n">v_fit</span> <span class="o">=</span> <span class="n">surface_generation_function</span><span class="p">(</span><span class="n">standard_surface_shape_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+
+        <span class="c1"># Calculte the valid residual height as the output of the cost function....</span>
+        <span class="n">v_res</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="n">v_fit</span>
+        <span class="n">v1d_valid_res</span> <span class="o">=</span> <span class="n">v_res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v_res</span><span class="p">)]</span>
+
+        <span class="k">return</span> <span class="n">v1d_valid_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">v_res</span>
+        
+    <span class="k">def</span><span class="w"> </span><span class="nf">cost_func_of_least_squares</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">param_fix</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cost function to use scipy.optimize.least_squares module</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            params_dict: `dict`</span>
+<span class="sd">                The parmeters in dict</span>
+<span class="sd">            measurement_data: `numpy.ndarray`</span>
+<span class="sd">                The measurement data.</span>
+<span class="sd">            param_fix: `numpy.ndarray`</span>
+<span class="sd">                The fixed parameters</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            valid_res: `numpy.ndarray`</span>
+<span class="sd">                The valid residuals</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Calculate the valid residuals</span>
+        <span class="n">valid_res</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">common_cost_function_for_optimization</span><span class="p">(</span><span class="n">surface_generation_function</span><span class="p">,</span> <span class="n">standard_surface_shape_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">param_fix</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">valid_res</span>
+
+    <span class="c1"># Only optimize the parameters which are required</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">init_params</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">])</span> <span class="o">*</span> <span class="mf">1e-6</span> <span class="c1"># Add a small value to the initial parameters</span>
+
+    <span class="c1"># Optimize with the least squares method</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">least_squares</span><span class="p">(</span><span class="n">cost_func_of_least_squares</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">param_fix</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;trf&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Re-calculate the fitting and residual</span>
+    <span class="n">param_opt</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">v_res</span> <span class="o">=</span> <span class="n">common_cost_function_for_optimization</span><span class="p">(</span><span class="n">surface_generation_function</span><span class="p">,</span> 
+                                                            <span class="n">standard_surface_shape_function</span><span class="p">,</span> 
+                                                            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">param_fix</span><span class="p">,</span> <span class="n">param_opt</span><span class="p">)</span>
+    
+    <span class="c1"># Release the result in a structure for better understanding</span>
+    <span class="n">param_result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">param_fix</span><span class="p">)</span>
+    <span class="n">param_result</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span> <span class="c1"># Optimization result</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_ci_95</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+        
+        <span class="c1"># Step 1: Extract information</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">jac</span>                      <span class="c1"># Jacobian matrix (m x n)</span>
+        <span class="n">residuals</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">fun</span>             <span class="c1"># residual vector (m,)</span>
+        <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>           <span class="c1"># number of parameters</span>
+        <span class="n">dof</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">residuals</span><span class="p">)</span> <span class="o">-</span> <span class="n">n_params</span><span class="p">)</span>  <span class="c1"># degrees of freedom</span>
+
+        <span class="c1"># Step 2: Estimate residual variance</span>
+        <span class="n">s_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">residuals</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">dof</span>
+
+        <span class="c1"># Step 3: Estimate parameter covariance matrix</span>
+        <span class="n">pcov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">J</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">J</span><span class="p">)</span> <span class="o">*</span> <span class="n">s_sq</span>
+
+        <span class="c1"># Step 4: Standard deviation (1σ) of each parameter</span>
+        <span class="n">perr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">pcov</span><span class="p">))</span>
+
+        <span class="c1"># Step 5: Compute 95.45% confidence intervals (±2σ)</span>
+        <span class="n">ci_lower</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">perr</span>
+        <span class="n">ci_upper</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">perr</span>
+        <span class="n">ci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">ci_lower</span><span class="p">,</span> <span class="n">ci_upper</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># Shape (n_params, 2)</span>
+        <span class="k">return</span> <span class="n">ci</span>
+    
+    <span class="c1"># Get 95% confidence intervals</span>
+    <span class="n">param_ci_result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">param_fix</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">param_ci_result</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_ci_95</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+
+    <span class="n">str_param_name_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;x_i&#39;</span><span class="p">,</span> <span class="s1">&#39;y_i&#39;</span><span class="p">,</span> <span class="s1">&#39;z_i&#39;</span><span class="p">,</span> 
+                            <span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
+    <span class="n">opt_params_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">opt_params_ci_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Release the optimized values</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">str_param_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">str_param_name_list</span><span class="p">):</span>
+        <span class="n">opt_params_dict</span><span class="p">[</span><span class="n">str_param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_result</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">opt_vector</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">else</span> <span class="n">param_fix</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">opt_params_ci_dict</span><span class="p">[</span><span class="n">str_param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_ci_result</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">opt_vector</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params</span></div>
+
+
+<div class="viewcode-block" id="optimize_parameters_with_tol">
+<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_03_optimization.optimize_parameters_with_tol">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">optimize_parameters_with_tol</span><span class="p">(</span><span class="n">surface_generation_function</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">,</span> 
+                                 <span class="n">standard_surface_shape_function</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">,</span> 
+                                 <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+                                 <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+                                 <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+                                 <span class="n">input_params_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> 
+                                 <span class="n">tol_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                                 <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Basic function to provide a convenient way to optimize the surface parameters with tolerances.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        surface_generation_function: `function`</span>
+<span class="sd">            The function to generate surface (1D or 2D, slope or height)</span>
+<span class="sd">        standard_surface_shape_function: `function` </span>
+<span class="sd">            The function handle for a standard surface shape </span>
+<span class="sd">        x: `numpy.ndarray`</span>
+<span class="sd">            The measured x-coordinate in in unit of [m] as a suggestion</span>
+<span class="sd">        y: `numpy.ndarray`</span>
+<span class="sd">            The measured y-coordinate in in unit of [m] as a suggestion</span>
+<span class="sd">        v: `numpy.ndarray`</span>
+<span class="sd">            The measured slope or height in [rad] or [m] as a suggestion</span>
+<span class="sd">        input_params_dict: `dict`</span>
+<span class="sd">            The ``p``, ``q``, ``theta``, ``x_i`` (optional), ``y_i`` (optional), </span>
+<span class="sd">            ``z_i`` (optional), ``alpha`` (optional), ``beta`` (optional) and </span>
+<span class="sd">            ``gamma`` (optional) target parameters, suggested in unit of </span>
+<span class="sd">            [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]</span>
+<span class="sd">        tol_dict: `dict`</span>
+<span class="sd">            The structure to set the tolerances for </span>
+<span class="sd">            ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        v_res:`numpy.ndarray`</span>
+<span class="sd">            The residual (1D or 2D)</span>
+<span class="sd">        v_fit: `numpy.ndarray`</span>
+<span class="sd">            The fitting result (1D or 2D)</span>
+<span class="sd">        opt_params_dict: `dict`</span>
+<span class="sd">            The optimized parameters in dictionary</span>
+<span class="sd">        opt_params_ci_dict: `dict`</span>
+<span class="sd">            The confidence intervals of the optimized parameters in dictionary</span>
+<span class="sd">        init_params: `numpy.ndarray`</span>
+<span class="sd">            The used initial parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_tol_dict</span><span class="p">(</span><span class="n">tol_dict</span><span class="p">,</span> <span class="n">surface_generation_function</span><span class="p">):</span> 
+        
+        <span class="n">opt_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_2d_curved_surface_height</span><span class="p">:</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># x_i, y_i, z_i, alpha, beta, gamma</span>
+        <span class="k">elif</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_2d_cylinder_height</span><span class="p">:</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># x_i</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># z_i</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># alpha, beta, gamma</span>
+        <span class="k">elif</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_1d_height</span><span class="p">:</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># x_i</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># z_i</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># beta</span>
+        <span class="k">elif</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_1d_slope</span><span class="p">:</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># x_i</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># beta</span>
+
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">,</span> <span class="s1">&#39;x_i&#39;</span><span class="p">,</span> <span class="s1">&#39;y_i&#39;</span><span class="p">,</span> <span class="s1">&#39;z_i&#39;</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
+        <span class="n">tol_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">unify_tol_struct_format</span><span class="p">(</span><span class="n">tol_dict</span><span class="p">,</span> <span class="n">str_key</span><span class="p">,</span> <span class="n">is_opt</span><span class="p">):</span>
+            <span class="n">unified_tol_dict</span> <span class="o">=</span> <span class="n">tol_dict</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="c1"># If the field exists</span>
+            <span class="k">if</span> <span class="n">str_key</span> <span class="ow">in</span> <span class="n">unified_tol_dict</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">unified_tol_dict</span><span class="p">[</span><span class="n">str_key</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+                    <span class="n">unified_tol_dict</span><span class="p">[</span><span class="n">str_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">val</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span>
+                    <span class="n">unified_tol_dict</span><span class="p">[</span><span class="n">str_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">is_opt</span><span class="p">:</span>
+                    <span class="n">unified_tol_dict</span><span class="p">[</span><span class="n">str_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">unified_tol_dict</span><span class="p">[</span><span class="n">str_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">unified_tol_dict</span>
+        <span class="c1"># Check the tolerance structure and unify the format</span>
+        <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+            <span class="c1"># Unify the tolerance structure format as two boundaries</span>
+            <span class="n">unified_tol_dict</span> <span class="o">=</span> <span class="n">unify_tol_struct_format</span><span class="p">(</span><span class="n">tol_dict</span><span class="p">,</span> <span class="n">keys</span><span class="p">[</span><span class="n">num</span><span class="p">],</span> <span class="n">opt_vector</span><span class="p">[</span><span class="n">num</span><span class="p">])</span>
+            <span class="c1"># Update the user defined optimization flags</span>
+            <span class="n">opt_vector</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">unified_tol_dict</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="n">num</span><span class="p">]])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="c1"># Update the tolerance vector</span>
+            <span class="n">tol_vector</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">unified_tol_dict</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="n">num</span><span class="p">]]</span>
+
+        <span class="k">return</span> <span class="n">opt_vector</span><span class="p">,</span> <span class="n">tol_vector</span>
+
+    <span class="c1"># Initial values</span>
+    <span class="n">init_params</span> <span class="o">=</span> <span class="n">check_input_params</span><span class="p">(</span><span class="n">input_params_dict</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="c1"># Optimization flags</span>
+    <span class="n">opt_vector</span><span class="p">,</span> <span class="n">tol_vector</span> <span class="o">=</span> <span class="n">check_tol_dict</span><span class="p">(</span><span class="n">tol_dict</span><span class="p">,</span> <span class="n">surface_generation_function</span><span class="p">)</span>
+
+    <span class="c1"># Use NaN to identify the parameters which are required to optimize</span>
+    <span class="n">param_fix</span> <span class="o">=</span> <span class="n">init_params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">param_fix</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">]</span> <span class="c1"># Only optimize parameters required to optimize</span>
+
+    <span class="c1"># Common cost function for optimization...........................................</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">common_cost_function_for_optimization</span><span class="p">(</span><span class="n">surface_generation_function</span><span class="p">,</span> <span class="n">standard_surface_shape_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">param_fix</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+        <span class="c1">#</span>
+        <span class="c1"># param_fix is the list of fixed parameters, and param is the list of</span>
+        <span class="c1"># parametres to optimize. It is important to have them always in the same</span>
+        <span class="c1"># order as p, q, theta, x_i, y_i, z_i, alpha, beta, gamma.</span>
+        <span class="c1"># The optimized parameters are those set as NaN.</span>
+
+        <span class="c1"># returns v1d_valid_res, v_fit, v_res</span>
+
+        <span class="c1"># Update parameters which need optimization................................</span>
+        <span class="n">param_update</span> <span class="o">=</span> <span class="n">param_fix</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">param_update</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">param_fix</span><span class="p">)]</span> <span class="o">=</span> <span class="n">param</span>
+
+        <span class="c1"># Release the input parameters.............................................</span>
+        <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">,</span> <span class="n">z_i</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">param_update</span>
+
+        <span class="c1"># Generate surface height with (p, q, theta),</span>
+        <span class="c1"># considering tranformation with x_i, y_i, z_i, alpha, beta, gamma.........</span>
+        <span class="k">if</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_2d_curved_surface_height</span><span class="p">:</span>
+            <span class="n">v_fit</span> <span class="o">=</span> <span class="n">surface_generation_function</span><span class="p">(</span><span class="n">standard_surface_shape_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">,</span> <span class="n">z_i</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_2d_cylinder_height</span><span class="p">:</span>
+            <span class="n">v_fit</span> <span class="o">=</span> <span class="n">surface_generation_function</span><span class="p">(</span><span class="n">standard_surface_shape_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">z_i</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_1d_height</span><span class="p">:</span>
+            <span class="n">v_fit</span> <span class="o">=</span> <span class="n">surface_generation_function</span><span class="p">(</span><span class="n">standard_surface_shape_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">z_i</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">surface_generation_function</span> <span class="o">==</span> <span class="n">generate_1d_slope</span><span class="p">:</span>
+            <span class="n">v_fit</span> <span class="o">=</span> <span class="n">surface_generation_function</span><span class="p">(</span><span class="n">standard_surface_shape_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+
+        <span class="c1"># Calculte the valid residual height as the output of the cost function....</span>
+        <span class="n">v_res</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="n">v_fit</span>
+        <span class="n">v1d_valid_res</span> <span class="o">=</span> <span class="n">v_res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v_res</span><span class="p">)]</span>
+
+        <span class="k">return</span> <span class="n">v1d_valid_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">v_res</span>
+        
+    <span class="k">def</span><span class="w"> </span><span class="nf">cost_func_of_least_squares</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">param_fix</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cost function to use scipy.optimize.least_squares module</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            params_dict: `dict`</span>
+<span class="sd">                The parmeters in dict</span>
+<span class="sd">            measurement_data: `numpy.ndarray`</span>
+<span class="sd">                The measurement data.</span>
+<span class="sd">            param_fix: `numpy.ndarray`</span>
+<span class="sd">                The fixed parameters</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            valid_res: `numpy.ndarray`</span>
+<span class="sd">                The valid residuals</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Calculate the valid residuals</span>
+        <span class="n">valid_res</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">common_cost_function_for_optimization</span><span class="p">(</span><span class="n">surface_generation_function</span><span class="p">,</span> <span class="n">standard_surface_shape_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">param_fix</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">valid_res</span>
+
+    <span class="c1"># Only optimize the parameters which are required</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">init_params</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">])</span> <span class="o">*</span> <span class="mf">1e-6</span> <span class="c1"># Add a small value to the initial parameters</span>
+
+    <span class="c1"># Determine the lower and upper boundaries</span>
+    <span class="n">lb</span> <span class="o">=</span> <span class="n">param</span> <span class="o">+</span> <span class="n">tol_vector</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">ub</span> <span class="o">=</span> <span class="n">param</span> <span class="o">+</span> <span class="n">tol_vector</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Optimize with the least squares method</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">least_squares</span><span class="p">(</span><span class="n">cost_func_of_least_squares</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[</span><span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">],</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">param_fix</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;trf&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Re-calculate the fitting and residual</span>
+    <span class="n">param_opt</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">v_res</span> <span class="o">=</span> <span class="n">common_cost_function_for_optimization</span><span class="p">(</span><span class="n">surface_generation_function</span><span class="p">,</span> 
+                                                            <span class="n">standard_surface_shape_function</span><span class="p">,</span> 
+                                                            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">param_fix</span><span class="p">,</span> <span class="n">param_opt</span><span class="p">)</span>
+    
+    <span class="c1"># Release the result in a structure for better understanding</span>
+    <span class="n">param_result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">param_fix</span><span class="p">)</span>
+    <span class="n">param_result</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span> <span class="c1"># Optimization result</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_ci_95</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+        
+        <span class="c1"># Step 1: Extract information</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">jac</span>                     <span class="c1"># Jacobian matrix (m x n)</span>
+        <span class="n">residuals</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">fun</span>             <span class="c1"># residual vector (m,)</span>
+        <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>           <span class="c1"># number of parameters</span>
+        <span class="n">dof</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">residuals</span><span class="p">)</span> <span class="o">-</span> <span class="n">n_params</span><span class="p">)</span>  <span class="c1"># degrees of freedom</span>
+
+        <span class="c1"># Step 2: Estimate residual variance</span>
+        <span class="n">s_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">residuals</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">dof</span>
+
+        <span class="c1"># Step 3: Estimate parameter covariance matrix</span>
+        <span class="n">pcov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">J</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">J</span><span class="p">)</span> <span class="o">*</span> <span class="n">s_sq</span>
+
+        <span class="c1"># Step 4: Standard deviation (1σ) of each parameter</span>
+        <span class="n">perr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">pcov</span><span class="p">))</span>
+
+        <span class="c1"># Step 5: Compute 95.45% confidence intervals (±2σ)</span>
+        <span class="n">ci_lower</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">perr</span>
+        <span class="n">ci_upper</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">perr</span>
+        <span class="n">ci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">ci_lower</span><span class="p">,</span> <span class="n">ci_upper</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># Shape (n_params, 2)</span>
+        <span class="k">return</span> <span class="n">ci</span>
+    
+    <span class="c1"># Get 95% confidence intervals</span>
+    <span class="n">param_ci_result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">param_fix</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">param_ci_result</span><span class="p">[</span><span class="n">opt_vector</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_ci_95</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+
+    <span class="c1"># Release the optimized values</span>
+    <span class="n">str_param_name_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;x_i&#39;</span><span class="p">,</span> <span class="s1">&#39;y_i&#39;</span><span class="p">,</span> <span class="s1">&#39;z_i&#39;</span><span class="p">,</span> 
+                           <span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
+    <span class="n">opt_params_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">opt_params_ci_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">str_param_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">str_param_name_list</span><span class="p">):</span>
+        <span class="n">opt_params_dict</span><span class="p">[</span><span class="n">str_param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_result</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">opt_vector</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">else</span> <span class="n">param_fix</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">opt_params_ci_dict</span><span class="p">[</span><span class="n">str_param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_ci_result</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">opt_vector</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lei Huang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

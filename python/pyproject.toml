@@ -1,0 +1,26 @@
+[project]
+name = "xmf"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Lei HUANG",email = "huanglei0114@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy (>=2.3.0,<2.4.0)",
+    "matplotlib (>=3.10.3,<4.0.0)",
+    "scipy (>=1.16.0,<2.0.0)",
+    ]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+sphinx-rtd-theme = "^3.0.2"
+furo = "^2024.8.6"
+sphinx = "^7.4.7"
+sphinxcontrib-matlabdomain = "^0.22.1"
+

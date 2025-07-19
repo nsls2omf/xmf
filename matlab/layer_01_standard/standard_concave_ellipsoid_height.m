@@ -1,4 +1,17 @@
 function varargout = standard_concave_ellipsoid_height(x2d, y2d, abs_p, abs_q, theta)
+% standard_concave_ellipsoid_height(x2d, y2d, abs_p, abs_q, theta)
+%   Computes the height of a concave ellipsoid at given 2D coordinates.
+%
+%   Inputs:
+%       - x2d - 2D x-coordinates (vector or matrix)
+%       - y2d - 2D y-coordinates (vector or matrix)
+%       - abs_p - Absolute value of the distance between the source and the chief ray intersection on mirror
+%       - abs_q - Absolute value of the distance between the focus and the chief ray intersection on mirror
+%       - theta - Grazing incidence angle (in radians)
+%
+%   Outputs:
+%       - z2d_quad_sln_quadrics - Quadratic solution for the concave ellipsoid height
+%       - z2d_expression_quadrics - Expression for the concave ellipsoid height
 
 % Give the sign to p and q based on mirror type
 p = abs_p;

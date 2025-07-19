@@ -1,4 +1,12 @@
-function fig_show_2d_maps(x1d, y1d, z2d, z2d_quad_sln, str_title)
+function fig_compare_2d_map(x1d, y1d, z2d, z2d_quad_sln, str_title)
+% fig_compare_2d_map - Show the comparison of 2D maps
+%
+%  Input:   
+%           - x1d - 1D lateral coordinates [m]
+%           - y1d - 1D lateral coordinates [m]
+%           - z2d - 2D measured data [m]
+%           - z2d_quad_sln - 2D fitted data [m]
+%           - str_title - Title string for the figure
 
 x1d_mm = x1d*1e3;
 y1d_mm = y1d*1e3;

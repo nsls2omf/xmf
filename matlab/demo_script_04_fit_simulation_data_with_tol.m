@@ -1,4 +1,4 @@
-% Demo script to fit 2D maps
+% Demo script to fit simulation data with tolerance parameters
 
 close all;
 clear;
@@ -60,7 +60,7 @@ tol_struct.theta = 0;
 z2d = generate_2d_curved_surface_height(@standard_convex_ellipsoid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
 [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_convex_ellipsoid_height(x2d, y2d, z2d_measured, input_params_struct, tol_struct);
-fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Convex Ellipsoid');
+fig_show_2d_fitting_map(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Convex Ellipsoid');
 
 
 %% 2.2. Concave Ellipsoid (CCVE)
@@ -68,7 +68,7 @@ fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_s
 z2d = generate_2d_curved_surface_height(@standard_concave_ellipsoid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
 [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_ellipsoid_height(x2d, y2d, z2d_measured, input_params_struct, tol_struct);
-fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Ellipsoid');
+fig_show_2d_fitting_map(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Ellipsoid');
 
 
 %% 3.1. Convex Elliptic Cylinder (CVXEC)
@@ -76,7 +76,7 @@ fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_s
 z2d = generate_2d_cylinder_height(@standard_convex_elliptic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
 [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_convex_elliptic_cylinder_height(x2d, y2d, z2d_measured, input_params_struct, tol_struct);
-fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Convex Elliptic Cylinder');
+fig_show_2d_fitting_map(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Convex Elliptic Cylinder');
 
 z1d = generate_1d_height(@standard_convex_elliptic_cylinder_height, x1d, abs_p, abs_q, theta, x_i, z_i, beta);
 z1d_measured = z1d + randn(size(z1d))*height_measurement_noise_std;
@@ -86,7 +86,7 @@ fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, true_params_stru
 sx1d = generate_1d_slope(@standard_convex_elliptic_cylinder_xslope, x1d, abs_p, abs_q, theta, x_i, beta);
 sx1d_measured = sx1d + randn(size(sx1d))*slope_measurement_noise_std;
 [sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct] = fit_convex_ellipse_slope(x1d, sx1d_measured, input_params_struct, tol_struct);
-fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Convex Elliptic Cylinder');
+fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Convex Elliptic Cylinder');
 
 
 %% 3.2. Concave Elliptic Cylinder (CCVEC)
@@ -94,7 +94,7 @@ fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params_s
 z2d = generate_2d_cylinder_height(@standard_concave_elliptic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
 [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_elliptic_cylinder_height(x2d, y2d, z2d_measured, input_params_struct, tol_struct);
-fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Elliptic Cylinder');
+fig_show_2d_fitting_map(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Elliptic Cylinder');
 
 z1d = generate_1d_height(@standard_concave_elliptic_cylinder_height, x1d, abs_p, abs_q, theta, x_i, z_i, beta);
 z1d_measured = z1d + randn(size(z1d))*height_measurement_noise_std;
@@ -104,7 +104,7 @@ fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, true_params_stru
 sx1d = generate_1d_slope(@standard_concave_elliptic_cylinder_xslope, x1d, abs_p, abs_q, theta, x_i, beta);
 sx1d_measured = sx1d + randn(size(sx1d))*slope_measurement_noise_std;
 [sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_ellipse_slope(x1d, sx1d_measured, input_params_struct, tol_struct);
-fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Elliptic Cylinder');
+fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Elliptic Cylinder');
 
 
 %% 6.1. Convex Hyperboloid (CVXH)
@@ -112,7 +112,7 @@ fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params_s
 z2d = generate_2d_curved_surface_height(@standard_convex_hyperboloid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
 [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_convex_hyperboloid_height(x2d, y2d, z2d_measured, input_params_struct, tol_struct);
-fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Convex Hyperboloid');
+fig_show_2d_fitting_map(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Convex Hyperboloid');
 
 
 %% 6.2. Concave Hyperboloid (CCVH)
@@ -120,7 +120,7 @@ fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_s
 z2d = generate_2d_curved_surface_height(@standard_concave_hyperboloid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
 [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_hyperboloid_height(x2d, y2d, z2d_measured, input_params_struct, tol_struct);
-fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Hyperboloid');
+fig_show_2d_fitting_map(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Hyperboloid');
 
 
 %% 7.1. Convex Hyperbolic Cylinder (CVXHC)
@@ -128,7 +128,7 @@ fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_s
 z2d = generate_2d_cylinder_height(@standard_convex_hyperbolic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
 [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_convex_hyperbolic_cylinder_height(x2d, y2d, z2d_measured, input_params_struct, tol_struct);
-fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Convex Hyperbolic Cylinder');
+fig_show_2d_fitting_map(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Convex Hyperbolic Cylinder');
 
 z1d = generate_1d_height(@standard_convex_hyperbolic_cylinder_height, x1d, abs_p, abs_q, theta, x_i, z_i, beta);
 z1d_measured = z1d + randn(size(z1d))*height_measurement_noise_std;
@@ -138,7 +138,7 @@ fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, true_params_stru
 sx1d = generate_1d_slope(@standard_convex_hyperbolic_cylinder_xslope, x1d, abs_p, abs_q, theta, x_i, beta);
 sx1d_measured = sx1d + randn(size(sx1d))*slope_measurement_noise_std;
 [sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct] = fit_convex_hyperbola_slope(x1d, sx1d_measured, input_params_struct, tol_struct);
-fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Convex Hyperbolic Cylinder');
+fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Convex Hyperbolic Cylinder');
 
 
 %% 7.2. Concave Hyperbolic Cylinder (CCVHC)
@@ -146,7 +146,7 @@ fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params_s
 z2d = generate_2d_cylinder_height(@standard_concave_hyperbolic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma);
 z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
 [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_hyperbolic_cylinder_height(x2d, y2d, z2d_measured, input_params_struct, tol_struct);
-fig_show_2d_fitting_maps(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Hyperbolic Cylinder');
+fig_show_2d_fitting_map(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Hyperbolic Cylinder');
 
 z1d = generate_1d_height(@standard_concave_hyperbolic_cylinder_height, x1d, abs_p, abs_q, theta, x_i, z_i, beta);
 z1d_measured = z1d + randn(size(z1d))*height_measurement_noise_std;
@@ -156,5 +156,5 @@ fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, true_params_stru
 sx1d = generate_1d_slope(@standard_concave_hyperbolic_cylinder_xslope, x1d, abs_p, abs_q, theta, x_i, beta);
 sx1d_measured = sx1d + randn(size(sx1d))*slope_measurement_noise_std;
 [sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_hyperbola_slope(x1d, sx1d_measured, input_params_struct, tol_struct);
-fig_show_1d_fitting_slopes(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Hyperbolic Cylinder');
+fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Hyperbolic Cylinder');
 

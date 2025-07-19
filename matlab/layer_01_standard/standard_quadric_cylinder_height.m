@@ -1,4 +1,16 @@
 function [z2d_quad_sln, z2d_expression] = standard_quadric_cylinder_height(x2d, p, q, theta)
+% standard_quadric_cylinder_height(x2d, p, q, theta) - Computes the height of a quadric cylinder
+%   at a given x-coordinate, based on the parameters p and q and the grazing incidence angle (theta).
+%   
+%   Inputs:
+%       - x2d - 2D x-coordinates (vector or matrix)
+%       - p - Distance between the source and the chief ray intersection on mirror
+%       - q - Distance between the focus and the chief ray intersection on mirror
+%       - theta - Grazing incidence angle (in radians)
+%   
+%   Outputs:
+%       - z2d_quad_sln - Quadratic solution for the quadric cylinder height
+%       - z2d_expression - Expression for the quadric cylinder height
 
 % Quadratic solution.......................................................
 

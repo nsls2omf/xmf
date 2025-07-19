@@ -3,26 +3,21 @@ function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params] = 
 % parameters from measurement data.
 %
 %    Input:
-%        surface_generation_function_handle is function handle for surface
-%           generation
-%        standard_surface_shape_function_handle is function handle for a 
-%           standard surface shape 
-%        x is the measured x-coordinate, in unit of [m] as a suggestion
-%        y is the measured y-coordinate, in unit of [m] as a suggestion
-%        v is the measured slope or height in [rad] or [m] as a suggestion
-%        input_params_struct contains p, q, theta, x_i(optional), 
-%           y_i(optional), z_i(optional), alpha(optional), beta(optional)  
-%           and gamma(optional) target parameters, suggested in unit of 
-%           [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]
-%        opt_struct is a structure to set whether optimization is 
-%           needed for p, q, theta, x_i, y_i, z_i, alpha, beta, gamma.
+%
+%        - surface_generation_function_handle is function handle for surface generation
+%        - standard_surface_shape_function_handle is function handle for a standard surface shape
+%        - x is the measured x-coordinate, in unit of [m] as a suggestion
+%        - y is the measured y-coordinate, in unit of [m] as a suggestion
+%        - v is the measured slope or height in [rad] or [m] as a suggestion
+%        - input_params_struct contains p, q, theta, x_i(optional), y_i(optional), z_i(optional), alpha(optional), beta(optional) and gamma(optional) target parameters, suggested in unit of [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]
+%        - opt_struct is a structure to set whether optimization is needed for p, q, theta, x_i, y_i, z_i, alpha, beta, gamma.
 %
 %    Output:
-%        v_res is the residual in [m], if the input x and z are in [m]
-%        v_fit is fitting result in [m], if the input x and z are in [m]
-%        opt_params_struct is the optimized params in structure
-%        opt_params_ci_struct is the confidence intervals of the pamrams
-%        init_params contains the used initial parameters.
+%        - v_res is the residual in [m], if the input x and z are in [m]    
+%        - v_fit is fitting result in [m], if the input x and z are in [m]
+%        - opt_params_struct is the optimized params in structure
+%        - opt_params_ci_struct is the confidence intervals of the parameters
+%        - init_params contains the used initial parameters.
 
 %   Copyright since 2023 by Lei Huang. All Rights Reserved.
 %   E-mail: huanglei0114@gmail.com
@@ -34,10 +29,10 @@ function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params] = 
 % Set parameters...........................................................
 
 % Initial values
-init_params = check_input_params(input_params_struct, x, y, v);
+init_params = check_input_params(input_params_struct, x, y, v, standard_surface_shape_function_handle);
 
 % optimization flags
-opt_vector = check_opt_struct(opt_struct, surface_generation_function_handle);
+opt_vector = check_opt_struct(opt_struct, surface_generation_function_handle, standard_surface_shape_function_handle);
 
 % Use NaN to identify the parameters which are required to optimize
 fix_params = init_params;
@@ -52,13 +47,13 @@ opt_options = optimset( ...
     , 'TolFun', 1e-14 ...
     , 'TolX', 1e-16 ...
     , 'Algorithm', 'levenberg-marquardt' ... 'trust-region-reflective', 'levenberg-marquardt', 'interior-point'
-    ..., 'Algorithm', 'trust-region-reflective' ... 'trust-region-reflective', 'levenberg-marquardt', 'interior-point'
     , 'Display', 'none' ...
     );
 
 % Optimize parameters......................................................
 lb = [];
 ub = [];
+
 [opt_params, ~, residual, ~, ~, ~, jacobian] ...
     = lsqnonlin(@(params)cost_function_for_optimizaiton(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, fix_params, params), params ...
     , lb, ub, opt_options);
@@ -67,7 +62,18 @@ ub = [];
 params_result = fix_params;
 params_result(opt_vector) = opt_params;
 
-if isequal(standard_surface_shape_function_handle, @standard_point_to_line_concave_surface_height)
+if isequal(standard_surface_shape_function_handle, @standard_sphere_height) || isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_height) || isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_slope)
+    opt_params_struct.p = params_result(1);
+    opt_params_struct.q = params_result(1);
+    opt_params_struct.theta = params_result(2);
+    opt_params_struct.x_i = params_result(3);
+    opt_params_struct.y_i = params_result(4);
+    opt_params_struct.z_i = params_result(5);
+    opt_params_struct.alpha = params_result(6);
+    opt_params_struct.beta = params_result(7);
+    opt_params_struct.gamma = params_result(8);
+
+elseif isequal(standard_surface_shape_function_handle, @standard_point_to_line_concave_surface_height)
     opt_params_struct.p = params_result(1);
     opt_params_struct.q = params_result(2:3);
     opt_params_struct.theta = params_result(4);
@@ -77,6 +83,7 @@ if isequal(standard_surface_shape_function_handle, @standard_point_to_line_conca
     opt_params_struct.alpha = params_result(8);
     opt_params_struct.beta = params_result(9);
     opt_params_struct.gamma = params_result(10);
+
 else
     opt_params_struct.p = params_result(1);
     opt_params_struct.q = params_result(2);
@@ -97,7 +104,18 @@ confidence_interval = nlparci(opt_params, residual, 'Jacobian', jacobian);
 params_ci_result = nan(size(fix_params, 1), 2);
 params_ci_result(opt_vector, :) = confidence_interval;
 
-if isequal(standard_surface_shape_function_handle, @standard_point_to_line_concave_surface_height)
+if isequal(standard_surface_shape_function_handle, @standard_sphere_height) || isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_height) || isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_slope)
+    opt_params_ci_struct.p = params_ci_result(1);
+    opt_params_ci_struct.q = params_ci_result(1);
+    opt_params_ci_struct.theta = params_ci_result(2);
+    opt_params_ci_struct.x_i = params_ci_result(3);
+    opt_params_ci_struct.y_i = params_ci_result(4);
+    opt_params_ci_struct.z_i = params_ci_result(5);
+    opt_params_ci_struct.alpha = params_ci_result(6);
+    opt_params_ci_struct.beta = params_ci_result(7);
+    opt_params_ci_struct.gamma = params_ci_result(8);
+
+elseif isequal(standard_surface_shape_function_handle, @standard_point_to_line_concave_surface_height)
     opt_params_ci_struct.p = params_ci_result(1, :);
     opt_params_ci_struct.q = params_ci_result(2:3, :);
     opt_params_ci_struct.theta = params_ci_result(4, :);
@@ -132,7 +150,8 @@ end
 %% Subfunctions
 
 % Check input parameters...................................................
-function init_params = check_input_params(input_params_struct, x, y, v)
+function init_params = check_input_params(input_params_struct, x, y, v, standard_surface_shape_function_handle)
+
 
 if isfield(input_params_struct, 'p')
     p = input_params_struct.p; % [m]
@@ -140,10 +159,12 @@ else
     error('p value is mandatory.');
 end
 
-if isfield(input_params_struct, 'q')
-    q = input_params_struct.q; % [m]
-else
-    error('q value is mandatory.');
+if ~(isequal(standard_surface_shape_function_handle, @standard_sphere_height) || isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_height) || isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_slope))
+    if isfield(input_params_struct, 'q')
+        q = input_params_struct.q; % [m]
+    else
+        error('q value is mandatory.');
+    end
 end
 
 if isfield(input_params_struct, 'theta')
@@ -189,20 +210,59 @@ else
 end
 
 % Initial values
-init_params = [p(:); q(:); theta; x_i; y_i; z_i; alpha; beta; gamma];
+if isequal(standard_surface_shape_function_handle, @standard_sphere_height) || isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_height) || isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_slope)
+    init_params = [p(:); theta; x_i; y_i; z_i; alpha; beta; gamma];
+else
+    init_params = [p(:); q(:); theta; x_i; y_i; z_i; alpha; beta; gamma];
+end
 
 end
 
 
 
 % Check optimization flags.................................................
-function opt_vector = check_opt_struct(opt_struct, surface_generation_function_handle)
+function opt_vector = check_opt_struct(opt_struct, surface_generation_function_handle, standard_surface_shape_function_handle)
 
 field_names = {'p', 'q', 'theta', 'x_i', 'y_i', 'z_i', 'alpha', 'beta', 'gamma'};
 
-num_of_p_and_q = numel(opt_struct.p)+numel(opt_struct.q);
+if isequal(standard_surface_shape_function_handle, @standard_sphere_height) || isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_height) || isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_slope)
+    num_of_p_and_q = numel(opt_struct.p);
+else
+    num_of_p_and_q = numel(opt_struct.p)+numel(opt_struct.q);
+end
 
-if num_of_p_and_q==2 % Common X-ray mirrors, including diaboloidal mirrors
+
+if num_of_p_and_q==1 % Circular cylinder or sphere
+
+    % Default optimization flags
+    opt_vector = false(8, 1);
+
+    if isequal(surface_generation_function_handle, @generate_2d_curved_surface_height)
+        opt_vector(3:end) = true; % x_i, y_i, z_i, alpha, beta, gamma
+    elseif isequal(surface_generation_function_handle, @generate_2d_cylinder_height)
+        opt_vector(3) = true; % x_i
+        opt_vector(5) = true; % z_i
+        opt_vector(6:8) = true; % alpha, beta, gamma
+    elseif isequal(surface_generation_function_handle, @generate_1d_height)
+        opt_vector(3) = true; % x_i
+        opt_vector(5) = true; % z_i
+        opt_vector(7) = true; % beta
+    elseif isequal(surface_generation_function_handle, @generate_1d_slope)
+        opt_vector(3) = true; % x_i
+        opt_vector(7) = true; % beta
+    end
+    
+    % Update the user defined optimization flags
+    if isfield(opt_struct, 'p'), opt_vector(1) = opt_struct.p; end
+    if isfield(opt_struct, 'theta'), opt_vector(2) = opt_struct.theta; end
+    if isfield(opt_struct, 'x_i'), opt_vector(3) = opt_struct.x_i; end
+    if isfield(opt_struct, 'y_i'), opt_vector(4) = opt_struct.y_i; end
+    if isfield(opt_struct, 'z_i'), opt_vector(5) = opt_struct.z_i; end
+    if isfield(opt_struct, 'alpha'), opt_vector(6) = opt_struct.alpha; end
+    if isfield(opt_struct, 'beta'), opt_vector(7) = opt_struct.beta; end
+    if isfield(opt_struct, 'gamma'), opt_vector(8) = opt_struct.gamma; end
+
+elseif num_of_p_and_q==2 % Common X-ray mirrors, including diaboloidal mirrors
 
     % Default optimization flags
     opt_vector = false(9, 1);
@@ -274,7 +334,19 @@ param_update(isnan(param_fix)) = param;
 
 % Release the input parameters.............................................
 
-if isequal(standard_surface_shape_function_handle, @standard_point_to_line_concave_surface_height)
+if isequal(standard_surface_shape_function_handle, @standard_sphere_height) || isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_height) || isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_slope)
+    
+    p = param_update(1);
+    q = param_update(1);
+    theta = param_update(2);
+    x_i = param_update(3);
+    y_i = param_update(4);
+    z_i = param_update(5);
+    alpha = param_update(6);
+    beta = param_update(7);
+    gamma = param_update(8);
+
+elseif isequal(standard_surface_shape_function_handle, @standard_point_to_line_concave_surface_height)
 
     p = param_update(1);
     q = param_update(2:3);
@@ -289,7 +361,7 @@ if isequal(standard_surface_shape_function_handle, @standard_point_to_line_conca
 else
 
     p = param_update(1);
-    q = param_update(2);
+    q = param_update(2); 
     theta = param_update(3);
     x_i = param_update(4);
     y_i = param_update(5);
@@ -303,13 +375,37 @@ end
 % Generate surface height with (p, q, theta),
 % considering tranformation with x_i, y_i, z_i, alpha, beta, gamma.........
 if isequal(surface_generation_function_handle, @generate_2d_curved_surface_height)
-    v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, y, p, q, theta, x_i, y_i, z_i, alpha, beta, gamma, v);
+
+    if isequal(standard_surface_shape_function_handle, @standard_sphere_height)
+        v_fit = surface_generation_function_handle(@standard_quadrics_height, x, y, p, q, theta, x_i, y_i, z_i, alpha, beta, gamma, v);
+    else
+        v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, y, p, q, theta, x_i, y_i, z_i, alpha, beta, gamma, v);
+    end
+
 elseif isequal(surface_generation_function_handle, @generate_2d_cylinder_height)
-    v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, y, p, q, theta, x_i, z_i, alpha, beta, gamma, v);
+
+    if isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_height)
+        v_fit = surface_generation_function_handle(@standard_quadric_cylinder_height, x, y, p, q, theta, x_i, z_i, alpha, beta, gamma, v);
+    else
+        v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, y, p, q, theta, x_i, z_i, alpha, beta, gamma, v);
+    end
+
 elseif isequal(surface_generation_function_handle, @generate_1d_height)
-    v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, p, q, theta, x_i, z_i, beta, v);
+
+    if isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_height)
+        v_fit = surface_generation_function_handle(@standard_quadric_cylinder_height, x, p, q, theta, x_i, z_i, beta, v);
+    else
+        v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, p, q, theta, x_i, z_i, beta, v);
+    end
+    
 elseif isequal(surface_generation_function_handle, @generate_1d_slope)
-    v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, p, q, theta, x_i, beta);
+
+    if isequal(standard_surface_shape_function_handle, @standard_circular_cylinder_xslope)
+        v_fit = surface_generation_function_handle(@standard_quadric_cylinder_xslope, x, y, p, q, theta, x_i, z_i, alpha, beta, gamma, v);
+    else
+        v_fit = surface_generation_function_handle(standard_surface_shape_function_handle, x, p, q, theta, x_i, beta);
+    end
+
 end
 
 % Calculte the valid residual height as the output of the cost function....

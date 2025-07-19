@@ -1,4 +1,4 @@
-% Demo script to generate 2D maps
+% Demo script to generate shapes
 
 close all;
 clear;
@@ -35,21 +35,21 @@ gamma = 0.5e-3;
 
 z2d_standard = standard_convex_ellipsoid_height(x2d, y2d, abs_p, abs_q, theta);
 z2d = generate_2d_curved_surface_height(@standard_convex_ellipsoid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma);
-fig_show_2d_maps(x1d, y1d, z2d, z2d_standard, 'Convex Ellipsoid');
+fig_compare_2d_map(x1d, y1d, z2d, z2d_standard, 'Convex Ellipsoid');
 
 
 %% 2.2. Concave Ellipsoid (CCVE)
 
 z2d_standard = standard_concave_ellipsoid_height(x2d, y2d, abs_p, abs_q, theta);
 z2d = generate_2d_curved_surface_height(@standard_concave_ellipsoid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma);
-fig_show_2d_maps(x1d, y1d, z2d, z2d_standard, 'Concave Ellipsoid');
+fig_compare_2d_map(x1d, y1d, z2d, z2d_standard, 'Concave Ellipsoid');
 
 
 %% 3.1. Convex Elliptic Cylinder (CVXEC)
 
 z2d_standard = standard_convex_elliptic_cylinder_height(x2d, abs_p, abs_q, theta);
 z2d = generate_2d_cylinder_height(@standard_convex_elliptic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma);
-fig_show_2d_maps(x1d, y1d, z2d, z2d_standard, 'Convex Elliptic Cylinder');
+fig_compare_2d_map(x1d, y1d, z2d, z2d_standard, 'Convex Elliptic Cylinder');
 
 z1d_standard = standard_convex_elliptic_cylinder_height(x1d, abs_p, abs_q, theta);
 z1d = generate_1d_height(@standard_convex_elliptic_cylinder_height, x1d, abs_p, abs_q, theta, x_i, z_i, beta);
@@ -64,7 +64,7 @@ fig_compare_1d_slope(x1d, sx1d, sx1d_standard, 'Convex Elliptic Cylinder');
 
 z2d_standard = standard_concave_elliptic_cylinder_height(x2d, abs_p, abs_q, theta);
 z2d = generate_2d_cylinder_height(@standard_concave_elliptic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma);
-fig_show_2d_maps(x1d, y1d, z2d, z2d_standard, 'Concave Elliptic Cylinder');
+fig_compare_2d_map(x1d, y1d, z2d, z2d_standard, 'Concave Elliptic Cylinder');
 
 z1d_standard = standard_concave_elliptic_cylinder_height(x1d, abs_p, abs_q, theta);
 z1d = generate_1d_height(@standard_concave_elliptic_cylinder_height, x1d, abs_p, abs_q, theta, x_i, z_i, beta);
@@ -79,21 +79,21 @@ fig_compare_1d_slope(x1d, sx1d, sx1d_standard, 'Concave Elliptic Cylinder');
 
 z2d_standard = standard_convex_hyperboloid_height(x2d, y2d, abs_p, abs_q, theta);
 z2d = generate_2d_curved_surface_height(@standard_convex_hyperboloid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma);
-fig_show_2d_maps(x1d, y1d, z2d, z2d_standard, 'Convex Hyperboloid');
+fig_compare_2d_map(x1d, y1d, z2d, z2d_standard, 'Convex Hyperboloid');
 
 
 %% 6.2. Concave Hyperboloid (CCVH)
 
 z2d_standard = standard_concave_hyperboloid_height(x2d, y2d, abs_p, abs_q, theta);
 z2d = generate_2d_curved_surface_height(@standard_concave_hyperboloid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma);
-fig_show_2d_maps(x1d, y1d, z2d, z2d_standard, 'Concave Hyperboloid');
+fig_compare_2d_map(x1d, y1d, z2d, z2d_standard, 'Concave Hyperboloid');
 
 
 %% 7.1. Convex Hyperbolic Cylinder (CVXHC)
 
 z2d_standard = standard_convex_hyperbolic_cylinder_height(x2d, abs_p, abs_q, theta);
 z2d = generate_2d_cylinder_height(@standard_convex_hyperbolic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma);
-fig_show_2d_maps(x1d, y1d, z2d, z2d_standard, 'Convex Hyperbolic Cylinder');
+fig_compare_2d_map(x1d, y1d, z2d, z2d_standard, 'Convex Hyperbolic Cylinder');
 
 z1d_standard = standard_convex_hyperbolic_cylinder_height(x1d, abs_p, abs_q, theta);
 z1d = generate_1d_height(@standard_convex_hyperbolic_cylinder_height, x1d, abs_p, abs_q, theta, x_i, z_i, beta);
@@ -108,7 +108,7 @@ fig_compare_1d_slope(x1d, sx1d, sx1d_standard, 'Convex Hyperbolic Cylinder');
 
 z2d_standard = standard_concave_hyperbolic_cylinder_height(x2d, abs_p, abs_q, theta);
 z2d = generate_2d_cylinder_height(@standard_concave_hyperbolic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma);
-fig_show_2d_maps(x1d, y1d, z2d, z2d_standard, 'Concave Hyperbolic Cylinder');
+fig_compare_2d_map(x1d, y1d, z2d, z2d_standard, 'Concave Hyperbolic Cylinder');
 
 z1d_standard = standard_concave_hyperbolic_cylinder_height(x1d, abs_p, abs_q, theta);
 z1d = generate_1d_height(@standard_concave_hyperbolic_cylinder_height, x1d, abs_p, abs_q, theta, x_i, z_i, beta);

@@ -1,4 +1,17 @@
 function [z2d_quad_sln, z2d_expression] = standard_right_hyperboloid_height(x2d, y2d, abs_p, abs_q, theta)
+% standard_right_hyperboloid_height(x2d, y2d, abs_p, abs_q, theta) - Computes the height of a right hyperboloid
+%   at a given (x, y) coordinate, based on the absolute values of p and q and the grazing incidence angle (theta).
+%   
+%   Inputs:
+%       - x2d - 2D x-coordinates (vector or matrix)
+%       - y2d - 2D y-coordinates (vector or matrix)
+%       - abs_p - Absolute value of the distance between the source and the chief ray intersection on mirror
+%       - abs_q - Absolute value of the distance between the focus and the chief ray intersection on mirror
+%       - theta - Grazing incidence angle (in radians)
+%   
+%   Outputs:
+%       - z2d_quad_sln - Quadratic solution for the right hyperboloid height
+%       - z2d_expression - Expression for the right hyperboloid height
 
 % Quadratic solution.......................................................
 

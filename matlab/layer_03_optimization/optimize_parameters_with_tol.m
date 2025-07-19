@@ -3,26 +3,20 @@ function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params] = 
 % surface parameters with tolerance from the measurement data.
 %
 %    Input:
-%        surface_generation_function_handle is function handle for surface
-%           generation
-%        standard_surface_shape_function_handle is function handle for a 
-%           standard surface shape 
-%        x is the measured x-coordinate, in unit of [m] as a suggestion
-%        y is the measured y-coordinate, in unit of [m] as a suggestion
-%        v is the measured slope or height in [rad] or [m] as a suggestion
-%        input_params_struct contains p, q, theta, x_i(optional), 
-%           y_i(optional), z_i(optional), alpha(optional), beta(optional)  
-%           and gamma(optional) target parameters, suggested in unit of 
-%           [m] [m] [rad] [m] [m] [m] [rad] [rad] [rad]
-%        tol_struct is a structure to set the tolerance values for 
-%           p, q, theta, x_i, y_i, z_i, alpha, beta, gamma.
+%        - surface_generation_function_handle is function handle for surface generation
+%        - standard_surface_shape_function_handle is function handle for a standard surface shape
+%        - x is the measured x-coordinate, in unit of [m] as a suggestion
+%        - y is the measured y-coordinate, in unit of [m] as a suggestion
+%        - v is the measured slope or height in [rad] or [m] as a suggestion
+%        - input_params_struct contains p, q, theta, x_i(optional), y_i(optional), z_i(optional), alpha(optional), beta(optional) and gamma(optional) target parameters
+%        - tol_struct is a structure to set the tolerance values for p, q, theta, x_i, y_i, z_i, alpha, beta, gamma.
 %
 %    Output:
-%        v_res is the residual in [m], if the input x and z are in [m]
-%        v_fit is fitting result in [m], if the input x and z are in [m]
-%        opt_params_struct is the optimized params in structure
-%        opt_params_ci_struct is the confidence intervals of the pamrams
-%        init_params contains the used initial parameters.
+%        - v_res is the residual in [m], if the input x and z are in [m]
+%        - v_fit is fitting result in [m], if the input x and z are in [m]
+%        - opt_params_struct is the optimized params in structure
+%        - opt_params_ci_struct is the confidence intervals of the parameters
+%        - init_params contains the used initial parameters.
 
 %   Copyright since 2023 by Lei Huang. All Rights Reserved.
 %   E-mail: huanglei0114@gmail.com
@@ -56,12 +50,12 @@ opt_options = optimset( ...
     , 'TolFun', 1e-14 ...
     , 'TolX', 1e-16 ...
     , 'Algorithm', 'levenberg-marquardt' ... 'trust-region-reflective', 'levenberg-marquardt', 'interior-point'
-    ..., 'Algorithm', 'trust-region-reflective' ... 'trust-region-reflective', 'levenberg-marquardt', 'interior-point'
     , 'Display', 'none' ...
     );
 
 
 % Optimize parameters......................................................
+
 [opt_params, ~, residual, ~, ~, ~, jacobian] ...
     = lsqnonlin(@(params)cost_function_for_optimizaiton(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, fix_params, params), params ...
     , lb, ub, opt_options);

@@ -43,12 +43,12 @@ from .layer_04_fit import(
 )
 
 from .fig_show import (
-    fig_show_2d_maps,
+    fig_show_2d_map,
     fig_show_1d_height,
     fig_show_1d_slope,
     fig_compare_1d_height,
     fig_compare_1d_slope,
-    fig_show_2d_fitting_maps,
+    fig_show_2d_fitting_map,
     fig_show_1d_fitting_height,
     fig_show_1d_fitting_slope,
 )
@@ -100,12 +100,12 @@ __all__ = [
     
     
     # fig_show.py
-    'fig_show_2d_maps',
+    'fig_show_2d_map',
     'fig_show_1d_height',
     'fig_show_1d_slope',
     'fig_compare_1d_height',
     'fig_compare_1d_slope',
-    'fig_show_2d_fitting_maps',
+    'fig_show_2d_fitting_map',
     'fig_show_1d_fitting_height',
     'fig_show_1d_fitting_slope',
 ]

@@ -1,5 +1,19 @@
 function z2d = iter_genereate_height(standard_height_function_handle, x2d, y2d, p, q, theta, tf, z2d_measured, thr_rms_dxy)
-
+% Iteratively generates the height map in metrology coordinates
+%   
+%   Inputs:
+%       - standard_height_function_handle - Handle to the standard height function (e.g., standard_circular_cylinder_height)
+%       - x2d - 2D x-coordinates (vector or matrix)
+%       - y2d - 2D y-coordinates (vector or matrix)
+%       - p - Distance between the source and the chief ray intersection on mirror
+%       - q - Distance between the focus and the chief ray intersection on mirror
+%       - theta - Grazing incidence angle (in radians)
+%       - tf - Transformation matrix from standard mirror coordinates to metrology coordinates
+%       - z2d_measured - (Optional) The height map from metrology, if available
+%       - thr_rms_dxy - (Optional) Threshold for the RMS of the distances in lateral coordinates (default: 1e-9)
+%
+%   Outputs:
+%       - z2d - 2D height map of the curved surface in metrology coordinates
 
 if nargin < 8
     z2d_measured = zeros(size(x2d));

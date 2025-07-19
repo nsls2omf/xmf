@@ -1,6 +1,17 @@
 function [sx1d_res, sx1d_fit, params, params_ci] = fit_concave_hyperbola_slope(x1d, sx1d_measured, input_params_struct, opt_or_tol_struct)
-% fit_concave_hyperbola_slope provide a convenient way to fit parameters
-% from a measured concave hyperbola slope.
+% fit_concave_hyperbola_slope - Fits a concave hyperbolic cylinder to a 1D slope profile
+%
+%   Inputs:
+%       - x1d - 1D x-coordinates (vector)
+%       - sx1d_measured - 1D slope values (vector)
+%       - input_params_struct - Structure containing initial parameters for the fit
+%       - opt_or_tol_struct - Structure containing optimization or tolerance parameters
+%
+%   Outputs:
+%       - sx1d_res - Residuals of the fitted slope profile
+%       - sx1d_fit - Fitted slope profile
+%       - params - Fitted parameters of the concave hyperbolic cylinder
+%       - params_ci - Confidence intervals of the fitted parameters
 
 y1d = x1d*0;
 

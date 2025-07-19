@@ -74,7 +74,7 @@ def reg_exp_rep(s):
     s = re.sub(r'e-0*(\d+)', r'\\times10^{-\1}', s)
     return s
 
-def fig_show_2d_maps(x2d, y2d, z2d_quad_sln, z2d_expression, str_title):
+def fig_show_2d_map(x2d, y2d, z2d_quad_sln, z2d_expression, str_title):
 
     x2d_mm = x2d * 1e3
     y2d_mm = y2d * 1e3
@@ -191,7 +191,7 @@ def fig_compare_1d_slope(x1d, sx1d_generation, sx1d_standard, str_title):
     plt.tight_layout()
     plt.show()
     
-def fig_show_2d_fitting_maps(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
+def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
     x2d_mm = x2d * 1e3
     y2d_mm = y2d * 1e3
     z2d_um = z2d_measured * 1e6

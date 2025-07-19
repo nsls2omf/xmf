@@ -1,4 +1,15 @@
 function sx = standard_quadric_cylinder_xslope(x, p, q, theta)
+% standard_quadric_cylinder_xslope(x, p, q, theta) - Computes the x-slope of a quadric cylinder
+%   at a given x-coordinate, based on the parameters p and q and the grazing incidence angle (theta).
+%   
+%   Inputs:
+%       - x - 2D x-coordinates (vector or matrix)
+%       - p - Distance between the source and the chief ray intersection on mirror
+%       - q - Distance between the focus and the chief ray intersection on mirror
+%       - theta - Grazing incidence angle (in radians)
+%   
+%   Outputs:
+%       - sx - x-slope of the quadric cylinder at the given x-coordinates
 
 if (p*q>0) % Elliptic cylinder
     

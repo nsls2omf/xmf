@@ -1,4 +1,16 @@
 function varargout = standard_concave_elliptic_cylinder_height(x, abs_p, abs_q, theta)
+% standard_concave_elliptic_cylinder_height(x, abs_p, abs_q, theta) - Computes the height of a concave elliptic cylinder
+%   at a given x-coordinate, based on the absolute values of p and q and the grazing incidence angle (theta).
+%
+%   Inputs:
+%       - x - 2D x-coordinates (vector or matrix)
+%       - abs_p - Absolute value of the distance between the source and the chief ray intersection on mirror
+%       - abs_q - Absolute value of the distance between the focus and the chief ray intersection on mirror
+%       - theta - Grazing incidence angle (in radians)
+%
+%   Outputs:
+%       - z2d_quad_sln_quadrics - Quadratic solution for the concave elliptic cylinder height
+%       - z2d_expression_quadrics - Expression for the concave elliptic cylinder height
 
 % Give the sign to p and q based on mirror type
 p = abs_p;

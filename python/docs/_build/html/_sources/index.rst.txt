@@ -37,6 +37,11 @@ The framework is composed of four main layers:
 3. **Optimization layer**: Optimize the user-selected fitting parameters.
 4. **Function wrapping layer**: Offers convenient functions for working with measurement data for specific geometric shapes.
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples gallery:
+
+   auto_examples/index
 
 Example codes:
 --------------
@@ -69,8 +74,6 @@ Python example for fitting a concave ellipse slope:
 
    sx1d_res, sx1d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_concave_ellipse_slope(x1d, sx1d_measured, params_input_dict, opt_dict) 
    xmf.fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_params_dict, opt_params_dict, opt_params_ci_dict, 'Concave Ellipse Slope') 
-
-
 
 MATLAB example for fitting a concave ellipse slope:
 

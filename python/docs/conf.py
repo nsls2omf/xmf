@@ -26,7 +26,16 @@ extensions = [
     'sphinx.ext.autosummary',  # to generate function lists/tables
 
     'sphinxcontrib.matlab',  # For MATLAB domain support
+    'sphinx_gallery.gen_gallery', # For generating example galleries
 ]
+
+sphinx_gallery_conf = {
+    # Path to your example scripts
+    'examples_dirs': 'examples',       # <-- folder with example .py scripts
+    # Path to where gallery pages will be generated
+    'gallery_dirs': 'auto_examples',   # <-- generated output
+    'filename_pattern': r'.*\.py',     # run all .py scripts
+}
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']

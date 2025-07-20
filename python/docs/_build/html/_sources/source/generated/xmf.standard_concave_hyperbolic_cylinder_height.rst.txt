@@ -1,6 +1,0 @@
-﻿xmf.standard\_concave\_hyperbolic\_cylinder\_height
-===================================================
-
-.. currentmodule:: xmf
-
-.. autofunction:: standard_concave_hyperbolic_cylinder_height

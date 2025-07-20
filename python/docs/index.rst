@@ -37,6 +37,11 @@ The framework is composed of four main layers:
 3. **Optimization layer**: Optimize the user-selected fitting parameters.
 4. **Function wrapping layer**: Offers convenient functions for working with measurement data for specific geometric shapes.
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples gallery:
+
+   auto_examples/index
 
 Example codes:
 --------------

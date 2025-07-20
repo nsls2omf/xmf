@@ -5,14 +5,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>xmf.layer_01_standard &mdash; xmf_dev 0.1.0 documentation</title>
+  <title>xmf.layer_01_standard &mdash; xmf 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
       <script src="../../_static/doctools.js?v=9a2dae69"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -29,7 +33,7 @@
           
           
           <a href="../../index.html" class="icon icon-home">
-            xmf_dev
+            xmf
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
@@ -40,10 +44,14 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Examples gallery:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../source/modules.html">xmf</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../xmf_matlab.html">xmf MATLAB functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/demo_script_03_fit_simulation_data_with_opt.html">Fit convex ellipsoid to simulated data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/modules.html">XMF Python package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/xmf_matlab.html">XMF Matlab functions</a></li>
 </ul>
 
         </div>
@@ -52,7 +60,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">xmf_dev</a>
+          <a href="../../index.html">xmf</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -99,7 +107,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <div class="viewcode-block" id="standard_quadrics_height">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_quadrics_height">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_quadrics_height">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_quadrics_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                              <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                              <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -188,7 +196,7 @@
 
 
 <div class="viewcode-block" id="standard_convex_ellipsoid_height">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_convex_ellipsoid_height">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_convex_ellipsoid_height">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_convex_ellipsoid_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                      <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                      <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -226,7 +234,7 @@
     
     
 <div class="viewcode-block" id="standard_concave_ellipsoid_height">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_concave_ellipsoid_height">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_concave_ellipsoid_height">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_ellipsoid_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                       <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                       <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -263,7 +271,7 @@
 
 
 <div class="viewcode-block" id="standard_convex_hyperboloid_height">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_convex_hyperboloid_height">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_convex_hyperboloid_height">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_convex_hyperboloid_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                        <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                        <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -305,7 +313,7 @@
 
 
 <div class="viewcode-block" id="standard_concave_hyperboloid_height">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_concave_hyperboloid_height">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_concave_hyperboloid_height">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_hyperboloid_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                         <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                         <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -347,7 +355,7 @@
 
 
 <div class="viewcode-block" id="standard_quadric_cylinder_height">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_quadric_cylinder_height">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_quadric_cylinder_height">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_quadric_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                      <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
                                      <span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -430,7 +438,7 @@
 
 
 <div class="viewcode-block" id="standard_convex_elliptic_cylinder_height">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_convex_elliptic_cylinder_height">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_convex_elliptic_cylinder_height">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_convex_elliptic_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                              <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
                                              <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -466,7 +474,7 @@
 
 
 <div class="viewcode-block" id="standard_concave_elliptic_cylinder_height">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_concave_elliptic_cylinder_height">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_concave_elliptic_cylinder_height">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_elliptic_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                               <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
                                               <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -501,7 +509,7 @@
 
 
 <div class="viewcode-block" id="standard_convex_hyperbolic_cylinder_height">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_convex_hyperbolic_cylinder_height">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_convex_hyperbolic_cylinder_height">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_convex_hyperbolic_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                                <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
                                                <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -538,7 +546,7 @@
 
 
 <div class="viewcode-block" id="standard_concave_hyperbolic_cylinder_height">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_concave_hyperbolic_cylinder_height">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_concave_hyperbolic_cylinder_height">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_hyperbolic_cylinder_height</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                                 <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
                                                 <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -576,7 +584,7 @@
 
 
 <div class="viewcode-block" id="standard_quadric_cylinder_xslope">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_quadric_cylinder_xslope">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_quadric_cylinder_xslope">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_quadric_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                               <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
                               <span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -610,7 +618,7 @@
 
 
 <div class="viewcode-block" id="standard_convex_elliptic_cylinder_xslope">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_convex_elliptic_cylinder_xslope">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_convex_elliptic_cylinder_xslope">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_convex_elliptic_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                              <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
                                              <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -642,7 +650,7 @@
 
 
 <div class="viewcode-block" id="standard_concave_elliptic_cylinder_xslope">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_concave_elliptic_cylinder_xslope">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_concave_elliptic_cylinder_xslope">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_elliptic_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                               <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
                               <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -674,7 +682,7 @@
 
 
 <div class="viewcode-block" id="standard_convex_hyperbolic_cylinder_xslope">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_convex_hyperbolic_cylinder_xslope">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_convex_hyperbolic_cylinder_xslope">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_convex_hyperbolic_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                               <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
                               <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -710,7 +718,7 @@
 
 
 <div class="viewcode-block" id="standard_concave_hyperbolic_cylinder_xslope">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.layer_01_standard.standard_concave_hyperbolic_cylinder_xslope">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_concave_hyperbolic_cylinder_xslope">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_hyperbolic_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                               <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
                               <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>

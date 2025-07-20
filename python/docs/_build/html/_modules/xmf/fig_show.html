@@ -5,14 +5,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>xmf.fig_show &mdash; xmf 0.1.0 documentation</title>
+  <title>xmf.fig_show &mdash; xmf 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
       <script src="../../_static/doctools.js?v=9a2dae69"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -40,10 +44,14 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Examples gallery:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../source/modules.html">xmf</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../xmf_matlab.html">xmf MATLAB functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/demo_script_03_fit_simulation_data_with_opt.html">Fit convex ellipsoid to simulated data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/modules.html">XMF Python package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/xmf_matlab.html">XMF Matlab functions</a></li>
 </ul>
 
         </div>
@@ -105,7 +113,7 @@
 
 
 <div class="viewcode-block" id="add_colorbar">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.fig_show.add_colorbar">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.add_colorbar">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">,</span>
                  <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">aspect</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
@@ -145,7 +153,7 @@
 
 
 <div class="viewcode-block" id="reg_exp_rep">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.fig_show.reg_exp_rep">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.reg_exp_rep">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">reg_exp_rep</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Replace scientific notation in a string with LaTeX format</span>
@@ -166,7 +174,7 @@
 
 
 <div class="viewcode-block" id="fig_show_2d_map">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.fig_show.fig_show_2d_map">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.fig_show_2d_map">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fig_show_2d_map</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">z2d_quad_sln</span><span class="p">,</span> <span class="n">z2d_expression</span><span class="p">,</span> <span class="n">str_title</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Show a 2D map of height data with colorbar</span>
@@ -213,7 +221,7 @@
 
     
 <div class="viewcode-block" id="fig_show_1d_height">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.fig_show.fig_show_1d_height">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.fig_show_1d_height">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fig_show_1d_height</span><span class="p">(</span><span class="n">x1d</span><span class="p">,</span> <span class="n">z1d_quad_sln</span><span class="p">,</span> <span class="n">z1d_expression</span><span class="p">,</span> <span class="n">str_title</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Show a 1D plot of height data from quadratic equation solution and expression</span>
@@ -258,7 +266,7 @@
 
     
 <div class="viewcode-block" id="fig_show_1d_slope">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.fig_show.fig_show_1d_slope">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.fig_show_1d_slope">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fig_show_1d_slope</span><span class="p">(</span><span class="n">x1d</span><span class="p">,</span> <span class="n">sx1d</span><span class="p">,</span> <span class="n">str_title</span><span class="p">):</span>
     
     <span class="n">x1d_mm</span> <span class="o">=</span> <span class="n">x1d</span> <span class="o">*</span> <span class="mf">1e3</span>
@@ -277,7 +285,7 @@
 
 
 <div class="viewcode-block" id="fig_compare_1d_height">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.fig_show.fig_compare_1d_height">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.fig_compare_1d_height">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fig_compare_1d_height</span><span class="p">(</span><span class="n">x1d</span><span class="p">,</span> <span class="n">z1d_generation</span><span class="p">,</span> <span class="n">z1d_standard</span><span class="p">,</span> <span class="n">str_title</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compare two 1D height data sets and plot the difference</span>
@@ -323,7 +331,7 @@
 
     
 <div class="viewcode-block" id="fig_compare_1d_slope">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.fig_show.fig_compare_1d_slope">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.fig_compare_1d_slope">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fig_compare_1d_slope</span><span class="p">(</span><span class="n">x1d</span><span class="p">,</span> <span class="n">sx1d_generation</span><span class="p">,</span> <span class="n">sx1d_standard</span><span class="p">,</span> <span class="n">str_title</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compare two 1D slope data sets and plot the difference</span>
@@ -370,7 +378,7 @@
 
     
 <div class="viewcode-block" id="fig_show_2d_fitting_map">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.fig_show.fig_show_2d_fitting_map">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.fig_show_2d_fitting_map">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fig_show_2d_fitting_map</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">z2d_measured</span><span class="p">,</span> <span class="n">z2d_fit</span><span class="p">,</span> <span class="n">z2d_res</span><span class="p">,</span> <span class="n">target_params_dict</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">str_title</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Show a 2D fitting map with colorbar, target parameters, fitted parameters, and residuals</span>
@@ -516,7 +524,7 @@
 
 
 <div class="viewcode-block" id="fig_show_1d_fitting_height">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.fig_show.fig_show_1d_fitting_height">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.fig_show_1d_fitting_height">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fig_show_1d_fitting_height</span><span class="p">(</span><span class="n">x1d</span><span class="p">,</span> <span class="n">z1d_measured</span><span class="p">,</span> <span class="n">z1d_fit</span><span class="p">,</span> <span class="n">z1d_res</span><span class="p">,</span> <span class="n">target_params_dict</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">str_title</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Show a 1D fitting plot with measured data, fitted data, residuals, target parameters, and optimized parameters</span>
@@ -631,7 +639,7 @@
 
 
 <div class="viewcode-block" id="fig_show_1d_fitting_slope">
-<a class="viewcode-back" href="../../source/xmf.html#xmf.fig_show.fig_show_1d_fitting_slope">[docs]</a>
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.fig_show_1d_fitting_slope">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fig_show_1d_fitting_slope</span><span class="p">(</span><span class="n">x1d</span><span class="p">,</span> <span class="n">sx1d_measured</span><span class="p">,</span> <span class="n">sx1d_fit</span><span class="p">,</span> <span class="n">sx1d_res</span><span class="p">,</span> <span class="n">target_params_dict</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">str_title</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Show a 1D fitting plot with measured slopes, fitted slopes, residuals, target parameters, and optimized parameters</span>

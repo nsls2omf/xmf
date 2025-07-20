@@ -1,8 +1,8 @@
 """
-Fit convex ellipsoid to simulated data
+Example 02: Fit concave hyperboloid 
 ========================================
 
-This example shows how to fit a convex ellipsoid to simulated data using the XMF library.
+This example shows how to fit a concave hyperboloid to simulated data using the XMF library.
 """
 
 import numpy as np
@@ -57,9 +57,9 @@ opt_dict = {
     'theta': False
 }
 
-## 2.1. Convex Ellipsoid (CVXE)
+## 6.2. Concave Hyperboloid (CCVH)
 
-z2d = xmf.generate_2d_curved_surface_height(xmf.standard_convex_ellipsoid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma) 
+z2d = xmf.generate_2d_curved_surface_height(xmf.standard_concave_hyperboloid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma) 
 z2d_measured = z2d + np.random.randn(z2d.shape[0], z2d.shape[1])*height_measurement_noise_std 
-z2d_res, z2d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_convex_ellipsoid_height(x2d, y2d, z2d_measured, input_params_dict, opt_dict) 
-xmf.fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, true_params_dict, opt_params_dict, opt_params_ci_dict, 'Convex Ellipsoid')
+z2d_res, z2d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_concave_hyperboloid_height(x2d, y2d, z2d_measured, input_params_dict, opt_dict) 
+xmf.fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, true_params_dict, opt_params_dict, opt_params_ci_dict, 'Concave Hyperboloid') 

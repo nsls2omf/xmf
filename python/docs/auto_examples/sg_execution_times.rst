@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:00.154** total execution time for 1 file **from auto_examples**:
+**00:00.458** total execution time for 4 files **from auto_examples**:
 
 .. container::
 
@@ -32,6 +32,15 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_auto_examples_demo_script_03_fit_simulation_data_with_opt.py` (``demo_script_03_fit_simulation_data_with_opt.py``)
-     - 00:00.154
+   * - :ref:`sphx_glr_auto_examples_example_03_fit_convex_hyperbolic_cylinder_with_tol.py` (``example_03_fit_convex_hyperbolic_cylinder_with_tol.py``)
+     - 00:00.256
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_04_fit_concave_elliptic_cylinder_with_opt.py` (``example_04_fit_concave_elliptic_cylinder_with_opt.py``)
+     - 00:00.202
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_01_fit_concave_ellipsoid_with_tol.py` (``example_01_fit_concave_ellipsoid_with_tol.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_02_fit_concave_hyperboloid_with_opt.py` (``example_02_fit_concave_hyperboloid_with_opt.py``)
+     - 00:00.000
      - 0.0

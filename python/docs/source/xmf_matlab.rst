@@ -41,8 +41,8 @@ layer\_04\_fit
    :show-inheritance:
    :undoc-members:
 
-Module contents
----------------
+scripts
+-------
 
 .. mat:automodule:: matlab
    :members:

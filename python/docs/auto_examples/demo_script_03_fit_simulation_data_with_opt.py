@@ -1,8 +1,8 @@
 """
-Fit convex ellipsoid to simulated data
+Fit concave elliptic cylinder to simulated data
 ========================================
 
-This example shows how to fit a convex ellipsoid to simulated data using the XMF library.
+This example shows how to fit a concave elliptic cylinder to simulated data using the XMF library.
 """
 
 import numpy as np
@@ -57,9 +57,19 @@ opt_dict = {
     'theta': False
 }
 
-## 2.1. Convex Ellipsoid (CVXE)
+## 3.2. Concave Elliptic Cylinder (CCVEC)
 
-z2d = xmf.generate_2d_curved_surface_height(xmf.standard_convex_ellipsoid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma) 
+z2d = xmf.generate_2d_cylinder_height(xmf.standard_concave_elliptic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma) 
 z2d_measured = z2d + np.random.randn(z2d.shape[0], z2d.shape[1])*height_measurement_noise_std 
-z2d_res, z2d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_convex_ellipsoid_height(x2d, y2d, z2d_measured, input_params_dict, opt_dict) 
-xmf.fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, true_params_dict, opt_params_dict, opt_params_ci_dict, 'Convex Ellipsoid')
+z2d_res, z2d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_concave_elliptic_cylinder_height(x2d, y2d, z2d_measured, input_params_dict, opt_dict) 
+xmf.fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, true_params_dict, opt_params_dict, opt_params_ci_dict, 'Concave Elliptic Cylinder') 
+
+z1d = xmf.generate_1d_height(xmf.standard_concave_elliptic_cylinder_height, x1d, abs_p, abs_q, theta, x_i, z_i, beta) 
+z1d_measured = z1d + np.random.randn(z1d.shape[0])*height_measurement_noise_std 
+z1d_res, z1d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_concave_ellipse_height(x1d, z1d_measured, input_params_dict, opt_dict) 
+xmf.fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, true_params_dict, opt_params_dict, opt_params_ci_dict, 'Concave Elliptic Cylinder') 
+
+sx1d = xmf.generate_1d_slope(xmf.standard_concave_elliptic_cylinder_xslope, x1d, abs_p, abs_q, theta, x_i, beta) 
+sx1d_measured = sx1d + np.random.randn(sx1d.shape[0])*slope_measurement_noise_std 
+sx1d_res, sx1d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_concave_ellipse_slope(x1d, sx1d_measured, input_params_dict, opt_dict) 
+xmf.fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params_dict, opt_params_dict, opt_params_ci_dict, 'Concave Elliptic Cylinder') 

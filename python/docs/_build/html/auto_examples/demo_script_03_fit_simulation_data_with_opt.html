@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fit convex ellipsoid to simulated data &mdash; xmf 1.0.0 documentation</title>
+  <title>Fit concave elliptic cylinder to simulated data &mdash; xmf 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
@@ -22,9 +22,7 @@
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="XMF Python package" href="../source/modules.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="index.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,12 +45,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Examples gallery:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Fit convex ellipsoid to simulated data</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../framework.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../example_codes.html">Example codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Example Gallery</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../source/modules.html">XMF Python package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../source/xmf_matlab.html">XMF Matlab functions</a></li>
 </ul>
@@ -71,8 +68,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">&lt;no title&gt;</a></li>
-      <li class="breadcrumb-item active">Fit convex ellipsoid to simulated data</li>
+      <li class="breadcrumb-item active">Fit concave elliptic cylinder to simulated data</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/auto_examples/demo_script_03_fit_simulation_data_with_opt.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -87,10 +83,15 @@
 <p><a class="reference internal" href="#sphx-glr-download-auto-examples-demo-script-03-fit-simulation-data-with-opt-py"><span class="std std-ref">Go to the end</span></a>
 to download the full example code.</p>
 </div>
-<section class="sphx-glr-example-title" id="fit-convex-ellipsoid-to-simulated-data">
-<span id="sphx-glr-auto-examples-demo-script-03-fit-simulation-data-with-opt-py"></span><h1>Fit convex ellipsoid to simulated data<a class="headerlink" href="#fit-convex-ellipsoid-to-simulated-data" title="Link to this heading"></a></h1>
-<p>This example shows how to fit a convex ellipsoid to simulated data using the XMF library.</p>
-<img src="../_images/sphx_glr_demo_script_03_fit_simulation_data_with_opt_001.png" srcset="../_images/sphx_glr_demo_script_03_fit_simulation_data_with_opt_001.png" alt="Convex Ellipsoid, Fitting, Residual" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<section class="sphx-glr-example-title" id="fit-concave-elliptic-cylinder-to-simulated-data">
+<span id="sphx-glr-auto-examples-demo-script-03-fit-simulation-data-with-opt-py"></span><h1>Fit concave elliptic cylinder to simulated data<a class="headerlink" href="#fit-concave-elliptic-cylinder-to-simulated-data" title="Link to this heading"></a></h1>
+<p>This example shows how to fit a concave elliptic cylinder to simulated data using the XMF library.</p>
+<ul class="sphx-glr-horizontal">
+<li><img src="../_images/sphx_glr_demo_script_03_fit_simulation_data_with_opt_001.png" srcset="../_images/sphx_glr_demo_script_03_fit_simulation_data_with_opt_001.png" alt="Concave Elliptic Cylinder, Fitting, Residual" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_demo_script_03_fit_simulation_data_with_opt_002.png" srcset="../_images/sphx_glr_demo_script_03_fit_simulation_data_with_opt_002.png" alt="Concave Elliptic Cylinder" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_demo_script_03_fit_simulation_data_with_opt_003.png" srcset="../_images/sphx_glr_demo_script_03_fit_simulation_data_with_opt_003.png" alt="Concave Elliptic Cylinder" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xmf</span>
 
 <span class="c1">## 1. Lateral coordinates</span>
@@ -142,15 +143,25 @@ to download the full example code.</p>
     <span class="s1">&#39;theta&#39;</span><span class="p">:</span> <span class="kc">False</span>
 <span class="p">}</span>
 
-<span class="c1">## 2.1. Convex Ellipsoid (CVXE)</span>
+<span class="c1">## 3.2. Concave Elliptic Cylinder (CCVEC)</span>
 
-<span class="n">z2d</span> <span class="o">=</span> <span class="n">xmf</span><span class="o">.</span><span class="n">generate_2d_curved_surface_height</span><span class="p">(</span><span class="n">xmf</span><span class="o">.</span><span class="n">standard_convex_ellipsoid_height</span><span class="p">,</span> <span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">abs_p</span><span class="p">,</span> <span class="n">abs_q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">,</span> <span class="n">z_i</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+<span class="n">z2d</span> <span class="o">=</span> <span class="n">xmf</span><span class="o">.</span><span class="n">generate_2d_cylinder_height</span><span class="p">(</span><span class="n">xmf</span><span class="o">.</span><span class="n">standard_concave_elliptic_cylinder_height</span><span class="p">,</span> <span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">abs_p</span><span class="p">,</span> <span class="n">abs_q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">z_i</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
 <span class="n">z2d_measured</span> <span class="o">=</span> <span class="n">z2d</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">z2d</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">z2d</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">height_measurement_noise_std</span>
-<span class="n">z2d_res</span><span class="p">,</span> <span class="n">z2d_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">xmf</span><span class="o">.</span><span class="n">fit_convex_ellipsoid_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">z2d_measured</span><span class="p">,</span> <span class="n">input_params_dict</span><span class="p">,</span> <span class="n">opt_dict</span><span class="p">)</span>
-<span class="n">xmf</span><span class="o">.</span><span class="n">fig_show_2d_fitting_map</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">z2d_measured</span><span class="p">,</span> <span class="n">z2d_fit</span><span class="p">,</span> <span class="n">z2d_res</span><span class="p">,</span> <span class="n">true_params_dict</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="s1">&#39;Convex Ellipsoid&#39;</span><span class="p">)</span>
+<span class="n">z2d_res</span><span class="p">,</span> <span class="n">z2d_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">xmf</span><span class="o">.</span><span class="n">fit_concave_elliptic_cylinder_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">z2d_measured</span><span class="p">,</span> <span class="n">input_params_dict</span><span class="p">,</span> <span class="n">opt_dict</span><span class="p">)</span>
+<span class="n">xmf</span><span class="o">.</span><span class="n">fig_show_2d_fitting_map</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">z2d_measured</span><span class="p">,</span> <span class="n">z2d_fit</span><span class="p">,</span> <span class="n">z2d_res</span><span class="p">,</span> <span class="n">true_params_dict</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="s1">&#39;Concave Elliptic Cylinder&#39;</span><span class="p">)</span>
+
+<span class="n">z1d</span> <span class="o">=</span> <span class="n">xmf</span><span class="o">.</span><span class="n">generate_1d_height</span><span class="p">(</span><span class="n">xmf</span><span class="o">.</span><span class="n">standard_concave_elliptic_cylinder_height</span><span class="p">,</span> <span class="n">x1d</span><span class="p">,</span> <span class="n">abs_p</span><span class="p">,</span> <span class="n">abs_q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">z_i</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+<span class="n">z1d_measured</span> <span class="o">=</span> <span class="n">z1d</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">z1d</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">height_measurement_noise_std</span>
+<span class="n">z1d_res</span><span class="p">,</span> <span class="n">z1d_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">xmf</span><span class="o">.</span><span class="n">fit_concave_ellipse_height</span><span class="p">(</span><span class="n">x1d</span><span class="p">,</span> <span class="n">z1d_measured</span><span class="p">,</span> <span class="n">input_params_dict</span><span class="p">,</span> <span class="n">opt_dict</span><span class="p">)</span>
+<span class="n">xmf</span><span class="o">.</span><span class="n">fig_show_1d_fitting_height</span><span class="p">(</span><span class="n">x1d</span><span class="p">,</span> <span class="n">z1d_measured</span><span class="p">,</span> <span class="n">z1d_fit</span><span class="p">,</span> <span class="n">z1d_res</span><span class="p">,</span> <span class="n">true_params_dict</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="s1">&#39;Concave Elliptic Cylinder&#39;</span><span class="p">)</span>
+
+<span class="n">sx1d</span> <span class="o">=</span> <span class="n">xmf</span><span class="o">.</span><span class="n">generate_1d_slope</span><span class="p">(</span><span class="n">xmf</span><span class="o">.</span><span class="n">standard_concave_elliptic_cylinder_xslope</span><span class="p">,</span> <span class="n">x1d</span><span class="p">,</span> <span class="n">abs_p</span><span class="p">,</span> <span class="n">abs_q</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+<span class="n">sx1d_measured</span> <span class="o">=</span> <span class="n">sx1d</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">sx1d</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">slope_measurement_noise_std</span>
+<span class="n">sx1d_res</span><span class="p">,</span> <span class="n">sx1d_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">xmf</span><span class="o">.</span><span class="n">fit_concave_ellipse_slope</span><span class="p">(</span><span class="n">x1d</span><span class="p">,</span> <span class="n">sx1d_measured</span><span class="p">,</span> <span class="n">input_params_dict</span><span class="p">,</span> <span class="n">opt_dict</span><span class="p">)</span>
+<span class="n">xmf</span><span class="o">.</span><span class="n">fig_show_1d_fitting_slope</span><span class="p">(</span><span class="n">x1d</span><span class="p">,</span> <span class="n">sx1d_measured</span><span class="p">,</span> <span class="n">sx1d_fit</span><span class="p">,</span> <span class="n">sx1d_res</span><span class="p">,</span> <span class="n">true_params_dict</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="s1">&#39;Concave Elliptic Cylinder&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.154 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.287 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-demo-script-03-fit-simulation-data-with-opt-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/a795d4a7ba7eff9ce49b342de9ee5da7/demo_script_03_fit_simulation_data_with_opt.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">demo_script_03_fit_simulation_data_with_opt.ipynb</span></code></a></p>
@@ -168,10 +179,7 @@ to download the full example code.</p>
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../source/modules.html" class="btn btn-neutral float-right" title="XMF Python package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

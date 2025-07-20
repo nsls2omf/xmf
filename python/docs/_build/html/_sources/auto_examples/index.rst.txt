@@ -8,7 +8,6 @@ Each example script is automatically run and the output and figures are captured
 
 
 
-
 .. raw:: html
 
     <div class="sphx-glr-thumbnails">
@@ -17,18 +16,69 @@ Each example script is automatically run and the output and figures are captured
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to fit a convex ellipsoid to simulated data using the XMF library.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to fit a concave ellipsoid to simulated data using the XMF library.">
 
 .. only:: html
 
-  .. image:: /auto_examples/images/thumb/sphx_glr_demo_script_03_fit_simulation_data_with_opt_thumb.png
+  .. image:: /auto_examples/images/thumb/sphx_glr_example_01_fit_concave_ellipsoid_with_tol_thumb.png
     :alt:
 
-  :ref:`sphx_glr_auto_examples_demo_script_03_fit_simulation_data_with_opt.py`
+  :ref:`sphx_glr_auto_examples_example_01_fit_concave_ellipsoid_with_tol.py`
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Fit convex ellipsoid to simulated data</div>
+      <div class="sphx-glr-thumbnail-title">Example 01: Fit concave ellipsoid</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to fit a concave hyperboloid to simulated data using the XMF library.">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_example_02_fit_concave_hyperboloid_with_opt_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_example_02_fit_concave_hyperboloid_with_opt.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Example 02: Fit concave hyperboloid</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to fit a convex hyperbolic cylinder to simulated data using the XMF library.">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_example_03_fit_convex_hyperbolic_cylinder_with_tol_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_example_03_fit_convex_hyperbolic_cylinder_with_tol.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Example 03: Fit convex hyperbolic cylinder</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to fit a concave elliptic cylinder to simulated data using the XMF library.">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_example_04_fit_concave_elliptic_cylinder_with_opt_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_example_04_fit_concave_elliptic_cylinder_with_opt.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Example 04: Fit concave elliptic cylinder</div>
     </div>
 
 
@@ -42,7 +92,10 @@ Each example script is automatically run and the output and figures are captured
 .. toctree::
    :hidden:
 
-   /auto_examples/demo_script_03_fit_simulation_data_with_opt
+   /auto_examples/example_01_fit_concave_ellipsoid_with_tol
+   /auto_examples/example_02_fit_concave_hyperboloid_with_opt
+   /auto_examples/example_03_fit_convex_hyperbolic_cylinder_with_tol
+   /auto_examples/example_04_fit_concave_elliptic_cylinder_with_opt
 
 
 .. only:: html

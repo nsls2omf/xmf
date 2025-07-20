@@ -1,4 +1,4 @@
-xmf API
+XMF API
 =======
 
 Summary table
@@ -35,7 +35,7 @@ Full API Details
    :undoc-members:
    :show-inheritance:
 
-xmf package
+XMF package
 ===========
 
 

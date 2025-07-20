@@ -1,7 +1,7 @@
-xmf
-===
+XMF Python package
+==================
 
 .. toctree::
    :maxdepth: 4
 
-   xmf
+   xmf_python

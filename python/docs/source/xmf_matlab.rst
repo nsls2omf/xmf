@@ -1,4 +1,4 @@
-xmf MATLAB functions
+XMF Matlab functions
 ====================
 
 fig\_show

@@ -3,7 +3,7 @@
 Welcome to the X-ray Mirror surface shape Fitting (XMF)!
 
 <p align="center">
-    <img src="_static/logo.png" alt="xmf_logo" width="400"/>
+    <img src="python/docs/_static/logo.png" alt="xmf_logo" width="400"/>
 </p>
 
 In this document, we will introduce the modules and functionalities of XMF in Python and MATLAB.
@@ -12,11 +12,11 @@ In this document, we will introduce the modules and functionalities of XMF in Py
 
 XMF is a framework for the X-ray mirror surface shape fitting, particularly in the context of convex and concave shapes.
 
-[![[mirror surfaces]](_static/mirror_surfaces.png)](none)
+[![[mirror surfaces]](python/docs/_static/mirror_surfaces.png)](none)
 
 It provides data analysis and visualization tools for fitting measurement data to various geometric shapes, including elliptic cylinders, hyperbolic cylinders, ellipsoids, and hyperboloids.
 
-[![[framework]](_static/framework.png)](none)
+[![[framework]](python/docs/_static/framework.png)](none)
 
 The framework is composed of four main layers:
 

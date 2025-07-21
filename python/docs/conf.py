@@ -47,6 +47,7 @@ autosummary_generate = True
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 html_logo = '_static/logo.png'
+html_extra_path = ['_images']
 
 html_baseurl = 'https://nsls2omf.github.io/xmf/'
 html_theme_options = {

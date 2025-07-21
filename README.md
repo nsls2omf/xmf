@@ -1,13 +1,8 @@
-# xmf
-X-ray Mirror surface shape Fitting (XMF)
-<!-- xmf_dev documentation master file, created by
-sphinx-quickstart on Tue Jul  1 16:32:05 2025.
-You can adapt this file completely to your liking, but it should at least
-contain the root `toctree` directive. -->
+# XMF
 
-# XMF documentation
+Welcome to the X-ray Mirror surface shape Fitting (XMF)!
 
-Welcome to the XMF documentation!
+[![[xmf_logo]](_static/logo.png)](none)
 
 In this documentation, you will find information about the XMF project, including its modules and functionalities in Python and MATLAB.
 
@@ -15,9 +10,6 @@ In this documentation, you will find information about the XMF project, includin
 
 * [Framework](framework.md)
 * [Example codes](example_codes.md)
-* [Example Gallery](auto_examples/index.md)
-* [XMF Python package](source/modules.md)
-* [XMF Matlab functions](source/xmf_matlab.md)
 
 # Framework
 
@@ -81,9 +73,3 @@ opt_struct.theta = false;
 [sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_ellipse_slope(x1d, sx1d_measured, input_params_struct, opt_struct);
 fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, input_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Elliptic Cylinder');
 ```
-
-# Indices and tables
-
-* [Index](genindex.md)
-* [Module Index](py-modindex.md)
-* [Search Page](search.md)

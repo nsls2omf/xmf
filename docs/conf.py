@@ -16,6 +16,8 @@ copyright = '2025, Lei Huang'
 author = 'Lei Huang and Ruochen Xu'
 release = '1.0.0'
 
+html_baseurl = 'https://nsls2omf.github.io/xmf/'
+
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 

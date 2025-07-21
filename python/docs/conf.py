@@ -48,6 +48,11 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 html_logo = '_static/logo.png'
 
+html_baseurl = 'https://nsls2omf.github.io/xmf/'
+html_theme_options = {
+    'canonical_url': 'https://nsls2omf.github.io/xmf/',
+}
+
 # -- Options for MATLAB domain -----------------------------------------------
 this_dir = os.path.dirname(os.path.abspath(__file__))
 matlab_src_dir = os.path.abspath(os.path.join(this_dir, '..','..'))

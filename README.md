@@ -2,7 +2,7 @@
 
 Welcome to the X-ray Mirror surface shape Fitting (XMF)!
 
-[![[xmf_logo]](_static/logo.png)](none)
+<img src="_static/logo.png" alt="xmf_logo" width="200"/>
 
 In this document, we will introduce the modules and functionalities of XMF in Python and MATLAB.
 

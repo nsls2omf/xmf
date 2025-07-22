@@ -8,7 +8,7 @@ XMF documentation
 
 Welcome to the XMF documentation!
 
-In this documentation, you will find information about the XMF project, including its modules and functionalities in Python and MATLAB.
+In this documentation, you will find information about the XMF project for X-ray mirror surface shape fitting, including its modules and functionalities in Python and MATLAB.
    
 .. toctree::
    :maxdepth: 1

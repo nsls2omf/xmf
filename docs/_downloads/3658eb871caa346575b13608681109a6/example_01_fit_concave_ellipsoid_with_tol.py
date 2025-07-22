@@ -1,6 +1,6 @@
 """
-Example 01: Fit concave ellipsoid 
-========================================
+Example 01: Fit concave ellipsoid
+=================================
 
 This example shows how to fit a concave ellipsoid to simulated data using the XMF library.
 

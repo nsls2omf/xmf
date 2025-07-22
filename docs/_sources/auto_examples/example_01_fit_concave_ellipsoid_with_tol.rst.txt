@@ -18,8 +18,8 @@
 .. _sphx_glr_auto_examples_example_01_fit_concave_ellipsoid_with_tol.py:
 
 
-Example 01: Fit concave ellipsoid 
-========================================
+Example 01: Fit concave ellipsoid
+=================================
 
 This example shows how to fit a concave ellipsoid to simulated data using the XMF library.
 
@@ -101,7 +101,7 @@ This example shows how to fit a concave ellipsoid to simulated data using the XM
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.144 seconds)
+   **Total running time of the script:** (0 minutes 0.140 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_01_fit_concave_ellipsoid_with_tol.py:

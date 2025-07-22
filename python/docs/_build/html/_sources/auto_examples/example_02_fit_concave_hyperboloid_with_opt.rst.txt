@@ -19,7 +19,7 @@
 
 
 Example 02: Fit concave hyperboloid 
-========================================
+===================================
 
 This example shows how to fit a concave hyperboloid to simulated data using the XMF library.
 
@@ -100,7 +100,7 @@ This example shows how to fit a concave hyperboloid to simulated data using the 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.104 seconds)
+   **Total running time of the script:** (0 minutes 0.112 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_02_fit_concave_hyperboloid_with_opt.py:

@@ -19,7 +19,7 @@
 
 
 Example 04: Fit concave elliptic cylinder 
-========================================
+=========================================
 
 This example shows how to fit a concave elliptic cylinder to simulated data using the XMF library.
 
@@ -129,7 +129,7 @@ This example shows how to fit a concave elliptic cylinder to simulated data usin
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.202 seconds)
+   **Total running time of the script:** (0 minutes 0.193 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_04_fit_concave_elliptic_cylinder_with_opt.py:

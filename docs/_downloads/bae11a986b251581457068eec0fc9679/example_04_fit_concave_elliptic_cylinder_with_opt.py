@@ -1,6 +1,6 @@
 """
 Example 04: Fit concave elliptic cylinder 
-========================================
+=========================================
 
 This example shows how to fit a concave elliptic cylinder to simulated data using the XMF library.
 """

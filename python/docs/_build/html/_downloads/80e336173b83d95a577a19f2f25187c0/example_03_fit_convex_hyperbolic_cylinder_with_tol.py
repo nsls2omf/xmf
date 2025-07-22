@@ -1,6 +1,6 @@
 """
 Example 03: Fit convex hyperbolic cylinder 
-========================================
+==========================================
 
 This example shows how to fit a convex hyperbolic cylinder to simulated data using the XMF library.
 

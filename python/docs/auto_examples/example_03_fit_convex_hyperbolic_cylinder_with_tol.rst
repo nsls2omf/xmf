@@ -19,7 +19,7 @@
 
 
 Example 03: Fit convex hyperbolic cylinder 
-========================================
+==========================================
 
 This example shows how to fit a convex hyperbolic cylinder to simulated data using the XMF library.
 
@@ -130,7 +130,7 @@ This example shows how to fit a convex hyperbolic cylinder to simulated data usi
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.256 seconds)
+   **Total running time of the script:** (0 minutes 0.198 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_03_fit_convex_hyperbolic_cylinder_with_tol.py:

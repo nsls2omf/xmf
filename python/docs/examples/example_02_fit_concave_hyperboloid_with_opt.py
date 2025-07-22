@@ -1,6 +1,6 @@
 """
 Example 02: Fit concave hyperboloid 
-========================================
+===================================
 
 This example shows how to fit a concave hyperboloid to simulated data using the XMF library.
 """

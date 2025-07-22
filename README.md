@@ -6,7 +6,7 @@ Welcome to the X-ray Mirror surface shape Fitting (XMF)!
     <img src="python/docs/_static/logo.png" alt="xmf_logo" width="400"/>
 </p>
 
-In the documentation [text](https://nsls2omf.github.io/xmf/), we introduce the modules and functionalities of XMF in Python and MATLAB.
+In the [XMF documentation](https://nsls2omf.github.io/xmf/){:target="_blank"}, we introduce the modules and functionalities of XMF in Python and MATLAB.
 
 # Framework
 

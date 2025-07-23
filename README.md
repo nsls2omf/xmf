@@ -12,7 +12,9 @@ In the [XMF documentation (https://nsls2omf.github.io/xmf)](https://nsls2omf.git
 
 XMF is a framework for the X-ray mirror surface shape fitting, particularly in the context of convex and concave shapes.
 
-![[mirror surfaces]](python/docs/_static/mirror_surfaces.png)
+<p align="center">
+   <img src="python/docs/_static/mirror_surfaces.png" alt="mirror surfaces" style="width:100%; max-width:1000px;"/>
+</p>
 
 It provides data analysis and visualization tools for fitting measurement data to various geometric shapes, including elliptic cylinders, hyperbolic cylinders, ellipsoids, and hyperboloids.
 

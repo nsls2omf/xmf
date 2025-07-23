@@ -34,43 +34,112 @@ The framework is composed of four main layers:
 Python example for fitting a concave ellipse slope:
 
 ```python
+
+import numpy as np
 import xmf
 
-target_params_dict = {
-   'p': p,
-   'q': q,
-   'theta': theta,
-   'x_i': x_i,
-   'beta': beta,
+## 1. Lateral coordinates
+
+x_range = 200e-3 
+y_range = 20e-3 
+x_num = 201 
+y_num = 21 
+
+x1d = np.linspace(-x_range/2, x_range/2, x_num) 
+y1d = np.linspace(-y_range/2, y_range/2, y_num) 
+x2d, y2d = np.meshgrid(x1d, y1d)
+
+abs_p = 30 
+abs_q = 0.3
+theta = 30e-3 
+
+x_i = -1e-3 
+y_i = -2e-4 
+z_i = 3e-7 
+alpha = 2e-6 
+beta = 1e-5 
+gamma = 0.5e-3 
+
+true_params_dict = {
+    'p': abs_p,
+    'q': abs_q,
+    'theta': theta,
+    'x_i': x_i,
+    'y_i': y_i,
+    'z_i': z_i,
+    'alpha': alpha,
+    'beta': beta,
+    'gamma': gamma
 }
 
-params_input_dict = {
-   'p': p,
-   'q': q,
-   'theta': theta
+height_measurement_noise_std = 0.5e-9
+slope_measurement_noise_std = 100e-9
+
+input_params_dict = {
+    'p': abs_p,
+    'q': abs_q,
+    'theta': theta
 }
 
-opt_dict = {
-   'p': False,
-   'q': False,
-   'theta': False
+tol_dict = {
+    'p': 0,
+    'q': 0,
+    'theta': 0
 }
 
-sx1d_res, sx1d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_concave_ellipse_slope(x1d, sx1d_measured, params_input_dict, opt_dict)
-xmf.fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_params_dict, opt_params_dict, opt_params_ci_dict, 'Concave Ellipse Slope')
+## 2.2. Concave Ellipsoid (CCVE)
+
+z2d = xmf.generate_2d_curved_surface_height(xmf.standard_concave_ellipsoid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma) 
+z2d_measured = z2d + np.random.randn(z2d.shape[0], z2d.shape[1])*height_measurement_noise_std 
+z2d_res, z2d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_concave_ellipsoid_height(x2d, y2d, z2d_measured, input_params_dict, tol_dict) 
+xmf.fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, true_params_dict, opt_params_dict, opt_params_ci_dict,'Concave Ellipsoid') 
 ```
 
 MATLAB example for fitting a concave ellipse slope:
 
 ```matlab
-input_params_struct.p = p;
-input_params_struct.q = q;
+x_range = 200e-3;
+y_range = 20e-3;
+x_num = 201;
+y_num = 21;
+x1d = linspace(-x_range/2, x_range/2, x_num);
+y1d = linspace(-y_range/2, y_range/2, y_num);
+[x2d, y2d] = meshgrid(x1d, y1d);
+
+abs_p = 30;
+abs_q = 0.3;
+theta = 30e-3;
+
+x_i = -1e-3;
+y_i = -2e-4;
+z_i = 3e-7;
+alpha = 2e-6;
+beta = 1e-5;
+gamma = 0.5e-3;
+
+true_params_struct.p = abs_p;
+true_params_struct.q = abs_q;
+true_params_struct.theta = theta;
+true_params_struct.x_i = x_i;
+true_params_struct.y_i = y_i;
+true_params_struct.z_i = z_i;
+true_params_struct.alpha = alpha;
+true_params_struct.beta = beta;
+true_params_struct.gamma = gamma;
+
+height_measurement_noise_std = 0.5e-9;
+slope_measurement_noise_std = 100e-9;
+
+input_params_struct.p = abs_p;
+input_params_struct.q = abs_q;
 input_params_struct.theta = theta;
 
 opt_struct.p = false;
 opt_struct.q = false;
 opt_struct.theta = false;
 
-[sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_ellipse_slope(x1d, sx1d_measured, input_params_struct, opt_struct);
-fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, input_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Elliptic Cylinder');
+z2d = generate_2d_cylinder_height(@standard_concave_elliptic_cylinder_height, x2d, y2d, abs_p, abs_q, theta, x_i, z_i, alpha, beta, gamma);
+z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
+[z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_elliptic_cylinder_height(x2d, y2d, z2d_measured, input_params_struct, opt_struct);
+fig_show_2d_fitting_map(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Elliptic Cylinder');
 ```

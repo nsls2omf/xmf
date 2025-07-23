@@ -18,7 +18,9 @@ XMF is a framework for the X-ray mirror surface shape fitting, particularly in t
 
 It provides data analysis and visualization tools for fitting measurement data to various geometric shapes, including elliptic cylinders, hyperbolic cylinders, ellipsoids, and hyperboloids.
 
-![[framework]](python/docs/_static/framework.png)
+<p align="center">
+   <img src="python/docs/_static/framework.png" alt="framework" style="width:66vw; max-width:1000px;">
+</p>
 
 The framework is composed of four main layers:
 

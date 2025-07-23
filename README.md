@@ -38,8 +38,6 @@ Python example for fitting a concave ellipse slope:
 import numpy as np
 import xmf
 
-## 1. Lateral coordinates
-
 x_range = 200e-3 
 y_range = 20e-3 
 x_num = 201 
@@ -86,8 +84,6 @@ tol_dict = {
     'q': 0,
     'theta': 0
 }
-
-## 2.2. Concave Ellipsoid (CCVE)
 
 z2d = xmf.generate_2d_curved_surface_height(xmf.standard_concave_ellipsoid_height, x2d, y2d, abs_p, abs_q, theta, x_i, y_i, z_i, alpha, beta, gamma) 
 z2d_measured = z2d + np.random.randn(z2d.shape[0], z2d.shape[1])*height_measurement_noise_std 

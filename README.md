@@ -31,7 +31,7 @@ The framework is composed of four main layers:
 
 # Example codes
 
-Python example for fitting a concave ellipse slope:
+Python example for fitting a concave ellipsoid height map:
 
 ```python
 
@@ -104,7 +104,7 @@ z2d_res, z2d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_concave_ellip
 xmf.fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, true_params_dict, opt_params_dict, opt_params_ci_dict,'Concave Ellipsoid') 
 ```
 
-MATLAB example for fitting a concave ellipse slope:
+MATLAB example for fitting a concave elliptic cylinder height map:
 
 ```matlab
 % 1. Define lateral coordinates

@@ -1,7 +1,7 @@
 Example codes
 ==============
 
-Python example for fitting a concave ellipsoid height:
+Python example for fitting a concave ellipsoid height map:
 
 .. code-block:: python
 
@@ -74,7 +74,7 @@ Python example for fitting a concave ellipsoid height:
     xmf.fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, true_params_dict, opt_params_dict, opt_params_ci_dict,'Concave Ellipsoid') 
 
 
-MATLAB example for fitting a concave elliptic cylinder height:
+MATLAB example for fitting a concave elliptic cylinder height map:
 
 .. code-block:: matlab
    

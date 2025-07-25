@@ -26,10 +26,16 @@ function z1d ... 1D height profile
 %   Outputs:
 %       - z1d - 1D height profile of the grazing incidence X-ray mirror in metrology coordinates
 
-if nargin < 9
-    % If no information on measured height, simply assumping it is flat.
-    % This is OK for most grazing incidence X-ray mirrors.
-    z1d_measured = zeros(size(x1d)); 
+arguments
+    standard_height_function_handle function_handle
+    x1d double
+    p (1,1) double {mustBePositive}
+    q (1,1) double {mustBePositive}
+    theta (1,1) double {mustBeReal}
+    x_i (1,1) double {mustBeReal} = mean(x1d, 'omitnan') % Default to the mean of x1d if not provided
+    z_i (1,1) double {mustBeReal} = 0; % Default to 0 if not provided
+    beta (1,1) double {mustBeReal} = 0; % Default to 0 if not provided
+    z1d_measured double {mustBeReal} = zeros(size(x1d)); % Default to flat if not provided
 end
 
 y_i = 0; % No need to consider y-position of the chief ray intersection for cylinders

@@ -5,6 +5,8 @@
 
 import os
 import sys
+from sphinx_gallery.sorting import FileNameSortKey
+
 sys.path.insert(0, os.path.abspath('..'))
 sys.path.insert(0, os.path.abspath('../..'))
 
@@ -35,6 +37,7 @@ sphinx_gallery_conf = {
     # Path to where gallery pages will be generated
     'gallery_dirs': 'auto_examples',   # <-- generated output
     'filename_pattern': r'.*\.py',     # run all .py scripts
+    'within_subsection_order': FileNameSortKey,
 }
 
 templates_path = ['_templates']

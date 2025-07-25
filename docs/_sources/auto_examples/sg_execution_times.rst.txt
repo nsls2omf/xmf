@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:00.643** total execution time for 4 files **from auto_examples**:
+**00:01.451** total execution time for 6 files **from auto_examples**:
 
 .. container::
 
@@ -32,15 +32,21 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_auto_examples_example_03_fit_convex_hyperbolic_cylinder_with_tol.py` (``example_03_fit_convex_hyperbolic_cylinder_with_tol.py``)
-     - 00:00.198
+   * - :ref:`sphx_glr_auto_examples_example_05_fit_real_concave_hyperbolic_cylinder_with_opt.py` (``example_05_fit_real_concave_hyperbolic_cylinder_with_opt.py``)
+     - 00:00.940
      - 0.0
-   * - :ref:`sphx_glr_auto_examples_example_04_fit_concave_elliptic_cylinder_with_opt.py` (``example_04_fit_concave_elliptic_cylinder_with_opt.py``)
-     - 00:00.193
+   * - :ref:`sphx_glr_auto_examples_example_06_fit_real_concave_ellipsoid_with_tol.py` (``example_06_fit_real_concave_ellipsoid_with_tol.py``)
+     - 00:00.511
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_01_fit_concave_ellipsoid_with_tol.py` (``example_01_fit_concave_ellipsoid_with_tol.py``)
-     - 00:00.140
+     - 00:00.000
      - 0.0
    * - :ref:`sphx_glr_auto_examples_example_02_fit_concave_hyperboloid_with_opt.py` (``example_02_fit_concave_hyperboloid_with_opt.py``)
-     - 00:00.112
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_03_fit_convex_hyperbolic_cylinder_with_tol.py` (``example_03_fit_convex_hyperbolic_cylinder_with_tol.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_example_04_fit_concave_elliptic_cylinder_with_opt.py` (``example_04_fit_concave_elliptic_cylinder_with_opt.py``)
+     - 00:00.000
      - 0.0

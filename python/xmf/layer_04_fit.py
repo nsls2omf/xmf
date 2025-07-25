@@ -71,7 +71,9 @@ def fit_convex_ellipsoid_height(x2d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z2d_residual: `numpy.ndarray`
@@ -109,7 +111,9 @@ def fit_concave_ellipsoid_height(x2d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z2d_residual: `numpy.ndarray`
@@ -148,7 +152,9 @@ def fit_convex_elliptic_cylinder_height(x2d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z2d_residual: `numpy.ndarray`
@@ -187,7 +193,9 @@ def fit_concave_elliptic_cylinder_height(x2d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z2d_residual: `numpy.ndarray`
@@ -222,7 +230,9 @@ def fit_convex_ellipse_height(x1d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z1d_residual: `numpy.ndarray`
@@ -258,7 +268,9 @@ def fit_concave_ellipse_height(x1d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z1d_residual: `numpy.ndarray`
@@ -294,7 +306,9 @@ def fit_convex_ellipse_slope(x1d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z1d_residual: `numpy.ndarray`
@@ -330,7 +344,9 @@ def fit_concave_ellipse_slope(x1d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z1d_residual: `numpy.ndarray`
@@ -370,7 +386,9 @@ def fit_convex_hyperboloid_height(x2d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z2d_residual: `numpy.ndarray`
@@ -407,7 +425,9 @@ def fit_concave_hyperboloid_height(x2d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z2d_residual: `numpy.ndarray`
@@ -444,7 +464,9 @@ def fit_convex_hyperbolic_cylinder_height(x2d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z2d_residual: `numpy.ndarray`
@@ -481,7 +503,9 @@ def fit_concave_hyperbolic_cylinder_height(x2d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z2d_residual: `numpy.ndarray`
@@ -515,7 +539,9 @@ def fit_convex_hyperbola_height(x1d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z1d_residual: `numpy.ndarray`
@@ -551,7 +577,9 @@ def fit_concave_hyperbola_height(x1d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z1d_residual: `numpy.ndarray`
@@ -587,7 +615,9 @@ def fit_convex_hyperbola_slope(x1d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z1d_residual: `numpy.ndarray`
@@ -623,7 +653,9 @@ def fit_concave_hyperbola_slope(x1d: np.ndarray,
         opt_or_tol_dict: `dict`
             The structure to set whether optimization flag or tolerance for 
             ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
-
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
     Returns
     -------
         z1d_residual: `numpy.ndarray`

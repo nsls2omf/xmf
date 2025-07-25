@@ -275,9 +275,9 @@ def fig_compare_1d_slope(x1d, sx1d_generation, sx1d_standard, str_title):
     plt.tight_layout()
     plt.show()
     
-def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
+def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
     """
-    Show a 2D fitting map with colorbar, target parameters, fitted parameters, and residuals
+    Show a 2D fitting map with colorbar, input parameters, fitted parameters, and residuals
     
     Parameters
     ----------
@@ -291,8 +291,8 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_par
             2D array of fitted z-values
         z2d_res: `numpy.ndarray`
             2D array of residuals
-        target_params_dict: `dict`
-            Dictionary of target parameters
+        input_params_dict: `dict`
+            Dictionary of input parameters
         opt_params_dict: `dict`
             Dictionary of optimized parameters
         opt_params_ci_dict: `dict`
@@ -364,11 +364,11 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_par
     add_colorbar(im1, '[µm]')
     ax1.tick_params(axis='both', labelsize=font_size)
     
-    # Target parameters
+    # Input parameters
     ax2 = plt.subplot(gs[0, 2])
     ax2.axis('off')
-    ax2.text(0.5, 1, 'Target parameters:', fontsize=large_font_size, ha='center', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
-    for i, s in enumerate(parameter_to_string_2d(target_params_dict)):
+    ax2.text(0.5, 1, 'Input parameters:', fontsize=large_font_size, ha='center', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
+    for i, s in enumerate(parameter_to_string_2d(input_params_dict)):
         ax2.text(0, 0.7-0.2*i, s, fontsize=font_size, ha='left', va='top', transform=ax2.transAxes)
 
     # Fit
@@ -418,9 +418,9 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_par
     plt.show()
 
 
-def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
+def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, input_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
     """
-    Show a 1D fitting plot with measured data, fitted data, residuals, target parameters, and optimized parameters
+    Show a 1D fitting plot with measured data, fitted data, residuals, input parameters, and optimized parameters
 
     Parameters
     ----------
@@ -432,8 +432,8 @@ def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_param
             1D array of fitted z-values
         z1d_res: `numpy.ndarray`
             1D array of residuals
-        target_params_dict: `dict`
-            Dictionary of target parameters
+        input_params_dict: `dict`
+            Dictionary of input parameters
         opt_params_dict: `dict`
             Dictionary of optimized parameters
         opt_params_ci_dict: `dict`
@@ -500,11 +500,11 @@ def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_param
     ax1.set_title(str_title, fontsize=font_size)
     ax1.tick_params(axis='both', labelsize=font_size)
 
-    # Target parameters
+    # Input parameters
     ax2 = plt.subplot(gs[0, 2])
     ax2.axis('off')
-    ax2.text(0.5, 1, 'Target parameters:', fontsize=large_font_size, ha='center', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
-    for i, s in enumerate(parameter_to_string_1d(target_params_dict)):
+    ax2.text(0.5, 1, 'Input parameters:', fontsize=large_font_size, ha='center', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
+    for i, s in enumerate(parameter_to_string_1d(input_params_dict)):
         ax2.text(0, 0.7-0.2*i, s, fontsize=font_size, ha='left', va='top', transform=ax2.transAxes)
 
     # Fitted parameters
@@ -530,9 +530,9 @@ def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, target_param
 
     plt.show()
 
-def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
+def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, input_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
     """
-    Show a 1D fitting plot with measured slopes, fitted slopes, residuals, target parameters, and optimized parameters
+    Show a 1D fitting plot with measured slopes, fitted slopes, residuals, input parameters, and optimized parameters
     
     Parameters
     ----------
@@ -544,8 +544,8 @@ def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_par
             1D array of fitted slopes
         sx1d_res: `numpy.ndarray`
             1D array of residuals
-        target_params_dict: `dict`
-            Dictionary of target parameters
+        input_params_dict: `dict`
+            Dictionary of input parameters
         opt_params_dict: `dict`
             Dictionary of optimized parameters
         opt_params_ci_dict: `dict`
@@ -612,11 +612,11 @@ def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, target_par
     ax1.set_title(str_title, fontsize=font_size)
     ax1.tick_params(axis='both', labelsize=font_size)
 
-    # Target parameters
+    # Input parameters
     ax2 = plt.subplot(gs[0, 2])
     ax2.axis('off')
-    ax2.text(0.5, 1, 'Target parameters:', fontsize=large_font_size, ha='center', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
-    for i, s in enumerate(parameter_to_string_1d(target_params_dict)):
+    ax2.text(0.5, 1, 'Input parameters:', fontsize=large_font_size, ha='center', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
+    for i, s in enumerate(parameter_to_string_1d(input_params_dict)):
         ax2.text(0, 0.7-0.2*i, s, fontsize=font_size, ha='left', va='top', transform=ax2.transAxes)
 
     # Fitted parameters

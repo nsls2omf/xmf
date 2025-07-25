@@ -29,6 +29,10 @@ The framework is composed of four main layers:
 - **Layer 3: Optimization**. It optimizes the user-selected fitting parameters.
 - **Layer 4: Function wrapper**. It offers convenient functions to fit measurement data for specific shapes.
 
+# Example gallery
+
+[Example gallery](https://nsls2omf.github.io/xmf/auto_examples/index.html) shows example Python scripts demonstrating how to use our code. 
+
 # Example codes
 
 Python example for fitting a concave ellipsoid height map:

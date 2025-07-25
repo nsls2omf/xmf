@@ -51,7 +51,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../framework.html">Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../example_codes.html">Example codes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Example Gallery</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Example gallery</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="example_01_fit_concave_ellipsoid_with_tol.html">Example 01: Fit concave ellipsoid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_02_fit_concave_hyperboloid_with_opt.html">Example 02: Fit concave hyperboloid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_03_fit_convex_hyperbolic_cylinder_with_tol.html">Example 03: Fit convex hyperbolic cylinder</a></li>
@@ -78,7 +78,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Example Gallery</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Example gallery</a></li>
       <li class="breadcrumb-item active">Example 05: Fit real data of a concave hyperbolic cylinder</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/auto_examples/example_05_fit_real_concave_hyperbolic_cylinder_with_opt.rst.txt" rel="nofollow"> View page source</a>
@@ -101,6 +101,7 @@ to download the full example code.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">loadmat</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xmf</span>
 
+<span class="c1"># Load the data</span>
 <span class="n">concave_hyperbolic_cylinder_map</span> <span class="o">=</span> <span class="n">loadmat</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;real_data&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_02_concave_hyperbolic_cylinder_height_map.mat&#39;</span><span class="p">))</span>
 
 <span class="n">p</span> <span class="o">=</span> <span class="n">concave_hyperbolic_cylinder_map</span><span class="p">[</span><span class="s1">&#39;params_target&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
@@ -117,6 +118,7 @@ to download the full example code.</p>
 <span class="n">y2d</span> <span class="o">=</span> <span class="n">concave_hyperbolic_cylinder_map</span><span class="p">[</span><span class="s1">&#39;y2d&#39;</span><span class="p">]</span>
 <span class="n">z2d_measured</span> <span class="o">=</span> <span class="n">concave_hyperbolic_cylinder_map</span><span class="p">[</span><span class="s1">&#39;z2d&#39;</span><span class="p">]</span>
 
+<span class="c1"># Target parameters as dictionary</span>
 <span class="n">target_params_dict</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="n">p</span><span class="p">,</span>
     <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="n">q</span><span class="p">,</span>
@@ -129,23 +131,27 @@ to download the full example code.</p>
     <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="n">gamma</span>
 <span class="p">}</span>
 
-<span class="n">params_input_dict</span> <span class="o">=</span> <span class="p">{</span>
+<span class="c1"># Set input parameters as dictionary</span>
+<span class="n">input_params_dict</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="n">p</span><span class="p">,</span>
     <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="n">q</span><span class="p">,</span>
     <span class="s1">&#39;theta&#39;</span><span class="p">:</span> <span class="n">theta</span>
 <span class="p">}</span>
 
+<span class="c1"># Set the optimization flag dictionary</span>
 <span class="n">opt_dict</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
     <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
     <span class="s1">&#39;theta&#39;</span><span class="p">:</span> <span class="kc">False</span>
 <span class="p">}</span>
 
-<span class="n">z2d_res</span><span class="p">,</span> <span class="n">z2d_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">xmf</span><span class="o">.</span><span class="n">fit_concave_hyperbolic_cylinder_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">z2d_measured</span><span class="p">,</span> <span class="n">params_input_dict</span><span class="p">,</span> <span class="n">opt_dict</span><span class="p">)</span>
+<span class="c1"># Fit the surface shape</span>
+<span class="n">z2d_res</span><span class="p">,</span> <span class="n">z2d_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">xmf</span><span class="o">.</span><span class="n">fit_concave_hyperbolic_cylinder_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">z2d_measured</span><span class="p">,</span> <span class="n">input_params_dict</span><span class="p">,</span> <span class="n">opt_dict</span><span class="p">)</span>
+<span class="c1"># Show fitting results</span>
 <span class="n">xmf</span><span class="o">.</span><span class="n">fig_show_2d_fitting_map</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">z2d_measured</span><span class="p">,</span> <span class="n">z2d_fit</span><span class="p">,</span> <span class="n">z2d_res</span><span class="p">,</span> <span class="n">target_params_dict</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span><span class="s1">&#39;Concave Hyperbolic Cylinder&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.940 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.939 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-05-fit-real-concave-hyperbolic-cylinder-with-opt-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/4548878303b139b29bca3f0c4cc132b5/example_05_fit_real_concave_hyperbolic_cylinder_with_opt.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example_05_fit_real_concave_hyperbolic_cylinder_with_opt.ipynb</span></code></a></p>

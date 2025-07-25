@@ -10,6 +10,7 @@ import os
 from scipy.io import loadmat
 import xmf
 
+# Load the data
 concave_hyperbolic_cylinder_map = loadmat(os.path.join('..', '..', '..', 'real_data', 'sample_02_concave_hyperbolic_cylinder_height_map.mat'))
 
 p = concave_hyperbolic_cylinder_map['params_target'][0][0][0][0][0]
@@ -26,6 +27,7 @@ x2d = concave_hyperbolic_cylinder_map['x2d']
 y2d = concave_hyperbolic_cylinder_map['y2d']
 z2d_measured = concave_hyperbolic_cylinder_map['z2d']
 
+# Target parameters as dictionary
 target_params_dict = {
     'p': p,
     'q': q,
@@ -38,17 +40,21 @@ target_params_dict = {
     'gamma': gamma
 }
 
-params_input_dict = {
+# Set input parameters as dictionary
+input_params_dict = {
     'p': p,
     'q': q,
     'theta': theta
 }
 
+# Set the optimization flag dictionary
 opt_dict = {
     'p': False,
     'q': False,
     'theta': False
 }
 
-z2d_res, z2d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_concave_hyperbolic_cylinder_height(x2d, y2d, z2d_measured, params_input_dict, opt_dict) 
+# Fit the surface shape
+z2d_res, z2d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_concave_hyperbolic_cylinder_height(x2d, y2d, z2d_measured, input_params_dict, opt_dict) 
+# Show fitting results
 xmf.fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_params_dict, opt_params_dict, opt_params_ci_dict,'Concave Hyperbolic Cylinder') 

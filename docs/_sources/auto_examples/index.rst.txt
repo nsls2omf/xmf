@@ -1,6 +1,6 @@
 :orphan:
 
-Example Gallery
+Example gallery
 ===============
 
 This gallery shows example Python scripts demonstrating how to use our code.

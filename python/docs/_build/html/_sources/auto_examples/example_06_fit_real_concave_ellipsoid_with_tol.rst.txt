@@ -23,7 +23,7 @@ Example 06: Fit real data of a concave ellipsoid
 
 This example shows how to fit real data of a concave ellipsoid using the XMF library.
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-58
+.. GENERATED FROM PYTHON SOURCE LINES 8-62
 
 
 
@@ -43,8 +43,7 @@ This example shows how to fit real data of a concave ellipsoid using the XMF lib
     from scipy.io import loadmat
     import xmf
 
-    ## 1. Lateral coordinates
-
+    # Load the data
     concave_ellipsoid_map = loadmat(os.path.join('..', '..', '..', 'real_data', 'sample_03_concave_ellipsoid_height_map.mat'))
 
     p = concave_ellipsoid_map['params_target'][0][0][0][0][0]
@@ -61,6 +60,7 @@ This example shows how to fit real data of a concave ellipsoid using the XMF lib
     y2d = concave_ellipsoid_map['y2d']
     z2d_measured = concave_ellipsoid_map['z2d']
 
+    # Target parameters as dictionary
     target_params_dict = {
         'p': p,
         'q': q,
@@ -73,12 +73,14 @@ This example shows how to fit real data of a concave ellipsoid using the XMF lib
         'gamma': gamma
     }
 
-    params_input_dict = {
+    # Set input parameters as dictionary
+    input_params_dict = {
         'p': p,
         'q': q,
         'theta': theta
     }
 
+    # Set the tolerance dictionary
     opt_dict = {
         'p': 0,
         'q': 0,
@@ -86,13 +88,15 @@ This example shows how to fit real data of a concave ellipsoid using the XMF lib
         'y_i': [-0.5e-3, 0.5e-3],
     }
 
-    z2d_res, z2d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_concave_ellipsoid_height(x2d, y2d, z2d_measured, params_input_dict, opt_dict) 
+    # Fit the surface shape
+    z2d_res, z2d_fit, opt_params_dict, opt_params_ci_dict, _ = xmf.fit_concave_ellipsoid_height(x2d, y2d, z2d_measured, input_params_dict, opt_dict) 
+    # Show fitting results
     xmf.fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, target_params_dict, opt_params_dict, opt_params_ci_dict,'Concave Ellipsoid')
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.511 seconds)
+   **Total running time of the script:** (0 minutes 0.317 seconds)
 
 
 .. _sphx_glr_download_auto_examples_example_06_fit_real_concave_ellipsoid_with_tol.py:

@@ -44,6 +44,15 @@
    "name": "uint8"
   }
  ],
+ "input_params_dict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "dict"
+  }
+ ],
  "loadmat": [
   {
    "is_class": false,
@@ -110,15 +119,6 @@
    "module": "numpy",
    "module_short": "numpy",
    "name": "uint8"
-  }
- ],
- "params_input_dict": [
-  {
-   "is_class": false,
-   "is_explicit": false,
-   "module": "builtins",
-   "module_short": "builtins",
-   "name": "dict"
   }
  ],
  "q": [

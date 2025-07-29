@@ -132,9 +132,6 @@ def iter_generate_height(standard_height_function,
 
         try:
             z2d_s = np.real(standard_height_function(x2d_s, y2d_s, p, q, theta)) # 2D curved shape
-        except TypeError:
-            z2d_s = np.real(standard_height_function(x2d_s, p, q, theta)) # 1D or 2D cylinder
-            z2d_s = np.real(standard_height_function(x2d_s, y2d_s, p, q, theta)) # 2D curved shape
         except ValueError:
             z2d_s = np.real(standard_height_function(x2d_s, p, q, theta)) # 1D or 2D cylinder
         except:

@@ -85,6 +85,27 @@ def standard_quadrics_height(x2d: np.ndarray,
                 z2d_quad_sln = (-B - np.sqrt(Delta))/(2*A)
 
         z2d_quad_sln[Delta<0] = np.nan
+        
+        
+        # Surface normal calculation
+        dA_dx = 0
+        dA_dy = 2*(p+q)**2*y2d*np.sin(theta)**2
+        dB_dx = 2*(p+q)*(p-q)*np.sin(theta)*np.cos(theta)
+        dB_dy = 0
+        dC_dx = 2*(p+q)**2*x2d*np.sin(theta)**2
+        dC_dy = 2*(p+q)**2*y2d
+        
+        # Surface normal
+        df_dx = dA_dx + dB_dx + dC_dx
+        df_dy = dA_dy + dB_dy + dC_dy
+        df_dz = 2*A*z2d_quad_sln + B
+        
+        norm = np.sqrt(df_dx**2 + df_dy**2 + df_dz**2)
+        if np.any(norm == 0):
+            raise ValueError("The normal vector has zero length, which may indicate a singularity in the surface.")
+        nx = df_dx / norm
+        ny = df_dy / norm
+        nz = df_dz / norm
 
         return z2d_quad_sln
 

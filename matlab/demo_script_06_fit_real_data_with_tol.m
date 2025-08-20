@@ -132,7 +132,8 @@ input_params_struct = data.params_target;
 tol_struct.p = 0;
 tol_struct.q = 0;
 tol_struct.theta = 0;
-tol_struct.y_i = [-1e-3, 1e-3];
+tol_struct.y_i = [-0.5e-3, 0.5e-3];
+tol_struct.alpha = [-1e-3, 1e-3];
 
 [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_hyperboloid_height(x2d, y2d, z2d_measured, input_params_struct, tol_struct);
 fig_show_2d_fitting_map(x1d, y1d, z2d_measured, z2d_fit, z2d_res, input_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Hyperboloid');

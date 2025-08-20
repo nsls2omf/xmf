@@ -28,14 +28,14 @@ font_size = 16;
 large_font_size = 24;
 marker_size = 6;
 
-figure('Position', [100, 100, 1800, 1200]);
-tiledlayout(5, 3 ...
+figure('Position', [100, 100, 1200, 1200]);
+tiledlayout(5, 2 ...
     , 'TileSpacing', 'tight' ...
     , 'Padding', 'tight' ...
     );
 
 % Data
-nexttile([1, 2]);
+nexttile;
 imagesc(x1d_mm, y1d_mm, z2d_um);
 set(gca, 'xTickLabel', []);
 ylabel('y [mm]');
@@ -61,7 +61,7 @@ text(0, 0.4, parameter_to_string(input_params_struct) ...
 axis off;
 
 % Fit 1
-nexttile([1, 2]);
+nexttile;
 imagesc(x1d_mm, y1d_mm, z2d_fit_1_um);
 hold on;
 plot(opt_params_struct_1.x_i*1e3, opt_params_struct_1.y_i*1e3, 'ro', 'MarkerSize', marker_size*2, 'MarkerFaceColor', 'r');
@@ -77,7 +77,7 @@ title(hcb, '[µm]');
 axis xy;
 
 nexttile;
-text(0.5, 1, 'Fitted parameters:' ...
+text(0.5, 1, 'Resultant parameters:' ...
     , 'Units', 'normalized' ...
     , 'FontSize', large_font_size ...
     , 'HorizontalAlignment', 'Center' ...
@@ -93,7 +93,7 @@ text(0, 0.4, parameter_to_string(opt_params_struct_1, opt_params_ci_struct_1) ..
 axis off;
 
 % Residual 1
-ax = nexttile([1, 2]);
+ax = nexttile;
 imagesc(x1d_mm, y1d_mm, z2d_res_1_nm);
 set(gca, 'xTickLabel', []);
 ylabel('y [mm]');
@@ -103,8 +103,8 @@ title(hcb, '[nm]');
 axis xy;
 colormap(ax, 'vik');
 
-str_rms = sprintf('Residual:\n%.2f nm RMS', nanstd(z2d_res_1_nm(:), 1));
 nexttile;
+str_rms = sprintf('Residual:\n%.2f nm RMS', nanstd(z2d_res_1_nm(:), 1));
 text(0.5, 0.5, str_rms ...
     , 'Units', 'normalized' ...
     , 'FontSize', large_font_size ...
@@ -115,7 +115,7 @@ text(0.5, 0.5, str_rms ...
 axis off;
 
 % Fit 2
-nexttile([1, 2]);
+nexttile;
 imagesc(x1d_mm, y1d_mm, z2d_fit_2_um);
 hold on;
 plot(opt_params_struct_2.x_i*1e3, opt_params_struct_2.y_i*1e3, 'ro', 'MarkerSize', marker_size*2, 'MarkerFaceColor', 'r');
@@ -131,7 +131,7 @@ title(hcb, '[µm]');
 axis xy;
 
 nexttile;
-text(0.5, 1, 'Fitted parameters:' ...
+text(0.5, 1, 'Resultant parameters:' ...
     , 'Units', 'normalized' ...
     , 'FontSize', large_font_size ...
     , 'HorizontalAlignment', 'Center' ...
@@ -147,7 +147,7 @@ text(0, 0.4, parameter_to_string(opt_params_struct_2, opt_params_ci_struct_2) ..
 axis off;
 
 % Residual 2
-ax = nexttile([1, 2]);
+ax = nexttile;
 imagesc(x1d_mm, y1d_mm, z2d_res_2_nm);
 xlabel('x [mm]');
 ylabel('y [mm]');
@@ -157,8 +157,8 @@ title(hcb, '[nm]');
 axis xy;
 colormap(ax, 'vik');
 
-str_rms = sprintf('Residual:\n%.2f nm RMS', nanstd(z2d_res_2_nm(:), 1));
 nexttile;
+str_rms = sprintf('Residual:\n%.2f nm RMS', nanstd(z2d_res_2_nm(:), 1));
 text(0.5, 0.5, str_rms ...
     , 'Units', 'normalized' ...
     , 'FontSize', large_font_size ...

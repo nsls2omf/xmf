@@ -89,8 +89,8 @@ def standard_quadrics_height(x2d: np.ndarray,
         
         # Surface normal calculation
         dA_dx = 0
-        dA_dy = 2*(p+q)**2*y2d*np.sin(theta)**2
-        dB_dx = 2*(p+q)*(p-q)*np.sin(theta)*np.cos(theta)
+        dA_dy = 0
+        dB_dx = 2*(p+q)*(p-q)*np.sin(theta)*np.cos(theta)*z2d_quad_sln
         dB_dy = 0
         dC_dx = 2*(p+q)**2*x2d*np.sin(theta)**2
         dC_dy = 2*(p+q)**2*y2d

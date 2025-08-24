@@ -132,7 +132,7 @@ def fig_show_2d_map(x2d, y2d, z2d_quad_sln, z2d_expression, str_title):
     
 def fig_show_1d_height(x1d, z1d_quad_sln, z1d_expression, str_title):
     """
-    Show a 1D plot of height data from quadratic equation solution and expression
+    Show a 1D plot of height data
 
     Parameters
     ----------
@@ -173,7 +173,23 @@ def fig_show_1d_height(x1d, z1d_quad_sln, z1d_expression, str_title):
     plt.show()
     
 def fig_show_1d_slope(x1d, sx1d, str_title):
-    
+    """
+    Show a 1D plot of slope data
+
+    Parameters
+    ----------
+        x1d: `numpy.ndarray`
+            1D array of x-coordinates
+        sx1d: `numpy.ndarray`
+            1D array of slope data
+        str_title: `str`
+            Title of the plot
+
+    Returns
+    -------
+        None
+    """
+
     x1d_mm = x1d * 1e3
     sx1d_mrad = sx1d * 1e3
 

@@ -119,7 +119,7 @@ def fig_show_2d_map(x2d, y2d, z2d_quad_sln, z2d_expression, str_title):
     add_colorbar(im, '[µm]')
     im = axs[1].pcolormesh(x2d_mm, y2d_mm, z2d_expression_um, shading='auto')
     add_colorbar(im, '[µm]')
-    im = axs[2].pcolormesh(x2d_mm, y2d_mm, dz2d_nm, shading='auto', cmap='seismic')
+    im = axs[2].pcolormesh(x2d_mm, y2d_mm, dz2d_nm, shading='auto', cmap='coolwarm')
     add_colorbar(im, '[nm]')
     axs[0].set_ylabel('y [mm]')
     axs[0].set_title(str_title)
@@ -132,7 +132,7 @@ def fig_show_2d_map(x2d, y2d, z2d_quad_sln, z2d_expression, str_title):
     
 def fig_show_1d_height(x1d, z1d_quad_sln, z1d_expression, str_title):
     """
-    Show a 1D plot of height data
+    Show a 1D plot of height data from quadratic equation solution and expression
 
     Parameters
     ----------
@@ -173,23 +173,7 @@ def fig_show_1d_height(x1d, z1d_quad_sln, z1d_expression, str_title):
     plt.show()
     
 def fig_show_1d_slope(x1d, sx1d, str_title):
-    """
-    Show a 1D plot of slope data
-
-    Parameters
-    ----------
-        x1d: `numpy.ndarray`
-            1D array of x-coordinates
-        sx1d: `numpy.ndarray`
-            1D array of slope data
-        str_title: `str`
-            Title of the plot
-
-    Returns
-    -------
-        None
-    """
-
+    
     x1d_mm = x1d * 1e3
     sx1d_mrad = sx1d * 1e3
 
@@ -293,7 +277,7 @@ def fig_compare_1d_slope(x1d, sx1d_generation, sx1d_standard, str_title):
     
 def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
     """
-    Show a 2D fitting map with colorbar, input parameters, fitted parameters, and residuals
+    Show a 2D fitting map with colorbar, input parameters, Resultant parameters, and residuals
     
     Parameters
     ----------
@@ -329,7 +313,7 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_para
 
     font_size = 14
     large_font_size = 24
-    marker_size = 8
+    marker_size = 14
 
     str_param_name_list = ['p', 'q', 'theta',
                            'x_i', 'y_i', 'z_i', 
@@ -383,7 +367,7 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_para
     # Input parameters
     ax2 = plt.subplot(gs[0, 2])
     ax2.axis('off')
-    ax2.text(0.5, 1, 'Input parameters:', fontsize=large_font_size, ha='center', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
+    ax2.text(0, 1, 'Input parameters:', fontsize=large_font_size, ha='left', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
     for i, s in enumerate(parameter_to_string_2d(input_params_dict)):
         ax2.text(0, 0.7-0.2*i, s, fontsize=font_size, ha='left', va='top', transform=ax2.transAxes)
 
@@ -408,17 +392,16 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_para
     add_colorbar(im2, '[µm]')
     ax3.tick_params(axis='both', labelsize=font_size)
 
-
-    # Fitted parameters
+    # Resultant parameters
     ax4 = plt.subplot(gs[1, 2])
     ax4.axis('off')
-    ax4.text(0.5, 1, 'Fitted parameters:', fontsize=large_font_size, ha='center', va='top', fontweight='bold', color='k', transform=ax4.transAxes)
+    ax4.text(0, 1, 'Resultant parameters:', fontsize=large_font_size, ha='left', va='top', fontweight='bold', color='k', transform=ax4.transAxes)
     for i, s in enumerate(parameter_to_string_2d(opt_params_dict, is_optimized_dict)):
         ax4.text(0, 0.7-0.2*i, s, fontsize=font_size, ha='left', va='top', transform=ax4.transAxes)
 
     # Residual
     ax5 = plt.subplot(gs[2, 0:2])
-    im3 = ax5.pcolormesh(x2d_mm, y2d_mm, z2d_res_nm, cmap='seismic')
+    im3 = ax5.pcolormesh(x2d_mm, y2d_mm, z2d_res_nm, cmap='coolwarm')
     ax5.set_xlabel('x [mm]', fontsize=font_size)
     ax5.set_ylabel('y [mm]', fontsize=font_size)
     ax5.set_title('Residual', fontsize=font_size)
@@ -469,7 +452,7 @@ def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, input_params
 
     font_size = 14
     large_font_size = 24
-    marker_size = 8
+    marker_size = 4
     line_width = 3
 
     str_param_name_list = ['p', 'q', 'theta',
@@ -519,14 +502,14 @@ def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, input_params
     # Input parameters
     ax2 = plt.subplot(gs[0, 2])
     ax2.axis('off')
-    ax2.text(0.5, 1, 'Input parameters:', fontsize=large_font_size, ha='center', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
+    ax2.text(0, 1, 'Input parameters:', fontsize=large_font_size, ha='left', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
     for i, s in enumerate(parameter_to_string_1d(input_params_dict)):
         ax2.text(0, 0.7-0.2*i, s, fontsize=font_size, ha='left', va='top', transform=ax2.transAxes)
 
-    # Fitted parameters
+    # Resultant parameters
     ax3 = plt.subplot(gs[1, 2])
     ax3.axis('off')
-    ax3.text(0.5, 1, 'Fitted parameters:', fontsize=large_font_size, ha='center', va='top', fontweight='bold', color='tab:orange', transform=ax3.transAxes)
+    ax3.text(0, 1, 'Resultant parameters:', fontsize=large_font_size, ha='left', va='top', fontweight='bold', color='tab:orange', transform=ax3.transAxes)
     for i, s in enumerate(parameter_to_string_1d(opt_params_dict, is_optimized_dict)):
         ax3.text(0, 0.7-0.2*i, s, fontsize=font_size, ha='left', va='top', transform=ax3.transAxes)
 
@@ -581,7 +564,7 @@ def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, input_para
 
     font_size = 14
     large_font_size = 24
-    marker_size = 8
+    marker_size = 4
     line_width = 3
 
     str_param_name_list = ['p', 'q', 'theta',
@@ -631,14 +614,14 @@ def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, input_para
     # Input parameters
     ax2 = plt.subplot(gs[0, 2])
     ax2.axis('off')
-    ax2.text(0.5, 1, 'Input parameters:', fontsize=large_font_size, ha='center', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
+    ax2.text(0, 1, 'Input parameters:', fontsize=large_font_size, ha='left', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
     for i, s in enumerate(parameter_to_string_1d(input_params_dict)):
         ax2.text(0, 0.7-0.2*i, s, fontsize=font_size, ha='left', va='top', transform=ax2.transAxes)
 
-    # Fitted parameters
+    # Resultant parameters
     ax3 = plt.subplot(gs[1, 2])
     ax3.axis('off')
-    ax3.text(0.5, 1, 'Fitted parameters:', fontsize=large_font_size, ha='center', va='top', fontweight='bold', color='tab:orange', transform=ax3.transAxes)
+    ax3.text(0, 1, 'Resultant parameters:', fontsize=large_font_size, ha='left', va='top', fontweight='bold', color='tab:orange', transform=ax3.transAxes)
     for i, s in enumerate(parameter_to_string_1d(opt_params_dict, is_optimized_dict)):
         ax3.text(0, 0.7-0.2*i, s, fontsize=font_size, ha='left', va='top', transform=ax3.transAxes)
 
@@ -657,3 +640,200 @@ def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, input_para
     ax5.text(0.5, 0.5, str_rms, fontsize=large_font_size, fontweight='bold', ha='center', va='center', color='tab:blue', transform=ax5.transAxes)
 
     plt.show()
+
+
+def fig_show_2d_different_fitting_maps(x2d, y2d, z2d_measured, z2d_fit_1, z2d_res_1, z2d_fit_2, z2d_res_2, 
+                                       input_params_dict, 
+                                       opt_params_dict_1, opt_params_ci_dict_1, 
+                                       opt_params_dict_2, opt_params_ci_dict_2, str_title):
+
+    """
+    Show different fitting results of 2D map data
+
+    Parameters
+    ----------
+        x2d: `numpy.ndarray`
+            2D array of x-coordinates
+        y2d: `numpy.ndarray`
+            2D array of y-coordinates
+        z2d_measured: `numpy.ndarray`
+            2D array of measured height map
+        z2d_fit_1: `numpy.ndarray`
+            2D array of fitted height map of fitting 1
+        z2d_res_1: `numpy.ndarray`
+            2D array of residuals of fitting 1
+        z2d_fit_2: `numpy.ndarray`
+            2D array of fitted height map of fitting 2
+        z2d_res_2: `numpy.ndarray`
+            2D array of residuals of fitting 2
+        input_params_dict: `dict`
+            Dictionary of input parameters
+        opt_params_dict_1: `dict`
+            Dictionary of optimized parameters for fitting 1
+        opt_params_ci_dict_1: `dict`
+            Dictionary of optimized parameters confidence intervals for fitting 1
+        opt_params_dict_2: `dict`
+            Dictionary of optimized parameters for fitting 2
+        opt_params_ci_dict_2: `dict`
+            Dictionary of optimized parameters confidence intervals for fitting 2
+        str_title: `str`
+            Title of the plot
+
+    Returns
+    -------
+        None
+    """
+
+    x2d_mm = x2d*1e3
+    y2d_mm = y2d*1e3
+    z2d_um = z2d_measured*1e6
+    z2d_fit_1_um = z2d_fit_1*1e6
+    z2d_res_1_nm = z2d_res_1*1e9
+    z2d_fit_2_um = z2d_fit_2*1e6
+    z2d_res_2_nm = z2d_res_2*1e9
+
+    font_size = 14
+    large_font_size = 24
+    marker_size = 14
+
+    fig = plt.figure(figsize=(18, 10))
+    gs = gridspec.GridSpec(5, 3, height_ratios=[1, 1, 1, 1, 1], width_ratios=[1, 1, 1], wspace=0.3, hspace=0.3)
+
+    def plot_image(ax, x, y, data, unit, cmap='viridis'):
+        im = ax.pcolormesh(x, y, data, shading='auto', cmap=cmap)
+        add_colorbar(im, unit)
+
+    def plot_text(ax, lines):
+        ax.axis('off')
+        for i, line in enumerate(lines):
+            ax.text(0, 0.7 - i * 0.2, line, transform=ax.transAxes, fontsize=font_size, va='top')
+
+    def plot_residual(ax, x, y, residual_data, cmap='coolwarm'):
+        im = ax.pcolormesh(x, y, residual_data, shading='auto', cmap=cmap)
+        add_colorbar(im, '[nm]')
+
+    def plot_rms(ax, residual_data):
+        rms_val = np.nanstd(residual_data)
+        ax.text(0.5, 0.5, f"Residual:\n{rms_val:.2f} nm RMS", fontsize=large_font_size, fontweight='bold',
+                ha='center', va='center')
+        ax.axis('off')
+
+    def parameter_to_string(params, params_ci=None):
+        def get_unit(val, scale):
+            return f"{val * scale:.4g}"
+
+        def get_param_str(name, val, ci_val):
+            if params_ci and if_opt(ci_val):
+                return f"\\hat{{{name}}}"
+            return name
+
+        labels = []
+        if 'y_i' in params:
+            str_p = get_param_str('p', params.get('p', np.nan), params_ci.get('p', np.nan) if params_ci else np.nan)
+            str_q = get_param_str('q', params.get('q', np.nan), params_ci.get('q', np.nan) if params_ci else np.nan)
+            str_theta = get_param_str('\\theta', params.get('theta', np.nan), params_ci.get('theta', np.nan) if params_ci else np.nan)
+
+            str_xi = get_param_str('x_i', params.get('x_i', np.nan), params_ci.get('x_i', np.nan) if params_ci else np.nan)
+            str_yi = get_param_str('y_i', params.get('y_i', np.nan), params_ci.get('y_i', np.nan) if params_ci else np.nan)
+            str_zi = get_param_str('z_i', params.get('z_i', np.nan), params_ci.get('z_i', np.nan) if params_ci else np.nan)
+
+            str_alpha = get_param_str('\\alpha', params.get('alpha', np.nan), params_ci.get('alpha', np.nan) if params_ci else np.nan)
+            str_beta = get_param_str('\\beta', params.get('beta', np.nan), params_ci.get('beta', np.nan) if params_ci else np.nan)
+            str_gamma = get_param_str('\\gamma', params.get('gamma', np.nan), params_ci.get('gamma', np.nan) if params_ci else np.nan)
+
+            labels.append(f"(${str_p}$, ${str_q}$, ${str_theta}$) = ({get_unit(params['p'],1)}, {get_unit(params['q'],1)}, {get_unit(params['theta'],1e3)} mrad)")
+            labels.append(f"(${str_xi}$, ${str_yi}$, ${str_zi}$) = ({get_unit(params['x_i'],1e3)} mm, {get_unit(params['y_i'],1e3)} mm, {get_unit(params['z_i'],1e3)} mm)")
+            labels.append(f"(${str_alpha}$, ${str_beta}$, ${str_gamma}$) = ({get_unit(params['alpha'],1e6)} µrad, {get_unit(params['beta'],1e6)} µrad, {get_unit(params['gamma'],1e6)} µrad)")
+
+        else:
+            labels.append(f"($p$, $q$, $\\theta$) = ({get_unit(params['p'],1)}, {get_unit(params['q'],1)}, {get_unit(params['theta'],1e3)} mrad)")
+            labels.append(f"($x_i$, $z_i$) = ({get_unit(params['x_i'],1e3)} mm, {get_unit(params['z_i'],1e3)} mm)")
+            labels.append(f"($\\alpha$, $\\beta$, $\\gamma$) = ({get_unit(params['alpha'],1e6)} µrad, {get_unit(params['beta'],1e6)} µrad, {get_unit(params['gamma'],1e6)} µrad)")
+
+        return labels
+
+    def if_opt(ci_val):
+        if isinstance(ci_val, (list, tuple, np.ndarray)):
+            return np.all(np.isfinite(ci_val))
+        return np.isfinite(ci_val)
+
+    ax1 = plt.subplot(gs[0, 0:2])
+    plot_image(ax1, x2d_mm, y2d_mm, z2d_um, '[µm]')
+    ax1.set_xticklabels([])
+    ax1.set_ylabel('y [mm]', fontsize=font_size)
+    ax1.set_title(str_title, fontsize=font_size)
+    ax1.tick_params(axis='both', labelsize=font_size)
+
+    ax2 = plt.subplot(gs[0, 2])
+    ax2.text(0, 1, 'Input parameters:', fontsize=large_font_size, ha='left', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
+    plot_text(ax2, parameter_to_string(input_params_dict))
+
+    ax3 = plt.subplot(gs[1, 0:2])
+    plot_image(ax3, x2d_mm, y2d_mm, z2d_fit_1_um, '[µm]')
+    ax3.set_xticklabels([])
+    ax3.set_ylabel('y [mm]', fontsize=font_size)
+    ax3.set_title("Fitting 1", fontsize=font_size)
+    ax3.tick_params(axis='both', labelsize=font_size)
+    ax3.plot(opt_params_dict_1['x_i']*1e3, opt_params_dict_1.get('y_i', 0)*1e3, 'ro', markersize=marker_size, markerfacecolor='r')
+    # Beam direction projection
+    if 'gamma' in opt_params_dict_1:
+        proj_x = np.cos(opt_params_dict_1['gamma']) * (x2d[-1, -1] - x2d[0, 0]) * 0.08
+        proj_y = np.sin(opt_params_dict_1['gamma']) * (x2d[-1, -1] - x2d[0, 0]) * 0.08
+        ax3.quiver(
+            opt_params_dict_1['x_i']*1e3 - proj_x*1e3,
+            opt_params_dict_1.get('y_i', 0)*1e3 - proj_y*1e3,
+            2*proj_x*1e3, 2*proj_y*1e3,
+            angles='xy', scale_units='xy', scale=1,
+            color='r', linewidth=0.5
+        )
+
+    ax4 = plt.subplot(gs[1, 2])
+    ax4.text(0, 1, 'Resultant parameters:', fontsize=large_font_size, ha='left', va='top', fontweight='bold', color='k', transform=ax4.transAxes)
+    plot_text(ax4, parameter_to_string(opt_params_dict_1, opt_params_ci_dict_1))
+
+    ax5 = plt.subplot(gs[2, 0:2])
+    plot_residual(ax5, x2d_mm, y2d_mm, z2d_res_1_nm)
+    ax5.set_xticklabels([])
+    ax5.set_ylabel('y [mm]', fontsize=font_size)
+    ax5.set_title("Residual 1", fontsize=font_size)
+    ax5.tick_params(axis='both', labelsize=font_size)
+
+    ax6 = plt.subplot(gs[2, 2])
+    plot_rms(ax6, z2d_res_1_nm)
+
+    ax7 = plt.subplot(gs[3, 0:2])
+    plot_image(ax7, x2d_mm, y2d_mm, z2d_fit_2_um, '[µm]')
+    ax7.set_xticklabels([])
+    ax7.set_ylabel('y [mm]', fontsize=font_size)
+    ax7.set_title("Fitting 2", fontsize=font_size)
+    ax7.tick_params(axis='both', labelsize=font_size)
+    ax7.plot(opt_params_dict_2['x_i']*1e3, opt_params_dict_2.get('y_i', 0)*1e3, 'ro', markersize=marker_size, markerfacecolor='r')
+    # Beam direction projection
+    if 'gamma' in opt_params_dict_2:
+        proj_x = np.cos(opt_params_dict_2['gamma']) * (x2d[-1, -1] - x2d[0, 0]) * 0.08
+        proj_y = np.sin(opt_params_dict_2['gamma']) * (x2d[-1, -1] - x2d[0, 0]) * 0.08
+        ax7.quiver(
+            opt_params_dict_2['x_i']*1e3 - proj_x*1e3,
+            opt_params_dict_2.get('y_i', 0)*1e3 - proj_y*1e3,
+            2*proj_x*1e3, 2*proj_y*1e3,
+            angles='xy', scale_units='xy', scale=1,
+            color='r', linewidth=0.5
+        )
+
+    ax8 = plt.subplot(gs[3, 2])
+    ax8.text(0, 1, 'Resultant parameters:', fontsize=large_font_size, ha='left', va='top', fontweight='bold', color='k', transform=ax8.transAxes)
+    plot_text(ax8, parameter_to_string(opt_params_dict_2, opt_params_ci_dict_2))
+
+    ax9 = plt.subplot(gs[4, 0:2])
+    plot_residual(ax9, x2d_mm, y2d_mm, z2d_res_2_nm)
+    ax9.set_xlabel('x [mm]', fontsize=font_size)
+    ax9.set_ylabel('y [mm]', fontsize=font_size)
+    ax9.set_title("Residual 2", fontsize=font_size)
+    ax9.tick_params(axis='both', labelsize=font_size)
+
+    ax10 = plt.subplot(gs[4, 2])
+    plot_rms(ax10, z2d_res_2_nm)
+
+    plt.show()
+
+    

@@ -371,6 +371,6 @@ def generate_1d_slope(standard_slope_function: types.FunctionType,
 
     x1d = x1d - x_i
     sx1d = standard_slope_function(x1d, p, q, theta)
-    sx1d = sx1d + np.tan(beta)
+    sx1d = sx1d - np.tan(beta) # Note: the direction of beta
     return sx1d
 

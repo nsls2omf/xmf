@@ -25,4 +25,4 @@ end
 
 x1d = x1d - x_i;
 sx1d = standard_slope_function_handle(x1d, p, q, theta);
-sx1d = sx1d + tan(beta);
+sx1d = sx1d - tan(beta); % Note: the direction of beta

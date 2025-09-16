@@ -668,6 +668,48 @@ at a given (x, y) coordinate, based on the absolute values of p and q and the gr
 </dl>
 </dd></dl>
 
+<dl class="mat function">
+<dt class="sig sig-object mat" id="matlab.layer_01_standard.standard_sag_col_diaboloid_height">
+<span class="sig-prename descclassname"><span class="pre">matlab.layer_01_standard.</span></span><span class="sig-name descname"><span class="pre">standard_sag_col_diaboloid_height</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">x2d</span></em>, <em class="sig-param"><span class="pre">y2d</span></em>, <em class="sig-param"><span class="pre">abs_p</span></em>, <em class="sig-param"><span class="pre">abs_q</span></em>, <em class="sig-param"><span class="pre">theta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#matlab.layer_01_standard.standard_sag_col_diaboloid_height" title="Link to this definition"></a></dt>
+<dd><p>standard_sag_col_diaboloid_height(x2d, y2d, abs_p, abs_q, theta) - Computes the height of a sagittal collimating diaboloid
+at a given (x, y) coordinate, based on the absolute values of p and q and the grazing incidence angle (theta).</p>
+<dl class="simple">
+<dt>Inputs:</dt><dd><ul class="simple">
+<li><p>x2d - 2D x-coordinates (vector or matrix)</p></li>
+<li><p>y2d - 2D y-coordinates (vector or matrix)</p></li>
+<li><p>abs_p - Absolute value of the distance between the source and the chief ray intersection on mirror</p></li>
+<li><p>abs_q - Absolute value of the distance between the focus and the chief ray intersection on mirror</p></li>
+<li><p>theta - Grazing incidence angle (in radians)</p></li>
+</ul>
+</dd>
+<dt>Outputs:</dt><dd><ul class="simple">
+<li><p>z2d_quad_sln - Quadratic solution for the sagittal collimating diaboloid height</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="matlab.layer_01_standard.standard_tan_col_diaboloid_height">
+<span class="sig-prename descclassname"><span class="pre">matlab.layer_01_standard.</span></span><span class="sig-name descname"><span class="pre">standard_tan_col_diaboloid_height</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">x2d</span></em>, <em class="sig-param"><span class="pre">y2d</span></em>, <em class="sig-param"><span class="pre">abs_p</span></em>, <em class="sig-param"><span class="pre">abs_q</span></em>, <em class="sig-param"><span class="pre">theta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#matlab.layer_01_standard.standard_tan_col_diaboloid_height" title="Link to this definition"></a></dt>
+<dd><p>standard_tan_col_diaboloid_height(x2d, y2d, abs_p, abs_q, theta) - Computes the height of a tangential collimating diaboloid
+at a given (x, y) coordinate, based on the absolute values of p and q and the grazing incidence angle (theta).</p>
+<dl class="simple">
+<dt>Inputs:</dt><dd><ul class="simple">
+<li><p>x2d - 2D x-coordinates (vector or matrix)</p></li>
+<li><p>y2d - 2D y-coordinates (vector or matrix)</p></li>
+<li><p>abs_p - Absolute value of the distance between the source and the chief ray intersection on mirror</p></li>
+<li><p>abs_q - Absolute value of the distance between the focus and the chief ray intersection on mirror</p></li>
+<li><p>theta - Grazing incidence angle (in radians)</p></li>
+</ul>
+</dd>
+<dt>Outputs:</dt><dd><ul class="simple">
+<li><p>z2d - Height of the tangential collimating diaboloid at the given (x, y) coordinates</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="layer-02-generation">
 <h2>layer_02_generation<a class="headerlink" href="#layer-02-generation" title="Link to this heading"></a></h2>
@@ -1275,6 +1317,52 @@ surface parameters with tolerance from the measurement data.</p>
 <li><p>z2d_res - Residuals of the fitted height map</p></li>
 <li><p>z2d_fit - Fitted height map</p></li>
 <li><p>params - Fitted parameters of the convex hyperboloid</p></li>
+<li><p>params_ci - Confidence intervals of the fitted parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="matlab.layer_04_fit.fit_sag_col_diaboloid_height">
+<span class="sig-prename descclassname"><span class="pre">matlab.layer_04_fit.</span></span><span class="sig-name descname"><span class="pre">fit_sag_col_diaboloid_height</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">x2d</span></em>, <em class="sig-param"><span class="pre">y2d</span></em>, <em class="sig-param"><span class="pre">z2d</span></em>, <em class="sig-param"><span class="pre">input_params_structure</span></em>, <em class="sig-param"><span class="pre">opt_or_tol_structure</span></em><span class="sig-paren">)</span><a class="headerlink" href="#matlab.layer_04_fit.fit_sag_col_diaboloid_height" title="Link to this definition"></a></dt>
+<dd><p>fit_sag_col_diaboloid_height - Fits a sagittal collimating diaboloid to a 2D height map</p>
+<dl class="simple">
+<dt>Inputs:</dt><dd><ul class="simple">
+<li><p>x2d - 2D x-coordinates (matrix)</p></li>
+<li><p>y2d - 2D y-coordinates (matrix)</p></li>
+<li><p>z2d - 2D height values (matrix)</p></li>
+<li><p>input_params_structure - Structure containing initial parameters for the fit</p></li>
+<li><p>opt_or_tol_structure - Structure containing optimization or tolerance parameters</p></li>
+</ul>
+</dd>
+<dt>Outputs:</dt><dd><ul class="simple">
+<li><p>z2d_res - Residuals of the fitted height map</p></li>
+<li><p>z2d_fit - Fitted height map</p></li>
+<li><p>params - Fitted parameters of the sagittal collimating diaboloid</p></li>
+<li><p>params_ci - Confidence intervals of the fitted parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="matlab.layer_04_fit.fit_tan_col_diaboloid_height">
+<span class="sig-prename descclassname"><span class="pre">matlab.layer_04_fit.</span></span><span class="sig-name descname"><span class="pre">fit_tan_col_diaboloid_height</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">x2d</span></em>, <em class="sig-param"><span class="pre">y2d</span></em>, <em class="sig-param"><span class="pre">z2d</span></em>, <em class="sig-param"><span class="pre">input_params_structure</span></em>, <em class="sig-param"><span class="pre">opt_or_tol_structure</span></em><span class="sig-paren">)</span><a class="headerlink" href="#matlab.layer_04_fit.fit_tan_col_diaboloid_height" title="Link to this definition"></a></dt>
+<dd><p>fit_tan_col_diaboloid_height - Fits a tangential collimating diaboloid to a 2D height map</p>
+<dl class="simple">
+<dt>Inputs:</dt><dd><ul class="simple">
+<li><p>x2d - 2D x-coordinates (matrix)</p></li>
+<li><p>y2d - 2D y-coordinates (matrix)</p></li>
+<li><p>z2d - 2D height values (matrix)</p></li>
+<li><p>input_params_structure - Structure containing initial parameters for the fit</p></li>
+<li><p>opt_or_tol_structure - Structure containing optimization or tolerance parameters</p></li>
+</ul>
+</dd>
+<dt>Outputs:</dt><dd><ul class="simple">
+<li><p>z2d_res - Residuals of the fitted height map</p></li>
+<li><p>z2d_fit - Fitted height map</p></li>
+<li><p>params - Fitted parameters of the tangential collimating diaboloid</p></li>
 <li><p>params_ci - Confidence intervals of the fitted parameters</p></li>
 </ul>
 </dd>

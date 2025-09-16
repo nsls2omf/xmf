@@ -167,6 +167,27 @@
                 <span class="n">z2d_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
 
         <span class="n">z2d_quad_sln</span><span class="p">[</span><span class="n">Delta</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        
+        
+        <span class="c1"># Surface normal calculation</span>
+        <span class="n">dA_dx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">dA_dy</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">dB_dx</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">z2d_quad_sln</span>
+        <span class="n">dB_dy</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">dC_dx</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">x2d</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">dC_dy</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">y2d</span>
+        
+        <span class="c1"># Surface normal</span>
+        <span class="n">df_dx</span> <span class="o">=</span> <span class="n">dA_dx</span> <span class="o">+</span> <span class="n">dB_dx</span> <span class="o">+</span> <span class="n">dC_dx</span>
+        <span class="n">df_dy</span> <span class="o">=</span> <span class="n">dA_dy</span> <span class="o">+</span> <span class="n">dB_dy</span> <span class="o">+</span> <span class="n">dC_dy</span>
+        <span class="n">df_dz</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="n">z2d_quad_sln</span> <span class="o">+</span> <span class="n">B</span>
+        
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">df_dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">df_dy</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">df_dz</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">norm</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The normal vector has zero length, which may indicate a singularity in the surface.&quot;</span><span class="p">)</span>
+        <span class="n">nx</span> <span class="o">=</span> <span class="n">df_dx</span> <span class="o">/</span> <span class="n">norm</span>
+        <span class="n">ny</span> <span class="o">=</span> <span class="n">df_dy</span> <span class="o">/</span> <span class="n">norm</span>
+        <span class="n">nz</span> <span class="o">=</span> <span class="n">df_dz</span> <span class="o">/</span> <span class="n">norm</span>
 
         <span class="k">return</span> <span class="n">z2d_quad_sln</span>
 
@@ -651,9 +672,9 @@
 <div class="viewcode-block" id="standard_concave_elliptic_cylinder_xslope">
 <a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_concave_elliptic_cylinder_xslope">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_elliptic_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-                              <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                              <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                              <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+                                              <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                              <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                              <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The standard concave elliptic cylinder x-slope with (``abs_p``, ``abs_q``, ``theta``)</span>
@@ -683,9 +704,9 @@
 <div class="viewcode-block" id="standard_convex_hyperbolic_cylinder_xslope">
 <a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_convex_hyperbolic_cylinder_xslope">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_convex_hyperbolic_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-                              <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                              <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                              <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+                                               <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                               <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                               <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The standard convex hyperbolic cylinder x-slope with (``abs_p``, ``abs_q``, ``theta``)</span>
@@ -719,9 +740,9 @@
 <div class="viewcode-block" id="standard_concave_hyperbolic_cylinder_xslope">
 <a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_concave_hyperbolic_cylinder_xslope">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standard_concave_hyperbolic_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-                              <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                              <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                              <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+                                                <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                                <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                                <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The standard concave hyperbolic cylinder x-slope with (``abs_p``, ``abs_q``, ``theta``)</span>
@@ -751,6 +772,121 @@
     <span class="n">sx_expression_quadrics</span> <span class="o">=</span> <span class="n">standard_quadric_cylinder_xslope</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sx_expression_quadrics</span></div>
 
+
+
+<div class="viewcode-block" id="standard_sag_col_diaboloid_height">
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_sag_col_diaboloid_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_sag_col_diaboloid_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                      <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                      <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                      <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                      <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                      <span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard sagittal collimated diaboloid with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x2d: `numpy.ndarray`</span>
+<span class="sd">            The x coordinates</span>
+<span class="sd">        y2d: `numpy.ndarray`</span>
+<span class="sd">            The y coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D height</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Quadratic solution</span>
+
+    <span class="n">A</span> <span class="o">=</span> <span class="p">(</span><span class="n">abs_p</span><span class="o">-</span><span class="n">abs_q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">abs_p</span><span class="o">*</span><span class="n">abs_q</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="p">(</span><span class="n">abs_p</span><span class="o">-</span><span class="n">abs_q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">y2d</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">abs_p</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="n">abs_q</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">x2d</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="n">abs_p</span><span class="o">+</span><span class="n">abs_q</span><span class="p">)</span><span class="o">*</span><span class="n">abs_p</span><span class="o">*</span><span class="n">abs_q</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="n">abs_p</span><span class="o">+</span><span class="n">abs_q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">x2d</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">abs_p</span><span class="o">+</span><span class="n">abs_q</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">x2d</span> <span class="o">-</span> <span class="n">abs_q</span><span class="p">)</span><span class="o">*</span><span class="n">y2d</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">0.25</span><span class="o">*</span><span class="n">y2d</span><span class="o">**</span><span class="mi">4</span>
+
+    <span class="c1"># Discriminant </span>
+    <span class="n">Delta</span> <span class="o">=</span> <span class="n">B</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="n">C</span>
+
+    <span class="n">z_quad_sln</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+    <span class="n">z_quad_sln</span><span class="p">[</span><span class="n">Delta</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  
+
+    <span class="k">return</span> <span class="n">z_quad_sln</span></div>
+
+
+
+<div class="viewcode-block" id="standard_tan_col_diaboloid_height">
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.standard_tan_col_diaboloid_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standard_tan_col_diaboloid_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                      <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                      <span class="n">abs_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                      <span class="n">abs_q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                      <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                      <span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The standard tangential collimated diaboloid with (``abs_p``, ``abs_q``, ``theta``)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x2d: `numpy.ndarray`</span>
+<span class="sd">            The x coordinates</span>
+<span class="sd">        y2d: `numpy.ndarray`</span>
+<span class="sd">            The y coordinates</span>
+<span class="sd">        abs_p: `float`</span>
+<span class="sd">            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection</span>
+<span class="sd">        abs_q: `float`</span>
+<span class="sd">            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus</span>
+<span class="sd">        theta: `float`</span>
+<span class="sd">            The grazing angle</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z2d: `numpy.ndarray`</span>
+<span class="sd">            The 2D height</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">A</span> <span class="o">=</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">4</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="n">abs_p</span><span class="o">-</span><span class="n">abs_q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">x2d</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">abs_q</span><span class="o">*</span><span class="p">((</span><span class="n">abs_p</span><span class="o">+</span><span class="n">abs_q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">abs_p</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">abs_q</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">abs_p</span> <span class="o">+</span> <span class="p">(</span><span class="n">abs_p</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">abs_q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">theta</span><span class="p">))</span><span class="o">*</span><span class="n">x2d</span> <span class="o">-</span> <span class="mi">6</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">x2d</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="o">-</span><span class="mi">16</span><span class="o">*</span><span class="n">abs_p</span><span class="o">*</span><span class="n">abs_q</span><span class="o">*</span><span class="p">(</span><span class="n">abs_p</span><span class="o">+</span><span class="n">abs_q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="n">abs_p</span><span class="o">+</span><span class="n">abs_q</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">abs_p</span><span class="o">-</span><span class="n">abs_q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">x2d</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">abs_p</span><span class="o">+</span><span class="n">abs_q</span><span class="o">+</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">abs_q</span><span class="o">+</span><span class="n">abs_p</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">theta</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">x2d</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="o">*</span><span class="n">x2d</span><span class="o">**</span><span class="mi">3</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="n">abs_p</span><span class="o">+</span><span class="n">abs_q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">y2d</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">abs_q</span><span class="o">*</span><span class="p">(</span><span class="n">abs_p</span><span class="o">+</span><span class="n">abs_q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">x2d</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="n">abs_p</span><span class="o">+</span><span class="n">abs_q</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">x2d</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">4</span><span class="o">*</span><span class="n">x2d</span><span class="o">**</span><span class="mi">4</span>
+
+    <span class="n">b</span> <span class="o">=</span> <span class="n">B</span><span class="o">/</span><span class="n">A</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="o">/</span><span class="n">A</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">D</span><span class="o">/</span><span class="n">A</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">E</span><span class="o">/</span><span class="n">A</span>
+
+    <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">c</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">3</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">b</span><span class="o">*</span><span class="n">c</span><span class="o">+</span><span class="mi">8</span><span class="o">*</span><span class="n">d</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span>
+
+    <span class="n">Delta_0</span> <span class="o">=</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">b</span><span class="o">*</span><span class="n">d</span> <span class="o">+</span> <span class="mi">12</span><span class="o">*</span><span class="n">e</span>
+    <span class="n">Delta_1</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">9</span><span class="o">*</span><span class="n">b</span><span class="o">*</span><span class="n">c</span><span class="o">*</span><span class="n">d</span> <span class="o">+</span> <span class="mi">27</span><span class="o">*</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">e</span> <span class="o">+</span> <span class="mi">27</span><span class="o">*</span><span class="n">d</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">72</span><span class="o">*</span><span class="n">c</span><span class="o">*</span><span class="n">e</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">Delta_1</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">Delta_0</span><span class="o">**</span><span class="mi">3</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+
+    <span class="c1"># Solve the equation</span>
+    <span class="c1"># Note: the expression of Q in the reference paper was wrong.</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">Delta_1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta_1</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">Delta_0</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span> 
+    <span class="n">S1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">Q</span> <span class="o">+</span> <span class="n">Delta_0</span><span class="o">/</span><span class="n">Q</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">k</span><span class="p">))</span>
+
+    <span class="c1"># Another way to avoid the complex number Q,</span>
+    <span class="c1"># when Delta_1**2 - 4*Delta_0**3&lt;0</span>
+    <span class="c1"># Source: https://en.wikipedia.org/wiki/Quartic_function#</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">Delta_1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta_0</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)))</span>
+    <span class="n">S2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">k</span> <span class="o">+</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta_0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">))</span>
+
+    <span class="n">S</span> <span class="o">=</span> <span class="n">mask</span><span class="o">*</span><span class="n">S1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="o">*</span><span class="n">S2</span>  
+    <span class="c1"># S = np.zeros_like(S1)</span>
+    <span class="c1"># S[mask] = S1[mask]</span>
+    <span class="c1"># S[np.logical_not(mask)] = S2[np.logical_not(mask)]</span>
+    
+    <span class="n">z2d</span> <span class="o">=</span> <span class="o">-</span><span class="n">b</span><span class="o">/</span><span class="mi">4</span> <span class="o">-</span> <span class="n">S</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">S</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">k</span> <span class="o">+</span> <span class="n">m</span><span class="o">/</span><span class="n">S</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">z2d</span></div>
 
 </pre></div>
 

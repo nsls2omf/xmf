@@ -118,6 +118,8 @@
     <span class="n">standard_concave_hyperbolic_cylinder_height</span><span class="p">,</span>
     <span class="n">standard_convex_hyperbolic_cylinder_xslope</span><span class="p">,</span>
     <span class="n">standard_concave_hyperbolic_cylinder_xslope</span><span class="p">,</span>
+    <span class="n">standard_sag_col_diaboloid_height</span><span class="p">,</span>
+    <span class="n">standard_tan_col_diaboloid_height</span>
 <span class="p">)</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">xmf.layer_02_generation</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
@@ -798,6 +800,90 @@
     <span class="n">y1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x1d</span><span class="p">)</span>  <span class="c1"># No need to consider y-coordinates in metrology coordinates for 1D case</span>
 
     <span class="k">return</span> <span class="n">optimize_parameters</span><span class="p">(</span><span class="n">generate_1d_slope</span><span class="p">,</span> <span class="n">standard_concave_hyperbolic_cylinder_xslope</span><span class="p">,</span> <span class="n">x1d</span><span class="p">,</span> <span class="n">y1d</span><span class="p">,</span> <span class="n">sx1d</span><span class="p">,</span> <span class="n">input_params_dict</span><span class="p">,</span> <span class="n">opt_or_tol_dict</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="fit_sag_col_diaboloid_height">
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.fit_sag_col_diaboloid_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_sag_col_diaboloid_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                 <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                 <span class="n">z2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                 <span class="n">input_params_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                                 <span class="n">opt_or_tol_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                                 <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fit the sagittal collimating diaboloid parameters from a measured height map.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x2d: `numpy.ndarray`</span>
+<span class="sd">            The x coordinate in the suggested unit of [m]</span>
+<span class="sd">        y2d: `numpy.ndarray`</span>
+<span class="sd">            The y coordinate in the suggested unit of [m]</span>
+<span class="sd">        z2d: `numpy.ndarray`</span>
+<span class="sd">            The z coordinate in the suggested unit of [m]</span>
+<span class="sd">        input_params_dict: `dict`</span>
+<span class="sd">            The input parameters dictionary containing ``p``, ``q``, ``theta``, ``x_i`` (optional), and ``y_i`` (optional) in the suggested unit of [m] [m] [rad] [m]</span>
+<span class="sd">        opt_or_tol_dict: `dict`</span>
+<span class="sd">            The structure to set whether optimization flag or tolerance for </span>
+<span class="sd">            ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.</span>
+<span class="sd">        init_params: `numpy.ndarray`</span>
+<span class="sd">            The used initial parameters.</span>
+<span class="sd">            </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z2d_residual: `numpy.ndarray`</span>
+<span class="sd">            The height residual after the best fit.</span>
+<span class="sd">        z2d_fit: `numpy.ndarray`</span>
+<span class="sd">            The fitted height</span>
+<span class="sd">        opt_params_dict: `dict`</span>
+<span class="sd">            The optimized parameters in dictionary</span>
+<span class="sd">        opt_params_ci_dict: `dict`</span>
+<span class="sd">            The confidence intervals of the optimized parameters in dictionary</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">optimize_parameters</span><span class="p">(</span><span class="n">generate_2d_curved_surface_height</span><span class="p">,</span> <span class="n">standard_sag_col_diaboloid_height</span><span class="p">,</span> <span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">z2d</span><span class="p">,</span> <span class="n">input_params_dict</span><span class="p">,</span> <span class="n">opt_or_tol_dict</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="fit_tan_col_diaboloid_height">
+<a class="viewcode-back" href="../../source/xmf_python.html#xmf.fit_tan_col_diaboloid_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_tan_col_diaboloid_height</span><span class="p">(</span><span class="n">x2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                 <span class="n">y2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                 <span class="n">z2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                 <span class="n">input_params_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                                 <span class="n">opt_or_tol_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                                 <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fit the tangential collimating diaboloid parameters from a measured height map.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x2d: `numpy.ndarray`</span>
+<span class="sd">            The x coordinate in the suggested unit of [m]</span>
+<span class="sd">        y2d: `numpy.ndarray`</span>
+<span class="sd">            The y coordinate in the suggested unit of [m]</span>
+<span class="sd">        z2d: `numpy.ndarray`</span>
+<span class="sd">            The z coordinate in the suggested unit of [m]</span>
+<span class="sd">        input_params_dict: `dict`</span>
+<span class="sd">            The input parameters dictionary containing ``p``, ``q``, ``theta``, ``x_i`` (optional), and ``y_i`` (optional) in the suggested unit of [m] [m] [rad] [m]</span>
+<span class="sd">        opt_or_tol_dict: `dict`</span>
+<span class="sd">            The structure to set whether optimization flag or tolerance for </span>
+<span class="sd">            ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.</span>
+<span class="sd">        init_params: `numpy.ndarray`</span>
+<span class="sd">            The used initial parameters.</span>
+<span class="sd">            </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        z2d_residual: `numpy.ndarray`</span>
+<span class="sd">            The height residual after the best fit.</span>
+<span class="sd">        z2d_fit: `numpy.ndarray`</span>
+<span class="sd">            The fitted height</span>
+<span class="sd">        opt_params_dict: `dict`</span>
+<span class="sd">            The optimized parameters in dictionary</span>
+<span class="sd">        opt_params_ci_dict: `dict`</span>
+<span class="sd">            The confidence intervals of the optimized parameters in dictionary</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">optimize_parameters</span><span class="p">(</span><span class="n">generate_2d_curved_surface_height</span><span class="p">,</span> <span class="n">standard_tan_col_diaboloid_height</span><span class="p">,</span> <span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">z2d</span><span class="p">,</span> <span class="n">input_params_dict</span><span class="p">,</span> <span class="n">opt_or_tol_dict</span><span class="p">)</span></div>
 
 </pre></div>
 

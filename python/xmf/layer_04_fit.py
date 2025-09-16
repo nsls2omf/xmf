@@ -38,6 +38,8 @@ from xmf.layer_01_standard import (
     standard_concave_hyperbolic_cylinder_height,
     standard_convex_hyperbolic_cylinder_xslope,
     standard_concave_hyperbolic_cylinder_xslope,
+    standard_sag_col_diaboloid_height,
+    standard_tan_col_diaboloid_height
 )
 
 from xmf.layer_02_generation import (
@@ -671,3 +673,81 @@ def fit_concave_hyperbola_slope(x1d: np.ndarray,
     y1d = np.zeros_like(x1d)  # No need to consider y-coordinates in metrology coordinates for 1D case
 
     return optimize_parameters(generate_1d_slope, standard_concave_hyperbolic_cylinder_xslope, x1d, y1d, sx1d, input_params_dict, opt_or_tol_dict)
+
+def fit_sag_col_diaboloid_height(x2d: np.ndarray,
+                                 y2d: np.ndarray,
+                                 z2d: np.ndarray,
+                                 input_params_dict: dict,
+                                 opt_or_tol_dict: dict,
+                                 ):
+    """
+    Fit the sagittal collimating diaboloid parameters from a measured height map.
+
+    Parameters
+    ----------
+        x2d: `numpy.ndarray`
+            The x coordinate in the suggested unit of [m]
+        y2d: `numpy.ndarray`
+            The y coordinate in the suggested unit of [m]
+        z2d: `numpy.ndarray`
+            The z coordinate in the suggested unit of [m]
+        input_params_dict: `dict`
+            The input parameters dictionary containing ``p``, ``q``, ``theta``, ``x_i`` (optional), and ``y_i`` (optional) in the suggested unit of [m] [m] [rad] [m]
+        opt_or_tol_dict: `dict`
+            The structure to set whether optimization flag or tolerance for 
+            ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
+    Returns
+    -------
+        z2d_residual: `numpy.ndarray`
+            The height residual after the best fit.
+        z2d_fit: `numpy.ndarray`
+            The fitted height
+        opt_params_dict: `dict`
+            The optimized parameters in dictionary
+        opt_params_ci_dict: `dict`
+            The confidence intervals of the optimized parameters in dictionary
+    """
+
+    return optimize_parameters(generate_2d_curved_surface_height, standard_sag_col_diaboloid_height, x2d, y2d, z2d, input_params_dict, opt_or_tol_dict)
+
+def fit_tan_col_diaboloid_height(x2d: np.ndarray,
+                                 y2d: np.ndarray,
+                                 z2d: np.ndarray,
+                                 input_params_dict: dict,
+                                 opt_or_tol_dict: dict,
+                                 ):
+    """
+    Fit the tangential collimating diaboloid parameters from a measured height map.
+
+    Parameters
+    ----------
+        x2d: `numpy.ndarray`
+            The x coordinate in the suggested unit of [m]
+        y2d: `numpy.ndarray`
+            The y coordinate in the suggested unit of [m]
+        z2d: `numpy.ndarray`
+            The z coordinate in the suggested unit of [m]
+        input_params_dict: `dict`
+            The input parameters dictionary containing ``p``, ``q``, ``theta``, ``x_i`` (optional), and ``y_i`` (optional) in the suggested unit of [m] [m] [rad] [m]
+        opt_or_tol_dict: `dict`
+            The structure to set whether optimization flag or tolerance for 
+            ``p``, ``q``, ``theta``, ``x_i``, ``y_i``, ``z_i``, ``alpha``, ``beta``, ``gamma``.
+        init_params: `numpy.ndarray`
+            The used initial parameters.
+            
+    Returns
+    -------
+        z2d_residual: `numpy.ndarray`
+            The height residual after the best fit.
+        z2d_fit: `numpy.ndarray`
+            The fitted height
+        opt_params_dict: `dict`
+            The optimized parameters in dictionary
+        opt_params_ci_dict: `dict`
+            The confidence intervals of the optimized parameters in dictionary
+    """
+
+    return optimize_parameters(generate_2d_curved_surface_height, standard_tan_col_diaboloid_height, x2d, y2d, z2d, input_params_dict, opt_or_tol_dict)

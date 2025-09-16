@@ -13,6 +13,9 @@ from .layer_01_standard import(
     standard_concave_hyperbolic_cylinder_height,
     standard_convex_hyperbolic_cylinder_xslope,
     standard_concave_hyperbolic_cylinder_xslope,
+
+    standard_sag_col_diaboloid_height,
+    standard_tan_col_diaboloid_height,
 )
   
 from .layer_02_generation import(
@@ -40,6 +43,9 @@ from .layer_04_fit import(
     fit_convex_hyperbola_height,
     fit_convex_hyperbola_slope,
     fit_concave_hyperbola_slope,
+    
+    fit_sag_col_diaboloid_height,
+    fit_tan_col_diaboloid_height,
 )
 
 from .fig_show import (
@@ -51,6 +57,7 @@ from .fig_show import (
     fig_show_2d_fitting_map,
     fig_show_1d_fitting_height,
     fig_show_1d_fitting_slope,
+    fig_show_2d_different_fitting_maps,
 )
 
 
@@ -71,6 +78,8 @@ __all__ = [
     'standard_convex_hyperbolic_cylinder_xslope',
     'standard_concave_hyperbolic_cylinder_xslope',
     
+    'standard_sag_col_diaboloid_height',
+    'standard_tan_col_diaboloid_height',
     
     # layer_02_generation.py
     'generate_2d_curved_surface_height',
@@ -97,8 +106,10 @@ __all__ = [
     'fit_convex_hyperbola_height',
     'fit_convex_hyperbola_slope',
     'fit_concave_hyperbola_slope',
-    
-    
+
+    'fit_sag_col_diaboloid_height',
+    'fit_tan_col_diaboloid_height',
+
     # fig_show.py
     'fig_show_2d_map',
     'fig_show_1d_height',
@@ -108,4 +119,5 @@ __all__ = [
     'fig_show_2d_fitting_map',
     'fig_show_1d_fitting_height',
     'fig_show_1d_fitting_slope',
+    'fig_show_2d_different_fitting_maps',
 ]

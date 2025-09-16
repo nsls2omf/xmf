@@ -23,6 +23,9 @@ abs_p = 30;
 abs_q = 0.3;
 theta = 30e-3;
 
+abs_q_t = 0.3;
+abs_q_s = 0.6;
+
 x_i = 0*-1e-3;
 y_i = 0*-2e-4;
 z_i = 0*3e-7;
@@ -117,3 +120,17 @@ fig_compare_1d_height(x1d, z1d, z1d_standard, 'Concave Hyperbolic Cylinder');
 sx1d_standard = standard_concave_hyperbolic_cylinder_xslope(x1d, abs_p, abs_q, theta);
 sx1d = generate_1d_slope(@standard_concave_hyperbolic_cylinder_xslope, x1d, abs_p, abs_q, theta, x_i, beta);
 fig_compare_1d_slope(x1d, sx1d, sx1d_standard, 'Concave Hyperbolic Cylinder');
+
+
+%% 8.1. Sagittal Collimating Diaboloid (SCD)
+
+z2d_standard = standard_sag_col_diaboloid_height(x2d, y2d, abs_p, abs_q_t, theta);
+z2d = generate_2d_curved_surface_height(@standard_sag_col_diaboloid_height, x2d, y2d, abs_p, abs_q_t, theta, x_i, y_i, z_i, alpha, beta, gamma);
+fig_compare_2d_map(x1d, y1d, z2d, z2d_standard, 'Sagittal Collimating Diaboloid');
+
+
+%% 8.2. Tangential Collimating Diaboloid (TCD)
+
+z2d_standard = standard_tan_col_diaboloid_height(x2d, y2d, abs_p, abs_q_s, theta);
+z2d = generate_2d_curved_surface_height(@standard_tan_col_diaboloid_height,x2d, y2d, abs_p, abs_q_s, theta, x_i, y_i, z_i, alpha, beta, gamma);
+fig_compare_2d_map(x1d, y1d, z2d, z2d_standard, 'Tangential Collimating Diaboloid');

@@ -18,10 +18,12 @@ x1d = linspace(-x_range/2, x_range/2, x_num);
 y1d = linspace(-y_range/2, y_range/2, y_num);
 [x2d, y2d] = meshgrid(x1d, y1d);
 
-abs_p = 0.3;
-abs_q = 30;
+abs_p = 30;
+abs_q = 0.3;
 theta = 30e-3;
 
+abs_q_t = 0.3;
+abs_q_s = 0.6;
 
 %% 2.1. Convex Ellipsoid (CVXE)
 
@@ -93,3 +95,15 @@ fig_compare_1d_height(x1d, z1d_quad_sln, z1d_expression, 'Concave Hyperbolic Cyl
 
 sx1d = standard_concave_hyperbolic_cylinder_xslope(x1d, abs_p, abs_q, theta);
 fig_compare_1d_slope(x1d, sx1d, sx1d, 'Concave Hyperbolic Cylinder');
+
+
+%% 8.1. Sagittal Collimating Diaboloid (SCD)
+
+z2d = standard_sag_col_diaboloid_height(x2d, y2d, abs_p, abs_q_t, theta);
+fig_compare_2d_map(x1d, y1d, z2d, z2d, 'Sagittal Collimating Diaboloid');
+
+
+%% 8.2. Tangential Collimating Diaboloid (TCD)
+
+z2d = standard_tan_col_diaboloid_height(x2d, y2d, abs_p, abs_q_s, theta);
+fig_compare_2d_map(x1d, y1d, z2d, z2d, 'Tangential Collimating Diaboloid');

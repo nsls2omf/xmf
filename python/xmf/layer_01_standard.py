@@ -554,9 +554,9 @@ def standard_convex_elliptic_cylinder_xslope(x: np.ndarray,
     return sx_expression_quadrics
 
 def standard_concave_elliptic_cylinder_xslope(x: np.ndarray,
-                              abs_p: float,
-                              abs_q: float,
-                              theta: float):
+                                              abs_p: float,
+                                              abs_q: float,
+                                              theta: float):
 
     """
     The standard concave elliptic cylinder x-slope with (``abs_p``, ``abs_q``, ``theta``)
@@ -583,9 +583,9 @@ def standard_concave_elliptic_cylinder_xslope(x: np.ndarray,
     return sx_expression_quadrics
 
 def standard_convex_hyperbolic_cylinder_xslope(x: np.ndarray,
-                              abs_p: float,
-                              abs_q: float,
-                              theta: float):
+                                               abs_p: float,
+                                               abs_q: float,
+                                               theta: float):
 
     """
     The standard convex hyperbolic cylinder x-slope with (``abs_p``, ``abs_q``, ``theta``)
@@ -616,9 +616,9 @@ def standard_convex_hyperbolic_cylinder_xslope(x: np.ndarray,
     return sx_expression_quadrics
 
 def standard_concave_hyperbolic_cylinder_xslope(x: np.ndarray,
-                              abs_p: float,
-                              abs_q: float,
-                              theta: float):
+                                                abs_p: float,
+                                                abs_q: float,
+                                                theta: float):
 
     """
     The standard concave hyperbolic cylinder x-slope with (``abs_p``, ``abs_q``, ``theta``)
@@ -648,3 +648,112 @@ def standard_concave_hyperbolic_cylinder_xslope(x: np.ndarray,
     sx_expression_quadrics = standard_quadric_cylinder_xslope(x, p, q, theta)
     return sx_expression_quadrics
 
+
+def standard_sag_col_diaboloid_height(x2d: np.ndarray,
+                                      y2d: np.ndarray,
+                                      abs_p: float,
+                                      abs_q: float,
+                                      theta: float,
+                                      ):
+
+    """
+    The standard sagittal collimated diaboloid with (``abs_p``, ``abs_q``, ``theta``)
+
+    Parameters
+    ----------
+        x2d: `numpy.ndarray`
+            The x coordinates
+        y2d: `numpy.ndarray`
+            The y coordinates
+        abs_p: `float`
+            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection
+        abs_q: `float`
+            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus
+        theta: `float`
+            The grazing angle
+    Returns
+    -------
+        z2d: `numpy.ndarray`
+            The 2D height
+    """
+    
+    # Quadratic solution
+
+    A = (abs_p-abs_q)**2*np.cos(theta)**2 + 4*abs_p*abs_q
+    B = (abs_p-abs_q)*np.sin(theta)*y2d**2 + (abs_p**2-abs_q**2)*np.sin(2*theta)*x2d - 4*(abs_p+abs_q)*abs_p*abs_q*np.sin(theta)
+    C = (abs_p+abs_q)**2*np.sin(theta)**2*x2d**2 - (abs_p+abs_q)*(np.cos(theta)*x2d - abs_q)*y2d**2 - 0.25*y2d**4
+
+    # Discriminant 
+    Delta = B**2 - 4*A*C
+
+    z_quad_sln = (-B - np.sqrt(Delta))/(2*A)
+    z_quad_sln[Delta<0] = np.nan  
+
+    return z_quad_sln
+
+
+def standard_tan_col_diaboloid_height(x2d: np.ndarray,
+                                      y2d: np.ndarray,
+                                      abs_p: float,
+                                      abs_q: float,
+                                      theta: float,
+                                      ):
+
+    """
+    The standard tangential collimated diaboloid with (``abs_p``, ``abs_q``, ``theta``)
+
+    Parameters
+    ----------
+        x2d: `numpy.ndarray`
+            The x coordinates
+        y2d: `numpy.ndarray`
+            The y coordinates
+        abs_p: `float`
+            The ``abs_p`` value: the absolute value of the distance between the source and the chief ray intersection
+        abs_q: `float`
+            The ``abs_q`` value: the absolute value of the distance between the chief ray intersection and the focus
+        theta: `float`
+            The grazing angle
+    Returns
+    -------
+        z2d: `numpy.ndarray`
+            The 2D height
+    """
+    
+    A = - np.cos(theta)**4
+    B = 4*(abs_p-abs_q)*np.cos(theta)**2*np.sin(theta) + 4*np.cos(theta)**3*np.sin(theta)*x2d
+    C = 4*abs_q*((abs_p+abs_q)*np.cos(theta)**2 + 4*abs_p*np.sin(theta)**2) + 2*np.cos(theta)*(abs_q - 3*abs_p + (abs_p-3*abs_q)*np.cos(2*theta))*x2d - 6*np.cos(theta)**2*np.sin(theta)**2*x2d**2
+    D = -16*abs_p*abs_q*(abs_p+abs_q)*np.sin(theta) + 4*(abs_p+abs_q)*(2*abs_p-abs_q)*np.sin(2*theta)*x2d + 2*(3*abs_p+abs_q+(3*abs_q+abs_p)*np.cos(2*theta))*np.sin(theta)*x2d**2 + 4*np.cos(theta)*np.sin(theta)**3*x2d**3
+    E = 4*(abs_p+abs_q)**2*y2d**2 + 4*abs_q*(abs_p+abs_q)*np.sin(theta)**2*x2d**2 - 4*(abs_p+abs_q)*np.cos(theta)*np.sin(theta)**2*x2d**3 - np.sin(theta)**4*x2d**4
+
+    b = B/A
+    c = C/A
+    d = D/A
+    e = E/A
+
+    k = (8*c-3*b**2)/8
+    m = (b**3-4*b*c+8*d)/8
+
+    Delta_0 = c**2 - 3*b*d + 12*e
+    Delta_1 = 2*c**3 - 9*b*c*d + 27*b**2*e + 27*d**2 - 72*c*e
+
+    mask = Delta_1**2 - 4*Delta_0**3 >= 0
+
+    # Solve the equation
+    # Note: the expression of Q in the reference paper was wrong.
+    Q = 0.5**(1/3)*(Delta_1 + np.sqrt(Delta_1**2 - 4*Delta_0**3, dtype=complex))**(1/3) 
+    S1 = np.real(0.5*np.sqrt((1/3)*(Q + Delta_0/Q) - 2/3*k))
+
+    # Another way to avoid the complex number Q,
+    # when Delta_1**2 - 4*Delta_0**3<0
+    # Source: https://en.wikipedia.org/wiki/Quartic_function#
+    phi = np.arccos(Delta_1 / (2 * np.sqrt(Delta_0**3, dtype=complex)))
+    S2 = np.real(0.5*np.sqrt(- 2/3*k + 2/3*np.sqrt(Delta_0, dtype=complex)*np.cos(phi/3), dtype=complex))
+
+    S = mask*S1 + np.logical_not(mask)*S2  
+    # S = np.zeros_like(S1)
+    # S[mask] = S1[mask]
+    # S[np.logical_not(mask)] = S2[np.logical_not(mask)]
+    
+    z2d = -b/4 - S + 0.5*np.sqrt(-4*S**2 - 2*k + m/S)
+    return z2d

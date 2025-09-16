@@ -25,6 +25,9 @@ abs_p = 30;
 abs_q = 0.3;
 theta = 30e-3;
 
+abs_q_t = 0.3;
+abs_q_s = 0.6;
+
 x_i = -1e-3;
 y_i = -2e-4;
 z_i = 3e-7;
@@ -48,6 +51,14 @@ slope_measurement_noise_std = 100e-9;
 input_params_struct.p = abs_p;
 input_params_struct.q = abs_q;
 input_params_struct.theta = theta;
+
+input_scd_params_struct.p = abs_p;
+input_scd_params_struct.q = abs_q_t;
+input_scd_params_struct.theta = theta;
+
+input_tcd_params_struct.p = abs_p;
+input_tcd_params_struct.q = abs_q_s;
+input_tcd_params_struct.theta = theta;
 
 tol_struct.p = 0;
 tol_struct.q = 0;
@@ -157,4 +168,66 @@ sx1d = generate_1d_slope(@standard_concave_hyperbolic_cylinder_xslope, x1d, abs_
 sx1d_measured = sx1d + randn(size(sx1d))*slope_measurement_noise_std;
 [sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct] = fit_concave_hyperbola_slope(x1d, sx1d_measured, input_params_struct, tol_struct);
 fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Hyperbolic Cylinder');
+
+
+%% 8.1. Sagittal Collimating Diaboloid (SCD)
+
+true_scd_params.p = abs_p;
+true_scd_params.q = abs_q_t;
+true_scd_params.theta = theta;
+true_scd_params.x_i = x_i;
+true_scd_params.y_i = y_i;
+true_scd_params.z_i = z_i;
+true_scd_params.alpha = alpha;
+true_scd_params.beta = beta;
+true_scd_params.gamma = gamma;
+
+z2d = generate_2d_curved_surface_height(@standard_sag_col_diaboloid_height, x2d, y2d, abs_p, abs_q_t, theta, x_i, y_i, z_i, alpha, beta, gamma);
+z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
+[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_sag_col_diaboloid_height(x2d, y2d, z2d_measured, input_scd_params_struct, tol_struct);
+
+fig_show_2d_fitting_map(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_scd_params, opt_params, opt_params_ci, 'Sagittal Collimating Diaboloid');
+
+
+%% 8.2. Tangential Collimating Diaboloid (TCD)
+
+true_tcd_params.p = abs_p;
+true_tcd_params.q = abs_q_s;
+true_tcd_params.theta = theta;
+true_tcd_params.x_i = x_i;
+true_tcd_params.y_i = y_i;
+true_tcd_params.z_i = z_i;
+true_tcd_params.alpha = alpha;
+true_tcd_params.beta = beta;
+true_tcd_params.gamma = gamma;
+
+% 8.2.1. Tangential Collimating Diaboloid (TCD) without considering gamma
+
+tol_struct.p = 0;
+tol_struct.q = 0;
+tol_struct.theta = 0;
+tol_struct.y_i = 0.5e-3;
+tol_struct.gamma = 0;
+
+z2d = generate_2d_curved_surface_height(@standard_tan_col_diaboloid_height, x2d, y2d, abs_p, abs_q_s, theta, x_i, y_i, z_i, alpha, beta, gamma);
+z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
+[z2d_res_wo_gamma, z2d_fit_wo_gamma, opt_params_wo_gamma, opt_params_ci_wo_gamma] = fit_tan_col_diaboloid_height(x2d, y2d, z2d_measured, input_tcd_params_struct, tol_struct);
+
+
+% 8.2.2. Tangential Collimating Diaboloid (TCD)
+
+tol_struct.p = 0;
+tol_struct.q = 0;
+tol_struct.theta = 0;
+tol_struct.y_i = 0.5e-3;
+tol_struct.gamma = Inf;
+
+z2d = generate_2d_curved_surface_height(@standard_tan_col_diaboloid_height, x2d, y2d, abs_p, abs_q_s, theta, x_i, y_i, z_i, alpha, beta, gamma);
+z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
+[z2d_res, z2d_fit, opt_params, opt_params_ci] = fit_tan_col_diaboloid_height(x2d, y2d, z2d_measured, input_tcd_params_struct, tol_struct);
+
+
+% Show different fitting maps
+fig_show_2d_different_fitting_maps(x1d, y1d, z2d_measured, z2d_fit_wo_gamma, z2d_res_wo_gamma, z2d_fit, z2d_res, true_params, opt_params_wo_gamma, opt_params_ci_wo_gamma, opt_params, opt_params_ci, 'Tangential Collimating Diaboloid');
+
 

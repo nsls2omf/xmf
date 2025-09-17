@@ -241,7 +241,7 @@
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opt_or_tol_dict</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">],</span> <span class="nb">bool</span><span class="p">):</span> <span class="c1"># Use opt_dict</span>
 
-        <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params</span> <span class="o">=</span> <span class="n">optimize_parameters_with_opt</span><span class="p">(</span>
+        <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params_dict</span> <span class="o">=</span> <span class="n">optimize_parameters_with_opt</span><span class="p">(</span>
             <span class="n">surface_generation_function</span><span class="p">,</span>
             <span class="n">standard_surface_shape_function</span><span class="p">,</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span>
@@ -250,14 +250,14 @@
 
     <span class="k">else</span><span class="p">:</span>  <span class="c1"># Use tol_dict</span>
 
-        <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params</span> <span class="o">=</span> <span class="n">optimize_parameters_with_tol</span><span class="p">(</span>
+        <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params_dict</span> <span class="o">=</span> <span class="n">optimize_parameters_with_tol</span><span class="p">(</span>
             <span class="n">surface_generation_function</span><span class="p">,</span>
             <span class="n">standard_surface_shape_function</span><span class="p">,</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span>
             <span class="n">input_params_dict</span><span class="p">,</span>
             <span class="n">opt_or_tol_dict</span><span class="p">)</span>
-        
-    <span class="k">return</span> <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params</span></div>
+
+    <span class="k">return</span> <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params_dict</span></div>
 
 
 <div class="viewcode-block" id="optimize_parameters_with_opt">
@@ -304,7 +304,7 @@
 <span class="sd">            The optimized parameters in dictionary</span>
 <span class="sd">        opt_params_ci_dict: `dict`</span>
 <span class="sd">            The confidence intervals of the optimized parameters in dictionary</span>
-<span class="sd">        init_params: `numpy.ndarray`</span>
+<span class="sd">        init_params_dict: `dict`</span>
 <span class="sd">            The used initial parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span> 
 
@@ -454,14 +454,17 @@
     <span class="n">str_param_name_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">,</span>
                             <span class="s1">&#39;x_i&#39;</span><span class="p">,</span> <span class="s1">&#39;y_i&#39;</span><span class="p">,</span> <span class="s1">&#39;z_i&#39;</span><span class="p">,</span> 
                             <span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
+
+    <span class="n">init_params_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">opt_params_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">opt_params_ci_dict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="c1"># Release the optimized values</span>
+    <span class="c1"># Release the initial and optimized values</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">str_param_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">str_param_name_list</span><span class="p">):</span>
+        <span class="n">init_params_dict</span><span class="p">[</span><span class="n">str_param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">opt_vector</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">else</span> <span class="n">param_fix</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
         <span class="n">opt_params_dict</span><span class="p">[</span><span class="n">str_param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_result</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">opt_vector</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">else</span> <span class="n">param_fix</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
         <span class="n">opt_params_ci_dict</span><span class="p">[</span><span class="n">str_param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_ci_result</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">opt_vector</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
         
-    <span class="k">return</span> <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params</span></div>
+    <span class="k">return</span> <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params_dict</span></div>
 
 
 <div class="viewcode-block" id="optimize_parameters_with_tol">
@@ -508,7 +511,7 @@
 <span class="sd">            The optimized parameters in dictionary</span>
 <span class="sd">        opt_params_ci_dict: `dict`</span>
 <span class="sd">            The confidence intervals of the optimized parameters in dictionary</span>
-<span class="sd">        init_params: `numpy.ndarray`</span>
+<span class="sd">        init_params_dict: `dict`</span>
 <span class="sd">            The used initial parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -680,13 +683,15 @@
     <span class="n">str_param_name_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">,</span>
                            <span class="s1">&#39;x_i&#39;</span><span class="p">,</span> <span class="s1">&#39;y_i&#39;</span><span class="p">,</span> <span class="s1">&#39;z_i&#39;</span><span class="p">,</span> 
                            <span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
+    <span class="n">init_params_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">opt_params_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">opt_params_ci_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">str_param_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">str_param_name_list</span><span class="p">):</span>
+        <span class="n">init_params_dict</span><span class="p">[</span><span class="n">str_param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">opt_vector</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">else</span> <span class="n">param_fix</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
         <span class="n">opt_params_dict</span><span class="p">[</span><span class="n">str_param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_result</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">opt_vector</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">else</span> <span class="n">param_fix</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
         <span class="n">opt_params_ci_dict</span><span class="p">[</span><span class="n">str_param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_ci_result</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">opt_vector</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-        
-    <span class="k">return</span> <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params</span></div>
+
+    <span class="k">return</span> <span class="n">v_res</span><span class="p">,</span> <span class="n">v_fit</span><span class="p">,</span> <span class="n">opt_params_dict</span><span class="p">,</span> <span class="n">opt_params_ci_dict</span><span class="p">,</span> <span class="n">init_params_dict</span></div>
 
 </pre></div>
 

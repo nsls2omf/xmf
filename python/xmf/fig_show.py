@@ -451,7 +451,7 @@ def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, input_params
     z1d_res_nm = z1d_res * 1e9
 
     font_size = 14
-    large_font_size = 24
+    large_font_size = 20
     marker_size = 4
     line_width = 3
 
@@ -563,7 +563,7 @@ def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, input_para
     sx1d_res_urad = sx1d_res * 1e6
 
     font_size = 14
-    large_font_size = 24
+    large_font_size = 20
     marker_size = 4
     line_width = 3
 

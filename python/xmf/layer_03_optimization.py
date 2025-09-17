@@ -156,7 +156,7 @@ def optimize_parameters(surface_generation_function: types.FunctionType,
 
     if isinstance(opt_or_tol_dict['p'], bool): # Use opt_dict
 
-        v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params = optimize_parameters_with_opt(
+        v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params_dict = optimize_parameters_with_opt(
             surface_generation_function,
             standard_surface_shape_function,
             x, y, v,
@@ -165,14 +165,14 @@ def optimize_parameters(surface_generation_function: types.FunctionType,
 
     else:  # Use tol_dict
 
-        v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params = optimize_parameters_with_tol(
+        v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params_dict = optimize_parameters_with_tol(
             surface_generation_function,
             standard_surface_shape_function,
             x, y, v,
             input_params_dict,
             opt_or_tol_dict)
-        
-    return v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params
+
+    return v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params_dict
 
 def optimize_parameters_with_opt(surface_generation_function: types.FunctionType, 
                                  standard_surface_shape_function: types.FunctionType, 
@@ -216,7 +216,7 @@ def optimize_parameters_with_opt(surface_generation_function: types.FunctionType
             The optimized parameters in dictionary
         opt_params_ci_dict: `dict`
             The confidence intervals of the optimized parameters in dictionary
-        init_params: `numpy.ndarray`
+        init_params_dict: `dict`
             The used initial parameters.
     """ 
 
@@ -366,14 +366,17 @@ def optimize_parameters_with_opt(surface_generation_function: types.FunctionType
     str_param_name_list = ['p', 'q', 'theta',
                             'x_i', 'y_i', 'z_i', 
                             'alpha', 'beta', 'gamma']
+
+    init_params_dict = {}
     opt_params_dict = {}
     opt_params_ci_dict = {}
-    # Release the optimized values
+    # Release the initial and optimized values
     for idx, str_param_name in enumerate(str_param_name_list):
+        init_params_dict[str_param_name] = init_params[idx] if opt_vector[idx] else param_fix[idx]
         opt_params_dict[str_param_name] = param_result[idx] if opt_vector[idx] else param_fix[idx]
         opt_params_ci_dict[str_param_name] = param_ci_result[idx] if opt_vector[idx] else np.full(2, np.nan)
         
-    return v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params
+    return v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params_dict
 
 def optimize_parameters_with_tol(surface_generation_function: types.FunctionType, 
                                  standard_surface_shape_function: types.FunctionType, 
@@ -417,7 +420,7 @@ def optimize_parameters_with_tol(surface_generation_function: types.FunctionType
             The optimized parameters in dictionary
         opt_params_ci_dict: `dict`
             The confidence intervals of the optimized parameters in dictionary
-        init_params: `numpy.ndarray`
+        init_params_dict: `dict`
             The used initial parameters.
     """
 
@@ -589,10 +592,12 @@ def optimize_parameters_with_tol(surface_generation_function: types.FunctionType
     str_param_name_list = ['p', 'q', 'theta',
                            'x_i', 'y_i', 'z_i', 
                            'alpha', 'beta', 'gamma']
+    init_params_dict = {}
     opt_params_dict = {}
     opt_params_ci_dict = {}
     for idx, str_param_name in enumerate(str_param_name_list):
+        init_params_dict[str_param_name] = init_params[idx] if opt_vector[idx] else param_fix[idx]
         opt_params_dict[str_param_name] = param_result[idx] if opt_vector[idx] else param_fix[idx]
         opt_params_ci_dict[str_param_name] = param_ci_result[idx] if opt_vector[idx] else np.full(2, np.nan)
-        
-    return v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params
+
+    return v_res, v_fit, opt_params_dict, opt_params_ci_dict, init_params_dict

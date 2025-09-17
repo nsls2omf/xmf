@@ -1,4 +1,4 @@
-function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params] = optimize_parameters_with_opt(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, input_params_struct, opt_struct)
+function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params_struct] = optimize_parameters_with_opt(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, input_params_struct, opt_struct)
 % optimize_parameters provide a convenient way to optimize the surface 
 % parameters from measurement data.
 %
@@ -17,7 +17,7 @@ function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params] = 
 %        - v_fit is fitting result in [m], if the input x and z are in [m]
 %        - opt_params_struct is the optimized params in structure
 %        - opt_params_ci_struct is the confidence intervals of the parameters
-%        - init_params contains the used initial parameters.
+%        - init_params_struct is the used initial parameters.
 
 %   Copyright since 2023 by Lei Huang. All Rights Reserved.
 %   E-mail: huanglei0114@gmail.com
@@ -73,6 +73,16 @@ if isequal(standard_surface_shape_function_handle, @standard_sphere_height) || i
     opt_params_struct.beta = params_result(7);
     opt_params_struct.gamma = params_result(8);
 
+    init_params_struct.p = init_params(1);
+    init_params_struct.q = init_params(1);
+    init_params_struct.theta = init_params(2);
+    init_params_struct.x_i = init_params(3);
+    init_params_struct.y_i = init_params(4);
+    init_params_struct.z_i = init_params(5);
+    init_params_struct.alpha = init_params(6);
+    init_params_struct.beta = init_params(7);
+    init_params_struct.gamma = init_params(8);
+
 elseif isequal(standard_surface_shape_function_handle, @standard_point_to_line_concave_surface_height)
     opt_params_struct.p = params_result(1);
     opt_params_struct.q = params_result(2:3);
@@ -84,6 +94,16 @@ elseif isequal(standard_surface_shape_function_handle, @standard_point_to_line_c
     opt_params_struct.beta = params_result(9);
     opt_params_struct.gamma = params_result(10);
 
+    init_params_struct.p = init_params(1);
+    init_params_struct.q = init_params(2:3);
+    init_params_struct.theta = init_params(4);
+    init_params_struct.x_i = init_params(5);
+    init_params_struct.y_i = init_params(6);
+    init_params_struct.z_i = init_params(7);
+    init_params_struct.alpha = init_params(8);
+    init_params_struct.beta = init_params(9);
+    init_params_struct.gamma = init_params(10);
+
 else
     opt_params_struct.p = params_result(1);
     opt_params_struct.q = params_result(2);
@@ -94,6 +114,16 @@ else
     opt_params_struct.alpha = params_result(7);
     opt_params_struct.beta = params_result(8);
     opt_params_struct.gamma = params_result(9);
+
+    init_params_struct.p = init_params(1);
+    init_params_struct.q = init_params(2);
+    init_params_struct.theta = init_params(3);
+    init_params_struct.x_i = init_params(4);
+    init_params_struct.y_i = init_params(5);
+    init_params_struct.z_i = init_params(6);
+    init_params_struct.alpha = init_params(7);
+    init_params_struct.beta = init_params(8);
+    init_params_struct.gamma = init_params(9);
 end
 
 

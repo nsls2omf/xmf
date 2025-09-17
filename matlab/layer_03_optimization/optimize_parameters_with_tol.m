@@ -1,4 +1,4 @@
-function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params] = optimize_parameters_with_tol(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, input_params_struct, tol_struct)
+function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params_struct] = optimize_parameters_with_tol(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, input_params_struct, tol_struct)
 % optimize_parameters_with_tol provide a convenient way to optimize the  
 % surface parameters with tolerance from the measurement data.
 %
@@ -16,7 +16,7 @@ function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params] = 
 %        - v_fit is fitting result in [m], if the input x and z are in [m]
 %        - opt_params_struct is the optimized params in structure
 %        - opt_params_ci_struct is the confidence intervals of the parameters
-%        - init_params contains the used initial parameters.
+%        - init_params_struct is the used initial parameters.
 
 %   Copyright since 2023 by Lei Huang. All Rights Reserved.
 %   E-mail: huanglei0114@gmail.com
@@ -76,6 +76,16 @@ opt_params_struct.z_i = params_result(6);
 opt_params_struct.alpha = params_result(7);
 opt_params_struct.beta = params_result(8);
 opt_params_struct.gamma = params_result(9);
+
+init_params_struct.p = init_params(1);
+init_params_struct.q = init_params(2);
+init_params_struct.theta = init_params(3);
+init_params_struct.x_i = init_params(4);
+init_params_struct.y_i = init_params(5);
+init_params_struct.z_i = init_params(6);
+init_params_struct.alpha = init_params(7);
+init_params_struct.beta = init_params(8);
+init_params_struct.gamma = init_params(9);
 
 
 % Calcualte the confidence intervals.......................................
@@ -191,7 +201,7 @@ elseif isequal(surface_generation_function_handle, @generate_1d_slope)
 end
 
 
-% Set field names in cell
+% Set field names
 field_names = {'p', 'q', 'theta', 'x_i', 'y_i', 'z_i', 'alpha', 'beta', 'gamma'};
 
 tol_vector = zeros(9, 2);

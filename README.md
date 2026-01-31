@@ -8,6 +8,11 @@ Welcome to the X-ray Mirror surface shape Fitting (XMF)!
 
 In the [XMF documentation (https://nsls2omf.github.io/xmf)](https://nsls2omf.github.io/xmf/), we introduce the modules and functionalities of XMF in Python and MATLAB.
 
+Reference: 
+
+Huang, Lei, Ruochen Xu, Tianyi Wang, Jumpei Yamada, Joseph Dvorak, Corey Austin, Albert Van Eeckhout, Josep Nicolàs Roman, Kenneth Goldberg, and Mourad Idir. "Framework for X-ray mirror surface shape fitting." Synchrotron Radiation 33, no. 2 (2026).
+https://doi.org/10.1107/S1600577525011282
+
 # Framework
 
 XMF is a framework for the X-ray mirror surface shape fitting, particularly in the context of convex and concave shapes.
@@ -170,6 +175,6 @@ z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
 fig_show_2d_fitting_map(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Elliptic Cylinder');
 ```
 
-Reference: https://doi.org/10.1107/S1600577525011282
+
 
 

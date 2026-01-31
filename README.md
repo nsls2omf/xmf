@@ -169,3 +169,7 @@ z2d_measured = z2d + randn(size(z2d))*height_measurement_noise_std;
 % 4.6. Show fitting results
 fig_show_2d_fitting_map(x1d, y1d, z2d_measured, z2d_fit, z2d_res, true_params_struct, opt_params_struct, opt_params_ci_struct, 'Concave Elliptic Cylinder');
 ```
+
+Reference: https://doi.org/10.1107/S1600577525011282
+
+

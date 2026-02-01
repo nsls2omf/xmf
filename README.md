@@ -10,8 +10,8 @@ In the [XMF documentation (https://nsls2omf.github.io/xmf)](https://nsls2omf.git
 
 Reference: 
 
-Huang, Lei, Ruochen Xu, Tianyi Wang, Jumpei Yamada, Joseph Dvorak, Corey Austin, Albert Van Eeckhout, Josep Nicolàs Roman, Kenneth Goldberg, and Mourad Idir. "Framework for X-ray mirror surface shape fitting." Synchrotron Radiation 33, no. 2 (2026).
-https://doi.org/10.1107/S1600577525011282
+    Huang, Lei, Ruochen Xu, Tianyi Wang, Jumpei Yamada, Joseph Dvorak, Corey Austin, Albert Van Eeckhout, Josep Nicolàs Roman, Kenneth Goldberg, and Mourad Idir. "Framework for X-ray mirror surface shape fitting." Synchrotron Radiation 33, no. 2 (2026).
+    https://doi.org/10.1107/S1600577525011282
 
 # Framework
 

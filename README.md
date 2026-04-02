@@ -13,6 +13,8 @@ Reference:
 Huang, Lei, Ruochen Xu, Tianyi Wang, Jumpei Yamada, Joseph Dvorak, Corey Austin, Albert Van Eeckhout, Josep Nicolàs Roman, Kenneth Goldberg, and Mourad Idir. "Framework for X-ray mirror surface shape fitting." Synchrotron Radiation 33, no. 2 (2026).
 https://doi.org/10.1107/S1600577525011282
 
+Supporting Sections S1 and S2. DOI: https://doi.org/10.1107/S1600577525011282/mo5313sup1.pdf
+
 # Framework
 
 XMF is a framework for the X-ray mirror surface shape fitting, particularly in the context of convex and concave shapes.

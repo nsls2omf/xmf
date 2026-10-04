@@ -642,6 +642,10 @@ def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, input_para
     str_rms = f'Residual:\n{np.nanstd(sx1d_res_urad):.2f} µrad STD'
     ax5.text(0.5, 0.5, str_rms, fontsize=large_font_size, fontweight='bold', ha='center', va='center', color='tab:blue', transform=ax5.transAxes)
 
+    for axis in (ax1, ax4):
+        axis.set_axisbelow(True)
+        axis.grid(True, which="major", alpha=0.3, linewidth=0.8)
+
     if show:
         plt.show()
     return fig, (ax1, ax2, ax3, ax4, ax5)

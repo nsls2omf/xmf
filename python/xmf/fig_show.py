@@ -529,7 +529,7 @@ def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, input_params
 
     plt.show()
 
-def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, input_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
+def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, input_params_dict, opt_params_dict, opt_params_ci_dict, str_title, *, show=True):
     """
     Show a 1D fitting plot with measured slopes, fitted slopes, residuals, input parameters, and optimized parameters
     
@@ -551,10 +551,13 @@ def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, input_para
             Dictionary of optimized parameters confidence intervals
         str_title: `str`
             Title of the plot
+        show: `bool`
+            Display the figure immediately; defaults to True for existing callers.
 
     Returns
     -------
-        None
+        fig, axes: tuple
+            Figure and axes in data, input, result, residual, statistics order.
     """
 
     x1d_mm = x1d * 1e3
@@ -636,10 +639,12 @@ def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, input_para
     # Residual RMS
     ax5 = plt.subplot(gs[2, 2])
     ax5.axis('off')
-    str_rms = f'Residual:\n{np.nanstd(sx1d_res_urad):.2f} µrad RMS'
+    str_rms = f'Residual:\n{np.nanstd(sx1d_res_urad):.2f} µrad STD'
     ax5.text(0.5, 0.5, str_rms, fontsize=large_font_size, fontweight='bold', ha='center', va='center', color='tab:blue', transform=ax5.transAxes)
 
-    plt.show()
+    if show:
+        plt.show()
+    return fig, (ax1, ax2, ax3, ax4, ax5)
 
 
 def fig_show_2d_different_fitting_maps(x2d, y2d, z2d_measured, z2d_fit_1, z2d_res_1, z2d_fit_2, z2d_res_2, 

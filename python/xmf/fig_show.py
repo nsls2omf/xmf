@@ -356,7 +356,7 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_para
 
 
     fig = plt.figure(figsize=(15, 6))
-    gs = gridspec.GridSpec(3, 2, height_ratios=[1, 1, 1], width_ratios=[3, 2], left=0.05, wspace=0.3, hspace=0.3)
+    gs = gridspec.GridSpec(3, 2, height_ratios=[1, 1, 1], width_ratios=[5, 4], left=0.08, wspace=0.3, hspace=0.3)
 
     # Data
     ax1 = plt.subplot(gs[0, 0])

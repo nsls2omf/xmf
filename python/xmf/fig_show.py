@@ -275,7 +275,7 @@ def fig_compare_1d_slope(x1d, sx1d_generation, sx1d_standard, str_title):
     plt.tight_layout()
     plt.show()
     
-def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_params_dict, opt_params_dict, opt_params_ci_dict, str_title):
+def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_params_dict, opt_params_dict, opt_params_ci_dict, str_title, *, show=True):
     """
     Show a 2D fitting map with colorbar, input parameters, Resultant parameters, and residuals
     
@@ -299,10 +299,13 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_para
             Dictionary of optimized parameters confidence intervals
         str_title: `str`
             Title of the plot
+        show: `bool`
+            Display immediately; defaults to True for existing callers.
 
     Returns
     -------
-        None
+        fig, axes: tuple
+            Figure and six content axes in data/input/fit/result/residual/statistics order.
     """
 
     x2d_mm = x2d * 1e3
@@ -352,11 +355,11 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_para
         return [reg_exp_rep(str_1), reg_exp_rep(str_2), reg_exp_rep(str_3)]
 
 
-    fig = plt.figure(figsize=(18, 6))
-    gs = gridspec.GridSpec(3, 3, height_ratios=[1, 1, 1], width_ratios=[1, 1, 1], wspace=0.3, hspace=0.3)
+    fig = plt.figure(figsize=(15, 6))
+    gs = gridspec.GridSpec(3, 2, height_ratios=[1, 1, 1], width_ratios=[3, 2], left=0.05, wspace=0.3, hspace=0.3)
 
     # Data
-    ax1 = plt.subplot(gs[0, 0:2])
+    ax1 = plt.subplot(gs[0, 0])
     im1 = ax1.pcolormesh(x2d_mm, y2d_mm, z2d_um)
     ax1.set_xticklabels([])
     ax1.set_ylabel('y [mm]', fontsize=font_size)
@@ -365,14 +368,14 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_para
     ax1.tick_params(axis='both', labelsize=font_size)
     
     # Input parameters
-    ax2 = plt.subplot(gs[0, 2])
+    ax2 = plt.subplot(gs[0, 1])
     ax2.axis('off')
     ax2.text(0, 1, 'Input parameters:', fontsize=large_font_size, ha='left', va='top', fontweight='bold', color='k', transform=ax2.transAxes)
     for i, s in enumerate(parameter_to_string_2d(input_params_dict)):
         ax2.text(0, 0.7-0.2*i, s, fontsize=font_size, ha='left', va='top', transform=ax2.transAxes)
 
     # Fit
-    ax3 = plt.subplot(gs[1, 0:2])
+    ax3 = plt.subplot(gs[1, 0])
     im2 = ax3.pcolormesh(x2d_mm, y2d_mm, z2d_fit_um)
     ax3.plot(opt_params_dict['x_i']*1e3, opt_params_dict.get('y_i', 0)*1e3, 'ro', markersize=marker_size, markerfacecolor='r')
     # Beam direction projection
@@ -391,16 +394,18 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_para
     ax3.set_title('Fitting', fontsize=font_size)
     add_colorbar(im2, '[µm]')
     ax3.tick_params(axis='both', labelsize=font_size)
+    ax3.set_xlim(ax1.get_xlim())
+    ax3.set_ylim(ax1.get_ylim())
 
     # Resultant parameters
-    ax4 = plt.subplot(gs[1, 2])
+    ax4 = plt.subplot(gs[1, 1])
     ax4.axis('off')
     ax4.text(0, 1, 'Resultant parameters:', fontsize=large_font_size, ha='left', va='top', fontweight='bold', color='k', transform=ax4.transAxes)
     for i, s in enumerate(parameter_to_string_2d(opt_params_dict, is_optimized_dict)):
         ax4.text(0, 0.7-0.2*i, s, fontsize=font_size, ha='left', va='top', transform=ax4.transAxes)
 
     # Residual
-    ax5 = plt.subplot(gs[2, 0:2])
+    ax5 = plt.subplot(gs[2, 0])
     im3 = ax5.pcolormesh(x2d_mm, y2d_mm, z2d_res_nm, cmap='coolwarm')
     ax5.set_xlabel('x [mm]', fontsize=font_size)
     ax5.set_ylabel('y [mm]', fontsize=font_size)
@@ -409,12 +414,14 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_para
     ax5.tick_params(axis='both', labelsize=font_size)
 
     # Residual RMS
-    ax6 = plt.subplot(gs[2, 2])
+    ax6 = plt.subplot(gs[2, 1])
     ax6.axis('off')
-    str_rms = f'Residual:\n{np.nanstd(z2d_res_nm):.2f} nm RMS'
+    str_rms = f'Residual:\n{np.nanstd(z2d_res_nm):.2f} nm STD'
     ax6.text(0.5, 0.5, str_rms, fontsize=large_font_size, fontweight='bold', ha='center', va='center', color='k', transform=ax6.transAxes)
 
-    plt.show()
+    if show:
+        plt.show()
+    return fig, (ax1, ax2, ax3, ax4, ax5, ax6)
 
 
 def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, input_params_dict, opt_params_dict, opt_params_ci_dict, str_title):

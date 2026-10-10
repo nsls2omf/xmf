@@ -1,4 +1,4 @@
-function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params_struct] = optimize_parameters_with_opt(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, input_params_struct, opt_struct)
+function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params_struct, diagnostics] = optimize_parameters_with_opt(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, input_params_struct, opt_struct)
 % optimize_parameters provide a convenient way to optimize the surface 
 % parameters from measurement data.
 %
@@ -18,12 +18,14 @@ function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params_str
 %        - opt_params_struct is the optimized params in structure
 %        - opt_params_ci_struct is the confidence intervals of the parameters
 %        - init_params_struct is the used initial parameters.
+%        - diagnostics is a structure containing optimization diagnostics, including exit flag, output message, and Jacobian.
 
 %   Copyright since 2023 by Lei Huang. All Rights Reserved.
 %   E-mail: huanglei0114@gmail.com
 %   v1.0.2023.11.19 basic version
 %   v1.1.2025.01.20 rename some variables
 %   v2.0.2025.03.25 general version
+%   v2.1.2026.10.09 add diagnostics output
 
 
 % Set parameters...........................................................
@@ -54,9 +56,29 @@ opt_options = optimset( ...
 lb = [];
 ub = [];
 
-[opt_params, ~, residual, ~, ~, ~, jacobian] ...
-    = lsqnonlin(@(params)cost_function_for_optimizaiton(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, fix_params, params), params ...
-    , lb, ub, opt_options);
+initial_residual = cost_function_for_optimizaiton(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, fix_params, params);
+started = tic;
+if isempty(params)
+    opt_params = params;
+    residual = initial_residual;
+    resnorm = sum(residual.^2);
+    exit_flag = 1;
+    output = struct('iterations', 0, 'funcCount', 1, 'message', 'No free parameters; model evaluated without optimization.');
+    jacobian = zeros(numel(residual), 0);
+else
+    [opt_params, resnorm, residual, exit_flag, output, ~, jacobian] ...
+        = lsqnonlin(@(params)cost_function_for_optimizaiton(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, fix_params, params), params ...
+        , lb, ub, opt_options);
+end
+diagnostics = struct('exit_flag', exit_flag, 'success', exit_flag > 0, 'converged', exit_flag > 0, ...
+    'optimization_performed', ~isempty(params), 'message', output.message, 'iterations', output.iterations, ...
+    'function_evaluations', output.funcCount, 'initial_cost', sum(initial_residual.^2) / 2, 'final_cost', resnorm / 2, ...
+    'final_cost_improvement', (sum(initial_residual.^2) - resnorm) / 2, ...
+    'final_accepted_step_norm', NaN, 'parameter_change_norm', norm(opt_params - params), ...
+    'fitting_time_seconds', toc(started), 'parameter_names', {{'p', 'q', 'theta', 'x_i', 'y_i', 'z_i', 'alpha', 'beta', 'gamma'}}, ...
+    'optimize_mask', opt_vector, 'relative_lower_bounds', -inf(size(opt_vector)), 'relative_upper_bounds', inf(size(opt_vector)));
+diagnostics.relative_lower_bounds(~opt_vector) = 0;
+diagnostics.relative_upper_bounds(~opt_vector) = 0;
 
 % Release the result in a structure for better understanding
 params_result = fix_params;
@@ -130,7 +152,10 @@ end
 
 % Calcualte the confidence intervals.......................................
 
-confidence_interval = nlparci(opt_params, residual, 'Jacobian', jacobian);
+confidence_interval = zeros(0, 2);
+if ~isempty(opt_params)
+    confidence_interval = nlparci(opt_params, residual, 'Jacobian', jacobian);
+end
 params_ci_result = nan(size(fix_params, 1), 2);
 params_ci_result(opt_vector, :) = confidence_interval;
 

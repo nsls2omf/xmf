@@ -1,4 +1,4 @@
-function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params_struct] = optimize_parameters(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, input_params_struct, opt_or_tol_struct)
+function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params_struct, diagnostics] = optimize_parameters(surface_generation_function_handle, standard_surface_shape_function_handle, x, y, v, input_params_struct, opt_or_tol_struct)
 % optimize_parameters provide a convenient way to optimize the surface 
 % parameters from measurement data.
 %
@@ -17,6 +17,7 @@ function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params_str
 %        - opt_params_struct is the optimized params in structure
 %        - params_ci_struct is the confidence intervals of the parameters.
 %        - init_params_struct is the used initial parameters.
+%        - diagnostics is a structure containing optimization diagnostics, including exit flag, output message, and Jacobian.
 
 %   Copyright since 2023 by Lei Huang. All Rights Reserved.
 %   E-mail: huanglei0114@gmail.com
@@ -24,11 +25,12 @@ function [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params_str
 %   v1.1.2025.01.20 rename some variables
 %   v2.0.2025.03.25 general version
 %   v2.1.2025.06.24 general version with tolerance
-%   v2.1.2025.06.27 combine both is_opt and tolerance versions
+%   v2.2.2025.06.27 combine both is_opt and tolerance versions
+%   v2.3.2026.10.09 add diagnostics output
 
 if islogical(opt_or_tol_struct.p) % Use opt_struct
 
-    [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params_struct] ...
+    [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params_struct, diagnostics] ...
         = optimize_parameters_with_opt(surface_generation_function_handle ...
         , standard_surface_shape_function_handle ...
         , x, y, v ...
@@ -37,7 +39,7 @@ if islogical(opt_or_tol_struct.p) % Use opt_struct
 
 else % Use tol_struct
 
-    [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params_struct] ...
+    [v_res, v_fit, opt_params_struct, opt_params_ci_struct, init_params_struct, diagnostics] ...
         = optimize_parameters_with_tol(surface_generation_function_handle ...
         , standard_surface_shape_function_handle ...
         , x, y, v ...

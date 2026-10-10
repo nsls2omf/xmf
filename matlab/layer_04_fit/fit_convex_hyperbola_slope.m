@@ -1,4 +1,4 @@
-function [sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct, init_params_struct] = fit_convex_hyperbola_slope(x1d, sx1d_measured, input_params_struct, opt_or_tol_struct)
+function [sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct, init_params_struct, diagnostics] = fit_convex_hyperbola_slope(x1d, sx1d_measured, input_params_struct, opt_or_tol_struct)
 % fit_convex_hyperbola_slope - Fits a convex hyperbolic cylinder to a 1D slope profile
 %
 %   Inputs:
@@ -13,10 +13,11 @@ function [sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct, init_para
 %       - opt_params_struct - Fitted parameters of the convex hyperbolic cylinder
 %       - opt_params_ci_struct - Confidence intervals of the fitted parameters
 %       - init_params_struct - Initial parameters used for the fit
+%       - diagnostics - Structure containing diagnostic information from the optimization
 
 y1d = x1d*0;
 
-[sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct, init_params_struct] = optimize_parameters ...
+[sx1d_res, sx1d_fit, opt_params_struct, opt_params_ci_struct, init_params_struct, diagnostics] = optimize_parameters ...
     ( @generate_1d_slope ...
     , @standard_convex_hyperbolic_cylinder_xslope ...
     , x1d, y1d, sx1d_measured, input_params_struct, opt_or_tol_struct);

@@ -1,4 +1,4 @@
-function [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct, init_params_struct]=fit_convex_hyperboloid_height(x2d, y2d, z2d, input_params_struct, opt_or_tol_struct)
+function [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct, init_params_struct, diagnostics]=fit_convex_hyperboloid_height(x2d, y2d, z2d, input_params_struct, opt_or_tol_struct)
 % fit_convex_hyperboloid_height - Fits a convex hyperboloid to a 2D height map
 %
 %   Inputs:
@@ -14,8 +14,9 @@ function [z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct, init_params
 %       - opt_params_struct - Fitted parameters of the convex hyperboloid
 %       - opt_params_ci_struct - Confidence intervals of the fitted parameters
 %       - init_params_struct - Initial parameters used for the fit
+%       - diagnostics - Structure containing diagnostic information from the optimization
 
-[z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct, init_params_struct] = optimize_parameters ...
+[z2d_res, z2d_fit, opt_params_struct, opt_params_ci_struct, init_params_struct, diagnostics] = optimize_parameters ...
     ( @generate_2d_curved_surface_height ...
     , @standard_convex_hyperboloid_height ...
     , x2d, y2d, z2d, input_params_struct, opt_or_tol_struct);

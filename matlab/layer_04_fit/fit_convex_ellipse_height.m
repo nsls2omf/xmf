@@ -1,4 +1,4 @@
-function [z1d_res, z1d_fit, opt_params_struct, opt_params_ci_struct, init_params_struct] = fit_convex_ellipse_height(x1d, z1d_measured, input_params_struct, opt_or_tol_struct)
+function [z1d_res, z1d_fit, opt_params_struct, opt_params_ci_struct, init_params_struct, diagnostics] = fit_convex_ellipse_height(x1d, z1d_measured, input_params_struct, opt_or_tol_struct)
 % fit_convex_ellipse_height - Fits a convex elliptic cylinder to a 1D height profile
 %
 %   Inputs:
@@ -13,10 +13,11 @@ function [z1d_res, z1d_fit, opt_params_struct, opt_params_ci_struct, init_params
 %       - opt_params_struct - Fitted parameters of the convex elliptic cylinder
 %       - opt_params_ci_struct - Confidence intervals of the fitted parameters
 %       - init_params_struct - Structure containing initial parameters used for the fit
+%       - diagnostics - Structure containing diagnostic information from the optimization
 
 y1d = x1d*0;
 
-[z1d_res, z1d_fit, opt_params_struct, opt_params_ci_struct, init_params_struct] = optimize_parameters ...
+[z1d_res, z1d_fit, opt_params_struct, opt_params_ci_struct, init_params_struct, diagnostics] = optimize_parameters ...
     ( @generate_1d_height ...
     , @standard_convex_elliptic_cylinder_height ...
     , x1d, y1d, z1d_measured, input_params_struct, opt_or_tol_struct);

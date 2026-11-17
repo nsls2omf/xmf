@@ -345,11 +345,11 @@ def fig_show_2d_fitting_map(x2d, y2d, z2d_measured, z2d_fit, z2d_res, input_para
         # Helper for 2D parameter string formatting
         str_p, str_q, str_theta, str_x_i, str_y_i, str_z_i, str_alpha, str_beta, str_gamma = get_height_map_string(is_optimized_dict)
         if 'y_i' in params_dict:
-            str_1 = r'($%s$, $%s$, $%s$) = ($%.6g$ m, $%.4g$ m, $%.4g$ mrad)' % (str_p, str_q, str_theta, params_dict['p'], params_dict['q'], params_dict['theta']*1e3)
+            str_1 = r'($%s$, $%s$, $%s$) = ($%.6g$ m, $%.6g$ m, $%.4g$ mrad)' % (str_p, str_q, str_theta, params_dict['p'], params_dict['q'], params_dict['theta']*1e3)
             str_2 = r'($%s$, $%s$, $%s$) = ($%.4g$ mm, $%.4g$ mm, $%.4g$ mm)' % (str_x_i, str_y_i, str_z_i, params_dict['x_i']*1e3, params_dict['y_i']*1e3, params_dict['z_i']*1e3)
             str_3 = r'($%s$, $%s$, $%s$) = ($%.4g$ $\mu$rad, $%.4g$ $\mu$rad, $%.4g$ $\mu$rad)' % (str_alpha, str_beta, str_gamma, params_dict['alpha']*1e6, params_dict['beta']*1e6, params_dict['gamma']*1e6)
         else:
-            str_1 = r'($p$, $q$, $\theta$) = ($%.6g$ m, $%.4g$ m, $%.4g$ mrad)' % (params_dict['p'], params_dict['q'], params_dict['theta']*1e3)
+            str_1 = r'($p$, $q$, $\theta$) = ($%.6g$ m, $%.6g$ m, $%.4g$ mrad)' % (params_dict['p'], params_dict['q'], params_dict['theta']*1e3)
             str_2 = r'($x_i$, $z_i$) = ($%.4g$ mm, $%.4g$ mm)' % (params_dict['x_i']*1e3, params_dict['z_i']*1e3)
             str_3 = r'($\alpha$, $\beta$, $\gamma$) = ($%.4g$ $\mu$rad, $%.4g$ $\mu$rad, $%.4g$ $\mu$rad)' % (params_dict['alpha']*1e6, params_dict['beta']*1e6, params_dict['gamma']*1e6)
         return [reg_exp_rep(str_1), reg_exp_rep(str_2), reg_exp_rep(str_3)]
@@ -493,7 +493,7 @@ def fig_show_1d_fitting_height(x1d, z1d_measured, z1d_fit, z1d_res, input_params
         str_p, str_q, str_theta, str_x_i, str_z_i, str_beta = get_height_string(is_optimized_dict)
 
         # Helper for 1D parameter string formatting
-        str_1 = r'($%s$, $%s$, $%s$) = ($%.6g$ m, $%.4g$ m, $%.4g$ mrad)' % (str_p, str_q, str_theta, params_dict['p'], params_dict['q'], params_dict['theta']*1e3)
+        str_1 = r'($%s$, $%s$, $%s$) = ($%.6g$ m, $%.6g$ m, $%.4g$ mrad)' % (str_p, str_q, str_theta, params_dict['p'], params_dict['q'], params_dict['theta']*1e3)
         str_2 = r'($%s$, $%s$) = ($%.4g$ mm, $%.4g$ mm)' % (str_x_i, str_z_i, params_dict['x_i']*1e3, params_dict['z_i']*1e3)
         str_3 = r'$%s$ = $%.4g$ $\mu$rad' % (str_beta, params_dict['beta']*1e6)
         return [reg_exp_rep(str_1), reg_exp_rep(str_2), reg_exp_rep(str_3)]
@@ -608,7 +608,7 @@ def fig_show_1d_fitting_slope(x1d, sx1d_measured, sx1d_fit, sx1d_res, input_para
         str_p, str_q, str_theta, str_x_i, str_z_i, str_beta = get_slope_string(is_optimized_dict)
 
         # Helper for 1D parameter string formatting
-        str_1 = r'($%s$, $%s$, $%s$) = ($%.6g$ m, $%.4g$ m, $%.4g$ mrad)' % (str_p, str_q, str_theta, params_dict['p'], params_dict['q'], params_dict['theta']*1e3)
+        str_1 = r'($%s$, $%s$, $%s$) = ($%.6g$ m, $%.6g$ m, $%.4g$ mrad)' % (str_p, str_q, str_theta, params_dict['p'], params_dict['q'], params_dict['theta']*1e3)
         str_2 = r'$%s$ = $%.4g$ mm' % (str_x_i, params_dict['x_i']*1e3)
         str_3 = r'$%s$ = $%.4g$ $\mu$rad' % (str_beta, params_dict['beta']*1e6)
         return [reg_exp_rep(str_1), reg_exp_rep(str_2), reg_exp_rep(str_3)]
